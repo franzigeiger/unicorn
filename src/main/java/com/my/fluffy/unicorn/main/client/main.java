@@ -18,6 +18,8 @@ public class main implements EntryPoint {
     public void onModuleLoad() {
         final Button button = new Button("Click me");
         final Label label = new Label();
+        label.setText("This is a test text");
+        label.setTitle("This a tooltip!");
 
         button.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -34,8 +36,8 @@ public class main implements EntryPoint {
         // to hard-code IDs.  Instead, you could, for example, search for all
         // elements with a particular CSS class and replace them with widgets.
         //
-        RootPanel.get("slot1").add(button);
-        RootPanel.get("slot2").add(label);
+        RootPanel.get().add(button);
+        RootPanel.get().add(label);
     }
 
     private static class MyAsyncCallback implements AsyncCallback<String> {

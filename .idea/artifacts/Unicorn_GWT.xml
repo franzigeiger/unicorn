@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact name="Unicorn:GWT">
+    <output-path>$PROJECT_DIR$/target/Unicorn-1.0-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="gwt-compiler-output" facet="Unicorn/gwt/GWT" />
+    </root>
+  </artifact>
+</component>
