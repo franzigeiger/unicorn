@@ -8,6 +8,4 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     public String getMessage(String msg) {
         return "Client said: \"" + msg + "\"<br>Server answered: \"Hi!\"";
     }
-
-
 }

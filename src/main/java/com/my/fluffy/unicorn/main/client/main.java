@@ -7,6 +7,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>
  */
@@ -20,6 +21,8 @@ public class main implements EntryPoint {
         final Label label = new Label();
         label.setText("This is a test text");
         label.setTitle("This a tooltip!");
+
+
 
         button.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
