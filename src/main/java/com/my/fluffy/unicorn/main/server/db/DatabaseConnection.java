@@ -41,6 +41,20 @@ public class DatabaseConnection implements AutoCloseable {
         }
     }
 
+    private void insertBothElections() throws SQLException {
+        String query = "INSERT INTO \"Wahl\"(\"Jahr\",\"datum\") VALUES (?,?)";
+        PreparedStatement stmt = connection.prepareStatement(query);
+
+        stmt.setInt(1, 2013);
+        stmt.setDate(2, Date.valueOf(LocalDate.of(2013, 9,22)));
+        stmt.executeUpdate();
+
+        stmt.setInt(1, 2017);
+        stmt.setDate(2, Date.valueOf(LocalDate.of(2017, 9,24)));
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
     private void insertBallot(Ballot t) throws SQLException {
         String query = "INSERT INTO \"Stimme\"(\"Erststimme\",\"Zweitstimme\",\"wahlkreis\") VALUES (?,?,?)";
         PreparedStatement stmt = connection.prepareStatement(query);
@@ -96,6 +110,7 @@ public class DatabaseConnection implements AutoCloseable {
             query = "INSERT INTO \"Landeslistenkandidatur\"(\"Kandidat\",\"Landesliste\",\"Listenplatz\") " +
                     "VALUES (?,?,?)";
             stmt = connection.prepareStatement(query);
+            // FIXME this is the party id, not the list id
             stmt.setInt(1,t.id);
             stmt.setInt(1,t.listPlacement.state);
             stmt.setInt(1,t.listPlacement.place);
@@ -105,20 +120,58 @@ public class DatabaseConnection implements AutoCloseable {
         }
     }
 
-    private void insertElectionDistrict(ElectionDistrict t) {
-        // TODO implement
+    private void insertElectionDistrict(ElectionDistrict t) throws SQLException {
+        String query = "INSERT INTO " +
+                "\"Wahlkreis\"(\"Name\",\"Wahl\",\"Waehlerzahl\",\"ungueltige_1\",\"ungueltige_2\",\"bundesland\") " +
+                "VALUES (?,?,?,?,?,?)";
+        PreparedStatement stmt = connection.prepareStatement(query);
+
+        stmt.setString(1, t.name);
+        stmt.setInt(2, 2013);
+        stmt.setInt(3, t.eligebleVoters_13);
+        stmt.setInt(4, t.invalid_13_first);
+        stmt.setInt(5, t.invalid_13_second);
+        stmt.setString(6, t.state);
+
+        stmt.executeUpdate();
+
+        stmt.setString(1, t.name);
+        stmt.setInt(2, 2017);
+        stmt.setInt(3, t.eligibleVoters_17);
+        stmt.setInt(4, t.invalid_17_first);
+        stmt.setInt(5, t.invalid_17_second);
+        stmt.setString(6, t.state);
+
+        stmt.executeUpdate();
+        stmt.close();
     }
 
-    private void insertParty(Party t) {
-        // TODO implement
+    private void insertParty(Party t) throws SQLException {
+        String query = "INSERT INTO " +
+                "\"Partei\"(\"kuerzel\",\"Name\") " +
+                "VALUES (?,?)";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        // FIXME get correct short name
+        stmt.setString(1, cutAt(t.name, 10));
+        stmt.setString(2, t.name);
     }
 
     private void insertPartyResults(PartyResults t) {
         // TODO implement
     }
 
-    private void insertState(State t) {
-        // TODO implement
+    private void insertState(State t) throws SQLException {
+        String query = "INSERT INTO \"Bundesland\"(\"Kuerzel\",\"Name\",\"SitzZahl\") " +
+                "VALUES (?,?,?)";
+        PreparedStatement stmt = connection.prepareStatement(query);
+
+        // FIXME get correct short name
+        stmt.setString(1, cutAt(t.name, 10));
+        stmt.setString(2, t.name);
+        stmt.setInt(3, 0);
+
+        stmt.executeUpdate();
+        stmt.close();
     }
 
     public void updateAggregates() {
@@ -133,5 +186,9 @@ public class DatabaseConnection implements AutoCloseable {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String cutAt(String s, int idx) {
+        return s.substring(0, idx > s.length()? s.length() : idx);
     }
 }
