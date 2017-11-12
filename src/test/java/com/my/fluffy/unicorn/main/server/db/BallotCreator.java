@@ -62,6 +62,7 @@ public class BallotCreator {
     public ArrayList<Ballot> createBallots(ElectionDistrict electionDistrict) throws Error{
         //all votes
         int voters = electionDistrict.voters_17;
+        int districtId = electionDistrict.id;
 
         //valid votes for candidates added to ballots
         int currentFirst = 0;
@@ -73,7 +74,7 @@ public class BallotCreator {
 
         for(int i = 0; i < voters; i++){
             //-1 means invalid vote for a party or candidate
-            ballots.add(new Ballot(-1, -1));
+            ballots.add(new Ballot(-1, -1, -1));
         }
 
         //for all parties of this election district
@@ -86,14 +87,14 @@ public class BallotCreator {
             //for all valid votes this candidate received
             for(int j = currentFirst; j < (currentFirst + currentResult.first_17); j++){
                 //add one vote for this candidate to the ballots of the election district
-                ballots.set(j, new Ballot(candidateId, ballots.get(j).secondVote));
+                ballots.set(j, new Ballot(candidateId, ballots.get(j).secondVote, districtId));
             }
             currentFirst += currentResult.first_17;
 
             //for all valid votes this party received
             for(int k = currentSecond; k < (currentSecond + currentResult.second_17); k++){
                 //add one vote for this party to the ballots of the election district
-                ballots.set(k, new Ballot(ballots.get(k).firstVote, currentResult.party));
+                ballots.set(k, new Ballot(ballots.get(k).firstVote, currentResult.party, districtId));
             }
             currentSecond += currentResult.second_17;
         }
