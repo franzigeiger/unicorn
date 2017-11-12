@@ -1,6 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class ElectionDistrict extends State {
 
@@ -13,7 +13,7 @@ public class ElectionDistrict extends State {
                             int invalid_13_first, int invalid_17_first,
                             int valid_13_second, int valid_17_second,
                             int invalid_13_second, int invalid_17_second,
-                            HashMap<Integer, PartyResults> partyResults){
+                            ArrayList<PartyResults> partyResults){
         super(id, name,
                 eligibleVoters_13, eligibleVoters_17,
                 voters_13, voters_17,

@@ -1,6 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class State {
 
@@ -22,7 +22,7 @@ public class State {
     public int invalid_17_second;
     public int invalid_13_second;
 
-    public HashMap<Integer, PartyResults> partyResults;
+    public ArrayList<PartyResults> partyResults;
 
     public State(int id, String name,
                  int eligibleVoters_13, int eligibleVoters_17,
@@ -31,7 +31,7 @@ public class State {
                  int invalid_13_first, int invalid_17_first,
                  int valid_13_second, int valid_17_second,
                  int invalid_13_second, int invalid_17_second,
-                 HashMap<Integer, PartyResults> partyResults){
+                 ArrayList<PartyResults> partyResults){
 
         this.id = id;
         this.name = name;
