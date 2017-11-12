@@ -68,6 +68,11 @@
             <artifactId>annotations</artifactId>
             <version>15.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20171018</version>
+        </dependency>
     </dependencies>
 
     <build>
