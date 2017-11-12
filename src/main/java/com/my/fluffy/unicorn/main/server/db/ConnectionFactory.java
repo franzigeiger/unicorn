@@ -7,16 +7,17 @@ import java.sql.*;
 
 class ConnectionFactory {
     private static final String driver = "jdbc:postgresql://";
+    private static final String driverClass = "org.postgresql.Driver";
     private static final String host = "localhost:5432/";
-    private static final String database = "unicorn";
+    private static final String database = "postgres";
+    private static final String schema = "election";
     private static final String username = "postgres";
     private static final String password = "123";
-    private static final String driverClass = "org.postgresql.Driver";
 
     private Connection connection;
 
     @NotNull
-    public static Connection create() throws SQLException, ClassNotFoundException {
+    static Connection create() throws SQLException, ClassNotFoundException {
         return new ConnectionFactory().getConnection();
     }
 
@@ -27,7 +28,7 @@ class ConnectionFactory {
 
     private static Connection openOrCreate() throws SQLException, ClassNotFoundException {
         try {
-            return open(driver + host + database, username, password);
+            return open(driver + host + database + "?currentSchema=" + schema, username, password);
         } catch (SQLException e) {
             System.out.println("Creating database...");
             createDatabase(driver + host, database, username, password);
@@ -41,7 +42,7 @@ class ConnectionFactory {
     }
 
     private static Connection open(@NotNull String url, @NotNull String user, @NotNull String password) throws SQLException {
-        return DriverManager.getConnection(url, username, password);
+        return DriverManager.getConnection(url, user, password);
     }
 
     private static void createDatabase(@NotNull String url, @NotNull String database, @NotNull String username, @NotNull String password) throws SQLException {
