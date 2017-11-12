@@ -10,6 +10,7 @@
           <element id="library" level="project" name="Maven: com.google.gwt:gwt-servlet:2.8.1" />
           <element id="library" level="project" name="Maven: com.github.gwtmaterialdesign:gwt-material-themes:2.0" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.1.4" />
+          <element id="library" level="project" name="Maven: org.jetbrains:annotations:15.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
