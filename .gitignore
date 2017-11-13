@@ -39,6 +39,7 @@ hs_err_pid*
 .idea/dictionaries/*
 .idea/modules.xml
 .idea/inspectionProfiles/*
+.idea/unicorn.iml
 
 # maven
 target/
