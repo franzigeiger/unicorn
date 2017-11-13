@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class ElectionDistrict extends State {
 
-    public String state;
+    public State state;
 
-    public ElectionDistrict(String state, int id, String name,
+    public ElectionDistrict(State state, int id, String name,
                             int eligibleVoters_13, int eligibleVoters_17,
                             int voters_13, int voters_17,
                             int valid_13_first, int valid_17_first,

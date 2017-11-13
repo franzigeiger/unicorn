@@ -2,10 +2,10 @@ package com.my.fluffy.unicorn.main.server.data;
 
 public class DirectCandidature {
 
-    public int electionDistrict;
-    public int party;
+    public ElectionDistrict electionDistrict;
+    public Party party;
 
-    public DirectCandidature(int electionDistrict, int party){
+    public DirectCandidature(ElectionDistrict electionDistrict, Party party){
         this.electionDistrict = electionDistrict;
         this.party = party;
     }

@@ -2,14 +2,12 @@ package com.my.fluffy.unicorn.main.server.data;
 
 public class ListPlacement {
 
-    public int state;
     public int place;
-    public int party;
+    public StateList stateList;
 
-    public ListPlacement(int state, int place, int party){
-        this.state = state;
+    public ListPlacement(int place, StateList stateList){
         this.place = place;
-        this.party = party;
+        this.stateList = stateList;
     }
 
 }

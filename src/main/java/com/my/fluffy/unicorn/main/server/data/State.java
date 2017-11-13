@@ -8,7 +8,7 @@ public class State {
     public String name;
 
     public int eligibleVoters_17;
-    public int eligebleVoters_13;
+    public int eligibleVoters_13;
     public int voters_17;
     public int voters_13;
 
@@ -36,7 +36,7 @@ public class State {
         this.id = id;
         this.name = name;
 
-        this.eligebleVoters_13 = eligibleVoters_13;
+        this.eligibleVoters_13 = eligibleVoters_13;
         this.eligibleVoters_17 = eligibleVoters_17;
 
         this.voters_13 = voters_13;

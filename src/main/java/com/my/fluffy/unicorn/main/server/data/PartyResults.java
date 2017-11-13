@@ -12,11 +12,11 @@ public class PartyResults {
     public boolean electable_second_13;
     public boolean electable_second_17;
 
-    public int party;
+    public Party party;
 
     public PartyResults(int first_13, int first_17, int second_13, int second_17,
                         boolean electable_first_13, boolean electable_first_17,
-                        boolean electable_second_13, boolean electable_second_17, int party){
+                        boolean electable_second_13, boolean electable_second_17, Party party){
 
         this.first_13 = first_13;
         this.first_17 = first_17;

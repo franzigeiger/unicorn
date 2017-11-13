@@ -7,12 +7,12 @@ public class Ballot {
     //id of party, -1 if vote is invalid
     public int secondVote;
 
-    public int districtId;
+    public ElectionDistrict electionDistrict;
 
-    public Ballot(int first, int second, int districtId){
+    public Ballot(int first, int second, ElectionDistrict electionDistrict){
         this.firstVote = first;
         this.secondVote = second;
-        this.districtId = districtId;
+        this.electionDistrict = electionDistrict;
     }
 
 }

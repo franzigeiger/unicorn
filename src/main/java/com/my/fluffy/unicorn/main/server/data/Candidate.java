@@ -12,7 +12,7 @@ public class Candidate {
     public String hometown;
     public String profession;
 
-    public boolean repeatedCandidature;
+    public int yearOfCandidature;
 
     public int birthYear;
     public String birthPlace;
@@ -22,7 +22,7 @@ public class Candidate {
 
     public Candidate(int id, String name, String firstName, String title,
                      String gender, String hometown, String profession,
-                     boolean repeatedCandidature, int birthYear, String birthPlace,
+                     int yearOfCandidaturee, int birthYear, String birthPlace,
                      DirectCandidature directCandidature, ListPlacement listPlacement){
 
         this.id = id;
@@ -35,7 +35,7 @@ public class Candidate {
         this.hometown = hometown;
         this.profession = profession;
 
-        this.repeatedCandidature = repeatedCandidature;
+        this.yearOfCandidature = yearOfCandidaturee;
 
         this.birthYear = birthYear;
         this.birthPlace = birthPlace;
