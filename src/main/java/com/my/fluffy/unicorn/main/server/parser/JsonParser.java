@@ -5,6 +5,8 @@ import org.json.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class JsonParser {
 
@@ -13,7 +15,9 @@ public class JsonParser {
     public ArrayList<Party> allParties;
     public ArrayList<State> allStates;
     public ArrayList<ElectionDistrict> allElectionDistricts;
-    public ArrayList<StateList> allStateLists;
+
+    public ArrayList<StateList> allStateLists = new ArrayList<>();
+
     public ArrayList<Candidate> allCandidates;
 
     public JsonParser(){
@@ -213,8 +217,45 @@ public class JsonParser {
         ArrayList<StateList> allStateLists = new ArrayList<>();
         int counter = 0;
         for(State state: this.allStates){
-            for
+            for(Party party: this.allParties){
+                allStateLists.add(new StateList(counter, 2013, party, state));
+                allStateLists.add(new StateList(counter+1, 2017, party, state));
+                counter += 2;
+            }
         }
+        return allStateLists;
+    }
+
+    private void pruneStateList(){
+
+        for(Iterator<StateList> iterator = this.allStateLists.iterator(); iterator.hasNext(); ){
+            StateList list = iterator.next();
+            if(!hasCandidate(list)){
+                iterator.remove();
+            }
+        }
+    }
+
+    private StateList getStateList(int partyId, int stateId){
+        Party party = getParty(partyId);
+        State state = getState(stateId);
+        for(StateList list: this.allStateLists){
+            if(list.party.id == party.id && list.state.id == state.id){
+                return list;
+            }
+        }
+        return null;
+    }
+
+    private boolean hasCandidate(StateList list){
+        for(Candidate candidate: this.allCandidates){
+            if(candidate.listPlacement != null){
+                if(candidate.listPlacement.stateList.id == list.id){
+                    return true;
+                }
+            }
+        }
+        return false;
     }*/
 
     /**
@@ -258,14 +299,20 @@ public class JsonParser {
             try {
                 JSONObject listPlacementObj = currentCandidate.getJSONObject("ListePlatz");
                 int stateId = listPlacementObj.getInt("Land");
-                State state = getState(stateId);
                 int partyId = listPlacementObj.getInt("Partei");
-                Party party = getParty(partyId);
-
-
 
                 int place = listPlacementObj.getInt("Platz");
-                listPlacement = new ListPlacement(place, null);
+
+                Party party = getParty(partyId);
+                State state = getState(stateId);
+                StateList list = findList(state, party);
+
+                if(list == null){
+                    list = new StateList(-1, party,state);
+                    this.allStateLists.add(list);
+                }
+
+                listPlacement = new ListPlacement(place, list);
             } catch(org.json.JSONException e){
                 listPlacement = null;
             }
@@ -278,6 +325,15 @@ public class JsonParser {
                     ));
         }
         return candidates;
+    }
+
+    private StateList findList(State state, Party party){
+        for(StateList list: this.allStateLists){
+            if(list.state.id == state.id && list.party.id == party.id){
+                return list;
+            }
+        }
+        return null;
     }
 
     /**
