@@ -13,6 +13,7 @@ public class JsonParser {
     public ArrayList<Party> allParties;
     public ArrayList<State> allStates;
     public ArrayList<ElectionDistrict> allElectionDistricts;
+    public ArrayList<StateList> allStateLists;
     public ArrayList<Candidate> allCandidates;
 
     public JsonParser(){
@@ -34,7 +35,7 @@ public class JsonParser {
      * Loads json file and saved it asJSONObject in obj
      * @param path path to json file
      */
-    public void loadJsonFile(String path){
+    private void loadJsonFile(String path){
         String jsonText = "";
         try{
             jsonText = loadFileToString(path);
@@ -49,7 +50,7 @@ public class JsonParser {
      * Gets all parties from obj
      * @return all parties as ArrayList
      */
-    public ArrayList<Party> loadParties(){
+    private ArrayList<Party> loadParties(){
 
         ArrayList<Party> parties = new ArrayList<>();
         JSONObject partiesObj = obj.getJSONObject("parteien");
@@ -66,11 +67,20 @@ public class JsonParser {
         return parties;
     }
 
+    private Party getParty(int partyId){
+        for(Party party: this.allParties){
+            if(party.id == partyId){
+                return party;
+            }
+        }
+        return null;
+    }
+
     /**
      * Gets all states from obj
      * @return all states as ArrayList
      */
-    public ArrayList<State> loadStates(){
+    private ArrayList<State> loadStates(){
 
         ArrayList<State> states = new ArrayList<>();
         JSONObject statesObj = obj.getJSONObject("bundeslaender");
@@ -117,11 +127,29 @@ public class JsonParser {
         return states;
     }
 
+    private State getState(String stateName){
+        for(State state: this.allStates){
+            if(state.name.equals(stateName)){
+                return state;
+            }
+        }
+        return null;
+    }
+
+    private State getState(int stateId){
+        for(State state: this.allStates){
+            if(state.id == stateId){
+                return state;
+            }
+        }
+        return null;
+    }
+
     /**
      * Gets all election districts from obj
      * @return all election districts as ArrayList
      */
-    public ArrayList<ElectionDistrict> loadElectionDistricts(){
+    private ArrayList<ElectionDistrict> loadElectionDistricts(){
 
         ArrayList<ElectionDistrict> electionDistricts = new ArrayList<>();
         JSONObject electionDistrictsObj = obj.getJSONObject("wahlkreise");
@@ -130,7 +158,8 @@ public class JsonParser {
 
             JSONObject currentElectionDistricts = electionDistrictsObj.getJSONObject(Integer.toString(i));
 
-            String state = currentElectionDistricts.getString("Bundesland");
+            String stateName = currentElectionDistricts.getString("Bundesland");
+            State state = getState(stateName);
             int id = currentElectionDistricts.getInt("ID");
             String name = currentElectionDistricts.getString("Name");
 
@@ -171,11 +200,28 @@ public class JsonParser {
         return electionDistricts;
     }
 
+    private ElectionDistrict getDistrict(int districtId){
+        for(ElectionDistrict district: this.allElectionDistricts){
+            if(district.id == districtId){
+                return district;
+            }
+        }
+        return null;
+    }
+
+/*    private ArrayList<StateList> createStateList(){
+        ArrayList<StateList> allStateLists = new ArrayList<>();
+        int counter = 0;
+        for(State state: this.allStates){
+            for
+        }
+    }*/
+
     /**
      * Gets all candidates from obj
      * @return all candidates as ArrayList
      */
-    public ArrayList<Candidate> loadCandidates(){
+    private ArrayList<Candidate> loadCandidates(){
 
         ArrayList<Candidate> candidates = new ArrayList<>();
         JSONObject candidatesObj = obj.getJSONObject("kandidaten");
@@ -193,8 +239,6 @@ public class JsonParser {
             String hometown = currentCandidate.getString("Wohnort");
             String profession = currentCandidate.getString("Beruf");
 
-            boolean repeatedCandidature = currentCandidate.getBoolean("Wiederkandidatur");
-
             int birthYear = currentCandidate.getInt("Geburtsjahr");
             String birthPlace = currentCandidate.getString("Geburtsort");
 
@@ -202,9 +246,9 @@ public class JsonParser {
             DirectCandidature directCandidature;
             try{
                 JSONObject directCandidatureObj = currentCandidate.getJSONObject("DirektKandidatur");
-                int electionDistrict = directCandidatureObj.getInt("Wahlkreis");
-                int party = directCandidatureObj.getInt("Partei");
-                directCandidature = new DirectCandidature(electionDistrict, party);
+                int districtId = directCandidatureObj.getInt("Wahlkreis");
+                int partyId = directCandidatureObj.getInt("Partei");
+                directCandidature = new DirectCandidature(getDistrict(districtId), getParty(partyId));
             } catch(org.json.JSONException e) {
                 directCandidature = null;
             }
@@ -213,10 +257,15 @@ public class JsonParser {
             ListPlacement listPlacement;
             try {
                 JSONObject listPlacementObj = currentCandidate.getJSONObject("ListePlatz");
-                int state = listPlacementObj.getInt("Land");
+                int stateId = listPlacementObj.getInt("Land");
+                State state = getState(stateId);
+                int partyId = listPlacementObj.getInt("Partei");
+                Party party = getParty(partyId);
+
+
+
                 int place = listPlacementObj.getInt("Platz");
-                int party = listPlacementObj.getInt("Partei");
-                listPlacement = new ListPlacement(state, place, party);
+                listPlacement = new ListPlacement(place, null);
             } catch(org.json.JSONException e){
                 listPlacement = null;
             }
@@ -224,7 +273,7 @@ public class JsonParser {
             candidates.add(new Candidate(
                     id, name, firstName, title,
                     gender, hometown, profession,
-                    repeatedCandidature, birthYear, birthPlace,
+                    -1, birthYear, birthPlace,
                     directCandidature, listPlacement
                     ));
         }
@@ -253,7 +302,8 @@ public class JsonParser {
             boolean electable_second_13 = current.getBoolean("Angetreten_Zweitstimme_13");
             boolean electable_second_17 = current.getBoolean("Angetreten_Zweitstimme_13");
 
-            int party = current.getInt("Partei");
+            int partyId = current.getInt("Partei");
+            Party party = getParty(partyId);
 
             partyResults.add(new PartyResults(first_13, first_17, second_13, second_17,
                     electable_first_13, electable_first_17, electable_second_13, electable_second_17, party));

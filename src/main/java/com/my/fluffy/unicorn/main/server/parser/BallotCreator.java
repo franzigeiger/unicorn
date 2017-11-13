@@ -33,24 +33,24 @@ public class BallotCreator {
     /**
      * Get Id of direct candidate from a certain party and district
      * @param electionDistrictId id of election district
-     * @param partyId id of party
+     * @param party Party of direct candidate
      * @return id of candidate as integer
      */
-    public int getCandidateId(int electionDistrictId, int partyId){
+    public Candidate getCandidate(int electionDistrictId, Party party){
 
         for(int i = 0; i < allCandidates.size(); i++){
             //only look at direct candidates
             if(allCandidates.get(i).directCandidature != null){
                 //find candidate with right district and party
-                if(allCandidates.get(i).directCandidature.party == partyId &&
-                        allCandidates.get(i).directCandidature.electionDistrict == electionDistrictId){
+                if(allCandidates.get(i).directCandidature.party.id == party.id &&
+                        allCandidates.get(i).directCandidature.electionDistrict.id == electionDistrictId){
                     //get candidate's id
-                    return allCandidates.get(i).id;
+                    return allCandidates.get(i);
                 }
             }
         }
         //no matching candidate
-        return -1;
+        return null;
     }
 
     /**
@@ -76,7 +76,7 @@ public class BallotCreator {
 
         for(int i = 0; i < voters; i++){
             //-1 means invalid vote for a party or candidate
-            ballots.add(new Ballot(-1, -1, -1));
+            ballots.add(new Ballot(null, null, null, 2017));
         }
 
         //for all parties of this election district
@@ -85,18 +85,18 @@ public class BallotCreator {
             PartyResults currentResult = electionDistrict.partyResults.get(i);
 
             //get id for candidate
-            int candidateId = getCandidateId(electionDistrict.id, currentResult.party);
+            Candidate candidate = getCandidate(electionDistrict.id, currentResult.party);
             //for all valid votes this candidate received
             for(int j = currentFirst; j < (currentFirst + currentResult.first_17); j++){
                 //add one vote for this candidate to the ballots of the election district
-                ballots.set(j, new Ballot(candidateId, ballots.get(j).secondVote, districtId));
+                ballots.set(j, new Ballot(candidate, ballots.get(j).secondVote, electionDistrict, 2017));
             }
             currentFirst += currentResult.first_17;
 
             //for all valid votes this party received
             for(int k = currentSecond; k < (currentSecond + currentResult.second_17); k++){
                 //add one vote for this party to the ballots of the election district
-                ballots.set(k, new Ballot(ballots.get(k).firstVote, currentResult.party, districtId));
+                ballots.set(k, new Ballot(ballots.get(k).firstVote, currentResult.party, electionDistrict, 2017));
             }
             currentSecond += currentResult.second_17;
         }
