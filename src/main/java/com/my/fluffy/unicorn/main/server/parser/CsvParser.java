@@ -1,10 +1,5 @@
 package com.my.fluffy.unicorn.main.server.parser;
-
-import com.my.fluffy.unicorn.main.server.parser.JsonParser;
 import com.my.fluffy.unicorn.main.server.parser.data.*;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,37 +17,51 @@ public class CsvParser {
         this.candidates2013 = parse2013Candidates(path13);
     }
 
+    /**
+     * Get candidates from csv at path13
+     * @param path13 path to csv-file
+     * @return array list containing al candidates from csv
+     */
     private ArrayList<Candidate> parse2013Candidates(String path13){
+
         ArrayList<Candidate> candidates = new ArrayList<>();
-        ArrayList<String> parties = new ArrayList<>();
         try{
+
             BufferedReader br = new BufferedReader( new FileReader(path13) );
-            ArrayList<String> lines = new ArrayList<String>();
             String newLine;
             //do not parse first line that contains information about file format
             br.readLine();
             while ((newLine = br.readLine()) != null) {
+                //split line into parts
                 String[] cols = newLine.split(";", -1);
 
+                //find state for candidate
                 State state = null;
-                ElectionDistrict district = null;
-                Party party = jsonParser.getParty(cols[6]);
                 if(cols[8].length() > 0) {
                     state = jsonParser.getState(cols[8]);
                 }
+
+                //find party for candidate
+                Party party = jsonParser.getParty(cols[6]);
                 if(party == null){
+                    //if there is no corresponding party for candidate:
+                    //candidate gets default party
                     party = jsonParser.getParty(43);
                 }
 
+                //find election district for candidate
+                ElectionDistrict district = null;
                 if(cols[7].length() > 0){
                     district = jsonParser.getDistrict(Integer.parseInt(cols[7]));
                 }
 
+                //if candidate has district: candidate has a direct candidature
                 DirectCandidature candidature = null;
                 if(district != null){
                     candidature = new DirectCandidature(district, party);
                 }
 
+                //if candidate has list place: candidate has list candidature
                 ListPlacement list = null;
                 if(state != null && cols[9].length() > 0) {
                     StateList stateList = jsonParser.getList(state, party, 2013);
@@ -63,6 +72,7 @@ public class CsvParser {
                     list = new ListPlacement(Integer.parseInt(cols[9]), stateList);
                 }
 
+                //create new candidate
                 Candidate newCandidate = new Candidate(Integer.parseInt(cols[1]), cols[3], cols[4], cols[2],
                         null, null, null,
                         2013, Integer.parseInt(cols[5]), null,
@@ -73,10 +83,6 @@ public class CsvParser {
             br.close();
         } catch(IOException e){
             System.out.println("Could not parse file: " + e);
-        }
-
-        for(String p: parties){
-            System.out.println(p);
         }
 
         return candidates;

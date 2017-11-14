@@ -10,16 +10,5 @@ public class CsvParserTest {
         CsvParser parser = new CsvParser(
                 "complete.json",
                 "candidates2013.csv");
-                //"C:\\Users\\Ich\\Downloads\\2013parties.csv");
     }
-
-/*    @Test
-    public void testBallotCreator() {
-        BallotCreator creator = new BallotCreator("complete.json");
-        ArrayList<ElectionDistrict> allDistricts = creator.allElectionDistricts;
-
-        for (ElectionDistrict allDistrict : allDistricts) {
-            ArrayList<Ballot> ballots = creator.createBallots(allDistrict);
-        }
-    }*/
 }

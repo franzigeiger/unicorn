@@ -282,7 +282,7 @@ public class JsonParser {
             candidates.add(new Candidate(
                     id, name, firstName, title,
                     gender, hometown, profession,
-                    -1, birthYear, birthPlace,
+                    2017, birthYear, birthPlace,
                     directCandidature, listPlacement
                     ));
         }
