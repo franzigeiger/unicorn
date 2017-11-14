@@ -1,7 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.data.Ballot;
-import com.my.fluffy.unicorn.main.server.data.ElectionDistrict;
+import com.my.fluffy.unicorn.main.server.data.*;
 import com.my.fluffy.unicorn.main.server.parser.BallotCreator;
 import com.my.fluffy.unicorn.main.server.parser.JsonParser;
 import org.junit.Test;
@@ -18,6 +17,7 @@ public class JsonParserTest {
         System.out.println(jsonParser.allStates.size());
         System.out.println(jsonParser.allElectionDistricts.size());
         System.out.println(jsonParser.allCandidates.size());
+        System.out.println(jsonParser.allStateLists.size());
     }
 
     @Test
