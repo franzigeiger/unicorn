@@ -16,7 +16,7 @@ public class JsonParser {
 
     public ArrayList<StateList> allStateLists = new ArrayList<>();
 
-    public ArrayList<Candidate> allCandidates;
+    public ArrayList<Candidate> allCandidates2017;
 
     public JsonParser(){
     }
@@ -30,7 +30,7 @@ public class JsonParser {
         this.allParties = loadParties();
         this.allStates = loadStates();
         this.allElectionDistricts = loadElectionDistricts();
-        this.allCandidates = loadCandidates();
+        this.allCandidates2017 = loadCandidates();
     }
 
     /**
@@ -69,9 +69,18 @@ public class JsonParser {
         return parties;
     }
 
-    private Party getParty(int partyId){
+    public Party getParty(int partyId){
         for(Party party: this.allParties){
             if(party.id == partyId){
+                return party;
+            }
+        }
+        return null;
+    }
+
+    public Party getParty(String partyName){
+        for(Party party: this.allParties){
+            if(party.name.equals(partyName)){
                 return party;
             }
         }
@@ -129,7 +138,7 @@ public class JsonParser {
         return states;
     }
 
-    private State getState(String stateName){
+    public State getState(String stateName){
         for(State state: this.allStates){
             if(state.name.equals(stateName)){
                 return state;
@@ -138,7 +147,7 @@ public class JsonParser {
         return null;
     }
 
-    private State getState(int stateId){
+    public State getState(int stateId){
         for(State state: this.allStates){
             if(state.id == stateId){
                 return state;
@@ -202,7 +211,7 @@ public class JsonParser {
         return electionDistricts;
     }
 
-    private ElectionDistrict getDistrict(int districtId){
+    public ElectionDistrict getDistrict(int districtId){
         for(ElectionDistrict district: this.allElectionDistricts){
             if(district.id == districtId){
                 return district;
@@ -210,51 +219,6 @@ public class JsonParser {
         }
         return null;
     }
-
-/*    private ArrayList<StateList> createStateList(){
-        ArrayList<StateList> allStateLists = new ArrayList<>();
-        int counter = 0;
-        for(State state: this.allStates){
-            for(Party party: this.allParties){
-                allStateLists.add(new StateList(counter, 2013, party, state));
-                allStateLists.add(new StateList(counter+1, 2017, party, state));
-                counter += 2;
-            }
-        }
-        return allStateLists;
-    }
-
-    private void pruneStateList(){
-
-        for(Iterator<StateList> iterator = this.allStateLists.iterator(); iterator.hasNext(); ){
-            StateList list = iterator.next();
-            if(!hasCandidate(list)){
-                iterator.remove();
-            }
-        }
-    }
-
-    private StateList getStateList(int partyId, int stateId){
-        Party party = getParty(partyId);
-        State state = getState(stateId);
-        for(StateList list: this.allStateLists){
-            if(list.party.id == party.id && list.state.id == state.id){
-                return list;
-            }
-        }
-        return null;
-    }
-
-    private boolean hasCandidate(StateList list){
-        for(Candidate candidate: this.allCandidates){
-            if(candidate.listPlacement != null){
-                if(candidate.listPlacement.stateList.id == list.id){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
 
     /**
      * Gets all candidates from obj
@@ -303,10 +267,10 @@ public class JsonParser {
 
                 Party party = getParty(partyId);
                 State state = getState(stateId);
-                StateList list = findList(state, party);
+                StateList list = getList(state, party, 2017);
 
                 if(list == null){
-                    list = new StateList(-1, party,state);
+                    list = new StateList(2017, party,state);
                     this.allStateLists.add(list);
                 }
 
@@ -325,9 +289,9 @@ public class JsonParser {
         return candidates;
     }
 
-    private StateList findList(State state, Party party){
+    public StateList getList(State state, Party party, int year){
         for(StateList list: this.allStateLists){
-            if(list.state.id == state.id && list.party.id == party.id){
+            if(list.state.id == state.id && list.party.id == party.id && list.yearOfCandidature == year){
                 return list;
             }
         }

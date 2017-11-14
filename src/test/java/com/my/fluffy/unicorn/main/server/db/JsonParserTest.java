@@ -16,7 +16,7 @@ public class JsonParserTest {
         System.out.println(jsonParser.allParties.size());
         System.out.println(jsonParser.allStates.size());
         System.out.println(jsonParser.allElectionDistricts.size());
-        System.out.println(jsonParser.allCandidates.size());
+        System.out.println(jsonParser.allCandidates2017.size());
         System.out.println(jsonParser.allStateLists.size());
     }
 

@@ -8,14 +8,14 @@ public class BallotCreator {
 
     public ArrayList<Party> allParties;
     public ArrayList<ElectionDistrict> allElectionDistricts;
-    public ArrayList<Candidate> allCandidates;
+    public ArrayList<Candidate> allCandidates2017;
 
     public BallotCreator(String path) {
         JsonParser parser = new JsonParser();
         parser.parseAll(path);
         this.allParties = parser.allParties;
         this.allElectionDistricts = parser.allElectionDistricts;
-        this.allCandidates = parser.allCandidates;
+        this.allCandidates2017 = parser.allCandidates2017;
     }
 
     /**
@@ -38,14 +38,14 @@ public class BallotCreator {
      */
     public Candidate getCandidate(int electionDistrictId, Party party){
 
-        for(int i = 0; i < allCandidates.size(); i++){
+        for(int i = 0; i < allCandidates2017.size(); i++){
             //only look at direct candidates
-            if(allCandidates.get(i).directCandidature != null){
+            if(allCandidates2017.get(i).directCandidature != null){
                 //find candidate with right district and party
-                if(allCandidates.get(i).directCandidature.party.id == party.id &&
-                        allCandidates.get(i).directCandidature.electionDistrict.id == electionDistrictId){
+                if(allCandidates2017.get(i).directCandidature.party.id == party.id &&
+                        allCandidates2017.get(i).directCandidature.electionDistrict.id == electionDistrictId){
                     //get candidate's id
-                    return allCandidates.get(i);
+                    return allCandidates2017.get(i);
                 }
             }
         }
