@@ -1,22 +1,15 @@
 package com.my.fluffy.unicorn.main.server.data;
 
 public class DirectCandidature {
-    private final int id;
     private final District district;
     private final Candidate candidate;
     private final Party party;
-    private final int votes;
+    // DB: aggregate votes
 
-    public DirectCandidature(int id, District district, Candidate candidate, Party party, int votes) {
-        this.id = id;
+    public DirectCandidature(District district, Candidate candidate, Party party) {
         this.district = district;
         this.candidate = candidate;
         this.party = party;
-        this.votes = votes;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public District getDistrict() {
@@ -29,9 +22,5 @@ public class DirectCandidature {
 
     public Party getParty() {
         return party;
-    }
-
-    public int getVotes() {
-        return votes;
     }
 }
