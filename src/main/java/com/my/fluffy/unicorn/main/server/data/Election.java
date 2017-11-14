@@ -6,8 +6,8 @@ public class Election {
     private final int year;
     private final LocalDate date;
 
-    public Election(int year, LocalDate date) {
-        this.year = year;
+    public Election(LocalDate date) {
+        this.year = date.getYear();
         this.date = date;
     }
 

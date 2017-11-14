@@ -1,20 +1,14 @@
 package com.my.fluffy.unicorn.main.server.data;
 
 public class StateList {
-    private final int id;
     private final Party party;
     private final Election election;
     private final State state;
 
-    public StateList(int id, Party party, Election election, State state) {
-        this.id = id;
+    public StateList(Party party, Election election, State state) {
         this.party = party;
         this.election = election;
         this.state = state;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Party getParty() {

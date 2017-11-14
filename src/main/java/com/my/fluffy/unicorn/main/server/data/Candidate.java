@@ -1,7 +1,6 @@
 package com.my.fluffy.unicorn.main.server.data;
 
 public class Candidate {
-    private final int id;
 
     private final String title;
     private final String firstName;
@@ -14,8 +13,7 @@ public class Candidate {
     private final String birthtown;
     private final int yearOfBirth;
 
-    public Candidate(int id, String title, String firstName, String lastName, String profession, String sex, String hometown, String birthtown, int yearOfBirth) {
-        this.id = id;
+    public Candidate(String title, String firstName, String lastName, String profession, String sex, String hometown, String birthtown, int yearOfBirth) {
         this.title = title;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,10 +22,6 @@ public class Candidate {
         this.hometown = hometown;
         this.birthtown = birthtown;
         this.yearOfBirth = yearOfBirth;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getTitle() {
