@@ -1,28 +1,26 @@
 package com.my.fluffy.unicorn.main.server.data;
 
 public class District {
-    private final int id;
+    private final int number;
     private final Election election;
     private final int eligibleVoters;
-    private final int invalidFirstVotes;
-    private final int invalidSecondVotes;
+    // db only: private final int invalidFirstVotes;
+    // db only: private final int invalidSecondVotes;
     private final State state;
 
     /**
-     * @param id Election district ID, between 1 and 299. Not unique across multiple elections.
-     * @param election The election. (id, election) are unique.
+     * @param number Election district ID, between 1 and 299. Not unique across multiple elections.
+     * @param election The election. (number, election) are unique.
      */
-    public District(int id, Election election, int eligibleVoters, int invalidFirstVotes, int invalidSecondVotes, State state) {
-        this.id = id;
+    public District(int number, Election election, int eligibleVoters, State state) {
+        this.number = number;
         this.election = election;
         this.eligibleVoters = eligibleVoters;
-        this.invalidFirstVotes = invalidFirstVotes;
-        this.invalidSecondVotes = invalidSecondVotes;
         this.state = state;
     }
 
-    public int getId() {
-        return id;
+    public int getNumber() {
+        return number;
     }
 
     public Election getElection() {
@@ -31,14 +29,6 @@ public class District {
 
     public int getEligibleVoters() {
         return eligibleVoters;
-    }
-
-    public int getInvalidFirstVotes() {
-        return invalidFirstVotes;
-    }
-
-    public int getInvalidSecondVotes() {
-        return invalidSecondVotes;
     }
 
     public State getState() {
