@@ -20,7 +20,6 @@ public class CsvParser {
         jsonParser.parseAll(jsonPath);
 
         this.candidates2013 = parse2013Candidates(path13);
-        return;
     }
 
     private ArrayList<Candidate> parse2013Candidates(String path13){
