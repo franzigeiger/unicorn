@@ -1,12 +1,10 @@
 package com.my.fluffy.unicorn.main.server.parser;
 
-import com.my.fluffy.unicorn.main.server.data.*;
+import com.my.fluffy.unicorn.main.server.parser.data.*;
 import org.json.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 public class JsonParser {
 

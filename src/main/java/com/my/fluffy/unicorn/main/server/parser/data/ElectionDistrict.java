@@ -1,4 +1,4 @@
-package com.my.fluffy.unicorn.main.server.data;
+package com.my.fluffy.unicorn.main.server.parser.data;
 
 import java.util.ArrayList;
 

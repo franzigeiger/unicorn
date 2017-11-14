@@ -1,10 +1,5 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.data.*;
-
-import java.sql.*;
-import java.time.LocalDate;
-
 public class DatabaseInserter {
     private final DatabaseConnection db;
 

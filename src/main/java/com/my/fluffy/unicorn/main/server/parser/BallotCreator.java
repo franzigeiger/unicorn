@@ -1,6 +1,6 @@
 package com.my.fluffy.unicorn.main.server.parser;
 
-import com.my.fluffy.unicorn.main.server.data.*;
+import com.my.fluffy.unicorn.main.server.parser.data.*;
 
 import java.util.ArrayList;
 

@@ -1,46 +1,64 @@
 package com.my.fluffy.unicorn.main.server.data;
 
 public class Candidate {
+    private final int id;
 
-    public int id;
+    private final String title;
+    private final String firstName;
+    private final String lastName;
 
-    public String name;
-    public String firstName;
-    public String title;
-    public String gender;
+    private final String profession;
+    private final String sex;
+    private final String hometown;
 
-    public String hometown;
-    public String profession;
+    private final String birthtown;
+    private final int yearOfBirth;
 
-    public int yearOfCandidature;
-
-    public int birthYear;
-    public String birthPlace;
-
-    public DirectCandidature directCandidature;
-    public ListPlacement listPlacement;
-
-    public Candidate(int id, String name, String firstName, String title,
-                     String gender, String hometown, String profession,
-                     int yearOfCandidaturee, int birthYear, String birthPlace,
-                     DirectCandidature directCandidature, ListPlacement listPlacement){
-
+    public Candidate(int id, String title, String firstName, String lastName, String profession, String sex, String hometown, String birthtown, int yearOfBirth) {
         this.id = id;
-
-        this.name = name;
-        this.firstName = firstName;
         this.title = title;
-
-        this.gender = gender;
-        this.hometown = hometown;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.profession = profession;
+        this.sex = sex;
+        this.hometown = hometown;
+        this.birthtown = birthtown;
+        this.yearOfBirth = yearOfBirth;
+    }
 
-        this.yearOfCandidature = yearOfCandidaturee;
+    public int getId() {
+        return id;
+    }
 
-        this.birthYear = birthYear;
-        this.birthPlace = birthPlace;
+    public String getTitle() {
+        return title;
+    }
 
-        this.directCandidature = directCandidature;
-        this.listPlacement = listPlacement;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getHometown() {
+        return hometown;
+    }
+
+    public String getBirthtown() {
+        return birthtown;
+    }
+
+    public int getYearOfBirth() {
+        return yearOfBirth;
     }
 }
