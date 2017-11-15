@@ -30,9 +30,10 @@ public class BatchInserter {
     private Map<ElectionDistrictJson, Map<PartyJson, CandidateJson>> districtPartyToCandidate = new HashMap<>();
     private Map<StateJson, Map<PartyJson, StateListJson>> statePartyToList = new HashMap<>();
 
-    public BatchInserter(DatabaseConnection connection, String jsonPath, String csvPath) {
+    public BatchInserter(DatabaseConnection connection, String jsonPath,
+                         String csvCandidates2013, String csvResults2013) {
 
-        CsvParser csvParser = new CsvParser(jsonPath, csvPath);
+        CsvParser csvParser = new CsvParser(jsonPath, csvCandidates2013, csvResults2013);
         JsonParser jsonParser = csvParser.jsonParser;
 
         this.candidatesJson2013 = csvParser.candidates2013;

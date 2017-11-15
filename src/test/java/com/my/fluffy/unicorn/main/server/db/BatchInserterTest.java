@@ -19,8 +19,8 @@ public class BatchInserterTest {
         BatchInserter batchInserter = new BatchInserter(
                 DatabaseConnection.create(),
                 "complete.json",
-                "candidates2013.csv");
-
+                "candidates2013.csv",
+                "results2013.csv");
         batchInserter.insertAll();
     }
 }
