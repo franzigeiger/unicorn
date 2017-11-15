@@ -4,6 +4,7 @@ import com.my.fluffy.unicorn.main.server.data.*;
 import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.parser.data.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -77,7 +78,7 @@ public class BatchInserter {
 
         for(CandidateJson c: this.candidatesJson2017){
             candidates.add(new Candidate(c.title, c.firstName, c.name,
-                    c.profession, c.gender, c.hometown, c.birthPlace, c.birthYear));
+                    c.profession, c.gender.toUpperCase(), c.hometown, c.birthPlace, c.birthYear));
         }
         for(CandidateJson c: this.candidatesJson2013){
             candidates.add(new Candidate(c.title, c.firstName, c.name,
@@ -313,7 +314,21 @@ public class BatchInserter {
     }
 
 
-    public void insertAll() {
-        // TODO implement
+    public void insertAll() throws SQLException {
+        for (Election e : elections) {
+            connection.getInserter().insertElection(e);
+        }
+        for (Party p : parties) {
+            connection.getInserter().insertParty(p);
+        }
+        for (State s : states) {
+            connection.getInserter().insertState(s);
+        }
+        for (Candidate c : candidates) {
+            connection.getInserter().insertCandidate(c);
+        }
+        for (District d : districts) {
+            connection.getInserter().insertDistrict(d);
+        }
     }
 }
