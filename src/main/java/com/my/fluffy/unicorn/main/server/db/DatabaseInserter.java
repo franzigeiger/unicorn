@@ -109,15 +109,49 @@ public class DatabaseInserter {
         stmt.close();
     }
 
-    public void insertDirectCandidature(DirectCandidature directCandidature) {
-        // TODO
+    public void insertDirectCandidature(DirectCandidature directCandidature) throws SQLException {
+        if (db.getQuery().getDirectCandidatures(directCandidature) != null) {
+            System.out.println("Duplicate direct candidature " + directCandidature);
+        }
+
+        String query = "INSERT INTO election.direct_candidatures (district, candidate, party, votes) VALUES (?,?,?,?)";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
+        stmt.setInt(1, db.getQuery().getDistrict(directCandidature.getDistrict()).getId());
+        stmt.setInt(2, db.getQuery().getCandidate(directCandidature.getCandidate()).getId());
+        stmt.setInt(3, db.getQuery().getParty(directCandidature.getParty()).getId());
+        // aggregates are calculated later
+        stmt.setInt(4, 0);
+
+        stmt.executeUpdate();
+        stmt.close();
     }
 
-    public void insertListCandidature(ListCandidature listCandidature) {
-        // TODO
+    public void insertListCandidature(ListCandidature listCandidature) throws SQLException {
+        if (db.getQuery().getListCandidature(listCandidature) != null) {
+            System.out.println("Duplicate list candidature " + listCandidature);
+        }
+
+        String query = "INSERT INTO election.list_candidatures (candidate, statelist, placement) VALUES (?,?,?)";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
+        stmt.setInt(1, db.getQuery().getCandidate(listCandidature.getCandidate()).getId());
+        stmt.setInt(2, db.getQuery().getStateList(listCandidature.getStateList()).getId());
+        stmt.setInt(3, listCandidature.getPlacement());
+
+        stmt.executeUpdate();
+        stmt.close();
     }
 
-    public void insertBallot(Ballot ballot) {
-        // TODO
+    public void insertBallot(Ballot ballot) throws SQLException {
+        String query = "INSERT INTO election.ballots (firstvote, secondvote, district) VALUES (?,?,?)";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
+        stmt.setInt(1, db.getQuery().getDirectCandidatures(ballot.getDirectCandidature()).getId());
+        stmt.setInt(2, db.getQuery().getStateList(ballot.getStateList()).getId());
+        stmt.setInt(3, db.getQuery().getDistrict(ballot.getDistrict()).getId());
+
+        stmt.executeUpdate();
+        stmt.close();
     }
 }
