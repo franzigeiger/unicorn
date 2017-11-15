@@ -61,7 +61,7 @@ public class BallotCreator {
      * @return created ballots as ArrayList
      * @throws Error if amount of created ballots do not match number of valid votes
      */
-    public ArrayList<BallotJson> createBallots(ElectionDistrictJson electionDistrictJson) throws Error{
+    public ArrayList<BallotJson> createBallots2017(ElectionDistrictJson electionDistrictJson) throws Error{
         //all votes
         int voters = electionDistrictJson.voters_17;
         int districtId = electionDistrictJson.id;
@@ -105,6 +105,56 @@ public class BallotCreator {
             throw new Error("First Votes do not match: " + currentFirst + ", " + electionDistrictJson.valid_17_first);
         }
         if(currentSecond != electionDistrictJson.valid_17_second){
+            throw new Error("Second Votes do not match: " + currentSecond + ", " + electionDistrictJson.valid_17_second);
+        }
+
+        return ballotJsons;
+    }
+
+
+    public ArrayList<BallotJson> createBallots2013(ElectionDistrictJson electionDistrictJson) throws Error{
+        //all votes
+        int voters = electionDistrictJson.voters_13;
+
+        //valid votes for candidates added to ballotJsons
+        int currentFirst = 0;
+        //valid votes for parties added to ballotJsons
+        int currentSecond = 0;
+
+        //ballotJsons (only for people who voted)
+        ArrayList<BallotJson> ballotJsons = new ArrayList<>();
+
+        for(int i = 0; i < voters; i++){
+            //-1 means invalid vote for a partyJson or candidate
+            ballotJsons.add(new BallotJson(null, null, null, 2017));
+        }
+
+        //for all parties of this election district
+        for(int i = 0; i < electionDistrictJson.partyResultJsons.size(); i++){
+
+            PartyResultsJson currentResult = electionDistrictJson.partyResultJsons.get(i);
+
+            //get id for candidateJson
+            CandidateJson candidateJson = getCandidate(electionDistrictJson.id, currentResult.partyJson);
+            //for all valid votes this candidateJson received
+            for(int j = currentFirst; j < (currentFirst + currentResult.first_13); j++){
+                //add one vote for this candidateJson to the ballotJsons of the election district
+                ballotJsons.set(j, new BallotJson(candidateJson, ballotJsons.get(j).secondVote, electionDistrictJson, 2017));
+            }
+            currentFirst += currentResult.first_13;
+
+            //for all valid votes this partyJson received
+            for(int k = currentSecond; k < (currentSecond + currentResult.second_13); k++){
+                //add one vote for this partyJson to the ballotJsons of the election district
+                ballotJsons.set(k, new BallotJson(ballotJsons.get(k).firstVote, currentResult.partyJson, electionDistrictJson, 2017));
+            }
+            currentSecond += currentResult.second_13;
+        }
+
+        if(currentFirst != electionDistrictJson.valid_13_first){
+            throw new Error("First Votes do not match: " + currentFirst + ", " + electionDistrictJson.valid_17_first);
+        }
+        if(currentSecond != electionDistrictJson.valid_13_second){
             throw new Error("Second Votes do not match: " + currentSecond + ", " + electionDistrictJson.valid_17_second);
         }
 

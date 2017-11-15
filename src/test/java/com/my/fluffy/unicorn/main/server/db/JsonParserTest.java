@@ -31,7 +31,7 @@ public class JsonParserTest {
 
         int counter = 0;
         for (ElectionDistrictJson allDistrict : allDistricts) {
-            ArrayList<BallotJson> ballotJsons = creator.createBallots(allDistrict);
+            ArrayList<BallotJson> ballotJsons = creator.createBallots2017(allDistrict);
             System.out.println(ballotJsons.size());
             counter += ballotJsons.size();
         }
