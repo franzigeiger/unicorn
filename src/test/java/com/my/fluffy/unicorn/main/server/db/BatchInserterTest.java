@@ -17,28 +17,10 @@ public class BatchInserterTest {
     @Test
     public void testBatchInserter() throws SQLException, ClassNotFoundException {
         BatchInserter batchInserter = new BatchInserter(
-                DatabaseConnection.create(),
+                null,
                 "complete.json",
-                "candidates2013.csv");
-
-        ArrayList<Candidate> c = batchInserter.candidates;
-        for(Candidate d: c){
-            if(d.getLastName().equals("Nicolaisen") && d.getFirstName().equals("Petra")){
-                System.out.println(d.getLastName());
-                System.out.println(d.getFirstName());
-                System.out.println(d.getYearOfBirth());
-            }
-        }
-
-        ArrayList<DirectCandidature> d = batchInserter.directCandidatures;
-        for(DirectCandidature e: d){
-            if(e.getCandidate().getLastName().equals("Nicolaisen") && e.getCandidate().equals("Petra")){
-                System.out.println("!!!");
-                System.out.println(e.getCandidate().getLastName());
-                System.out.println(e.getCandidate().getFirstName());
-                System.out.println(e.getCandidate().getYearOfBirth());
-            }
-        }
+                "candidates2013.csv",
+                "results2013.csv");
 
         batchInserter.insertAll();
     }

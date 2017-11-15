@@ -6,16 +6,167 @@ import java.util.ArrayList;
 
 public class CsvParser {
 
-    JsonParser jsonParser;
+    public JsonParser jsonParser;
 
     public ArrayList<CandidateJson> candidates2013;
 
-    public CsvParser(String jsonPath, String path13){
+    public CsvParser(String jsonPath, String path13, String result13){
         this.jsonParser = new JsonParser();
         jsonParser.parseAll(jsonPath);
+        addMissingParties();
+        addMissingPartyResults(result13);
 
         this.candidates2013 = parse2013Candidates(path13);
     }
+
+    /**
+     * Adds parties that only ran for an office in 2013, but not in 2017
+     * as PartyJson to ArrayList jsonParser.allParties
+     */
+    public void addMissingParties(){
+        this.jsonParser.allParties.add(new PartyJson(44, "BIG"));
+        this.jsonParser.allParties.add(new PartyJson(45, "RENTNER"));
+        this.jsonParser.allParties.add(new PartyJson(46, "REP"));
+        this.jsonParser.allParties.add(new PartyJson(47, "Bündnis21/RRP"));
+        this.jsonParser.allParties.add(new PartyJson(48, "pro Deutschland"));
+        this.jsonParser.allParties.add(new PartyJson(49, "PSG"));
+        this.jsonParser.allParties.add(new PartyJson(50, "NEIN!"));
+        this.jsonParser.allParties.add(new PartyJson(51, "PBC"));
+        this.jsonParser.allParties.add(new PartyJson(52, "Nichtwähler"));
+        this.jsonParser.allParties.add(new PartyJson(53, "BGD"));
+    }
+
+    /**
+     * Adds party results for parties that only ran for office in 2013, but not in 2017
+     * as PartyResultJson to ArrayList jsonParser.allElectionDistrictJsons
+     * @param result13 path to csv-file containing results of elections of 2013 for all districts
+     */
+    public void addMissingPartyResults(String result13){
+        for(int i = 44; i <= 53; i++){
+            PartyJson party = jsonParser.getParty(i);
+            parseMissingPartyResults(result13, party, jsonParser.allElectionDistrictJsons);
+        }
+    }
+
+    /**
+     * Reads party results for a party that only ran for office in 2013, but not in 2017, from csv
+     * and adds them as PartyResultJson to corresponding district from ArrayList districts
+     * @param results13 path to csv file containing results of election of 2013 for all districts
+     * @param party party that only ran for office in 2013, but not in 2017
+     * @param districts ArrayList containing all districts
+     */
+    private void parseMissingPartyResults(String results13,
+                                         PartyJson party,
+                                         ArrayList<ElectionDistrictJson> districts){
+        try{
+            File file = new File(this.getClass().getClassLoader().getResource(results13).getFile());
+            BufferedReader br = new BufferedReader( new FileReader(file) );
+            String newLine;
+            int rowOfMissingResult = getRowForParty(party);
+
+            for(int i = 0; i < 8; i++){
+                br.readLine();
+            }
+
+            while((newLine = br.readLine()) != null){
+                String[] cols = newLine.split(";", -1);
+
+                //line is only relevant if cols[0] contains id of district
+                if(cols[0].length() > 0){
+
+                    //cols[0] is id of district if it is between 1 and 299
+                    int districtId = Integer.parseInt(cols[0]);
+                    if(districtId >= 1 && districtId <= 299){
+
+                        String firstVotes = cols[rowOfMissingResult];
+                        String secondVotes = cols[rowOfMissingResult + 2];
+
+                        //party has received any vote in district
+                        if(firstVotes.length() > 0 || secondVotes.length() > 0){
+                            //amount of votes received
+                            int first = 0; boolean electableFirst = false;
+                            if(firstVotes.length() > 0){
+                                first = Integer.parseInt(firstVotes);
+                                electableFirst = true;
+                            }
+                            int second = 0; boolean electableSecond = false;
+                            if(secondVotes.length() >0){
+                                second = Integer.parseInt(secondVotes);
+                                electableSecond = true;
+                            }
+
+                            //party result for party in district with districtId
+                            PartyResultsJson newResult = new PartyResultsJson(
+                                    first, 0,
+                                    second, 0,
+                                    electableFirst, false,
+                                    electableSecond, false,
+                                    party);
+                            //add party result to party results of district with districtId
+                            int districtPosition = findDistrictPosition(districts, districtId);
+                            districts.get(districtPosition).partyResultJsons.add(newResult);
+
+                            /*System.out.println("Added party result of party " + party.name
+                                    + " to district " + districtId + ": " + first + ", " + second)*/;
+                        }
+                    }
+                }
+            }
+
+        } catch(Exception e){
+            System.out.println("Could not read file!");
+        }
+
+    }
+
+    /**
+     * Get first row containing amount of votes for party
+     * @param party party that ran for office in 2013, but not in 2017
+     * @return number of row as int
+     */
+    private int getRowForParty(PartyJson party){
+        switch (party.name){
+            case "BIG":
+                return 107;
+            case "RENTNER":
+                return 71;
+            case "REP":
+                return 55;
+            case "Bündnis21/RRP":
+                return 67;
+            case "pro Deutschland":
+                return 111;
+            case "PSG":
+                return 99;
+            case "NEIN!":
+                return 151;
+            case "PBC":
+                return 79;
+            case "Nichtwähler":
+                return 127;
+            case "BGD":
+                return 143;
+            default:
+                System.out.println(party.name);
+                return -1;
+        }
+    }
+
+    /**
+     * Finds position of district corresponding to id
+     * @param districts ArrayList containing districts
+     * @param id id of district
+     * @return position of district corresponding to district id as int
+     */
+    private int findDistrictPosition(ArrayList<ElectionDistrictJson> districts, int id){
+        for(int i = 0; i < districts.size(); i++){
+            if(districts.get(i).id == id){
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     /**
      * Get candidates from csv at path13

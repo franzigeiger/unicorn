@@ -38,9 +38,10 @@ public class BatchInserter {
     public ArrayList<ListCandidature> listCandidatures;
 
 
-    public BatchInserter(DatabaseConnection connection, String jsonPath, String csvPath) {
+    public BatchInserter(DatabaseConnection connection, String jsonPath,
+                         String csvCandidates2013, String csvResults2013) {
 
-        this.csvParser = new CsvParser(jsonPath, csvPath);
+        this.csvParser = new CsvParser(jsonPath, csvCandidates2013, csvResults2013);
         this.jsonParser = csvParser.jsonParser;
         this.ballotCreator = new BallotCreator(jsonParser.allParties,
                 jsonParser.allElectionDistrictJsons,
