@@ -15,18 +15,18 @@ public class JsonParserTest {
 
         System.out.println(jsonParser.allParties.size());
         System.out.println(jsonParser.allStates.size());
-        System.out.println(jsonParser.allElectionDistricts.size());
+        System.out.println(jsonParser.allElectionDistrictJsons.size());
         System.out.println(jsonParser.allCandidates2017.size());
-        System.out.println(jsonParser.allStateLists.size());
+        System.out.println(jsonParser.allStateListJsons.size());
     }
 
     @Test
     public void testBallotCreator() {
         BallotCreator creator = new BallotCreator("complete.json");
-        ArrayList<ElectionDistrict> allDistricts = creator.allElectionDistricts;
+        ArrayList<ElectionDistrictJson> allDistricts = creator.allElectionDistrictJsons;
 
-        for (ElectionDistrict allDistrict : allDistricts) {
-            ArrayList<Ballot> ballots = creator.createBallots(allDistrict);
+        for (ElectionDistrictJson allDistrict : allDistricts) {
+            ArrayList<BallotJson> ballotJsons = creator.createBallots(allDistrict);
         }
     }
 }

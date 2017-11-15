@@ -1,6 +1,6 @@
 package com.my.fluffy.unicorn.main.server.parser.data;
 
-public class Candidate {
+public class CandidateJson {
 
     public int id;
 
@@ -17,13 +17,13 @@ public class Candidate {
     public int birthYear;
     public String birthPlace;
 
-    public DirectCandidature directCandidature;
-    public ListPlacement listPlacement;
+    public DirectCandidatureJson directCandidatureJson;
+    public ListPlacementJson listPlacementJson;
 
-    public Candidate(int id, String name, String firstName, String title,
-                     String gender, String hometown, String profession,
-                     int yearOfCandidaturee, int birthYear, String birthPlace,
-                     DirectCandidature directCandidature, ListPlacement listPlacement){
+    public CandidateJson(int id, String name, String firstName, String title,
+                         String gender, String hometown, String profession,
+                         int yearOfCandidaturee, int birthYear, String birthPlace,
+                         DirectCandidatureJson directCandidatureJson, ListPlacementJson listPlacementJson){
 
         this.id = id;
 
@@ -40,7 +40,7 @@ public class Candidate {
         this.birthYear = birthYear;
         this.birthPlace = birthPlace;
 
-        this.directCandidature = directCandidature;
-        this.listPlacement = listPlacement;
+        this.directCandidatureJson = directCandidatureJson;
+        this.listPlacementJson = listPlacementJson;
     }
 }

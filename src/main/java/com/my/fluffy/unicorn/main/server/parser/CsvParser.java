@@ -8,7 +8,7 @@ public class CsvParser {
 
     JsonParser jsonParser;
 
-    public ArrayList<Candidate> candidates2013;
+    public ArrayList<CandidateJson> candidates2013;
 
     public CsvParser(String jsonPath, String path13){
         this.jsonParser = new JsonParser();
@@ -22,12 +22,12 @@ public class CsvParser {
      * @param path13 path to csv-file
      * @return array list containing al candidates from csv
      */
-    private ArrayList<Candidate> parse2013Candidates(String path13){
+    private ArrayList<CandidateJson> parse2013Candidates(String path13){
 
-        ArrayList<Candidate> candidates = new ArrayList<>();
+        ArrayList<CandidateJson> candidateJsons = new ArrayList<>();
         try{
-
-            BufferedReader br = new BufferedReader( new FileReader(path13) );
+            File file = new File(this.getClass().getClassLoader().getResource(path13).getFile());
+            BufferedReader br = new BufferedReader( new FileReader(file) );
             String newLine;
             //do not parse first line that contains information about file format
             br.readLine();
@@ -36,48 +36,48 @@ public class CsvParser {
                 String[] cols = newLine.split(";", -1);
 
                 //find state for candidate
-                State state = null;
+                StateJson state = null;
                 if(cols[8].length() > 0) {
                     state = jsonParser.getState(cols[8]);
                 }
 
-                //find party for candidate
-                Party party = jsonParser.getParty(cols[6]);
-                if(party == null){
-                    //if there is no corresponding party for candidate:
-                    //candidate gets default party
-                    party = jsonParser.getParty(43);
+                //find partyJson for candidate
+                PartyJson partyJson = jsonParser.getParty(cols[6]);
+                if(partyJson == null){
+                    //if there is no corresponding partyJson for candidate:
+                    //candidate gets default partyJson
+                    partyJson = jsonParser.getParty(43);
                 }
 
                 //find election district for candidate
-                ElectionDistrict district = null;
+                ElectionDistrictJson district = null;
                 if(cols[7].length() > 0){
                     district = jsonParser.getDistrict(Integer.parseInt(cols[7]));
                 }
 
                 //if candidate has district: candidate has a direct candidature
-                DirectCandidature candidature = null;
+                DirectCandidatureJson candidature = null;
                 if(district != null){
-                    candidature = new DirectCandidature(district, party);
+                    candidature = new DirectCandidatureJson(district, partyJson);
                 }
 
                 //if candidate has list place: candidate has list candidature
-                ListPlacement list = null;
+                ListPlacementJson list = null;
                 if(state != null && cols[9].length() > 0) {
-                    StateList stateList = jsonParser.getList(state, party, 2013);
-                    if(stateList == null){
-                        stateList = new StateList(2013, party, state);
-                        jsonParser.allStateLists.add(stateList);
+                    StateListJson stateListJson = jsonParser.getList(state, partyJson, 2013);
+                    if(stateListJson == null){
+                        stateListJson = new StateListJson(2013, partyJson, state);
+                        jsonParser.allStateListJsons.add(stateListJson);
                     }
-                    list = new ListPlacement(Integer.parseInt(cols[9]), stateList);
+                    list = new ListPlacementJson(Integer.parseInt(cols[9]), stateListJson);
                 }
 
                 //create new candidate
-                Candidate newCandidate = new Candidate(Integer.parseInt(cols[1]), cols[3], cols[4], cols[2],
+                CandidateJson newCandidateJson = new CandidateJson(Integer.parseInt(cols[1]), cols[3], cols[4], cols[2],
                         null, null, null,
                         2013, Integer.parseInt(cols[5]), null,
                         candidature, list);
-                candidates.add(newCandidate);
+                candidateJsons.add(newCandidateJson);
 
                 }
             br.close();
@@ -85,7 +85,7 @@ public class CsvParser {
             System.out.println("Could not parse file: " + e);
         }
 
-        return candidates;
+        return candidateJsons;
     }
 
 }

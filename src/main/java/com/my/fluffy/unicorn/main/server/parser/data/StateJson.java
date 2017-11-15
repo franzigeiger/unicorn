@@ -2,7 +2,7 @@ package com.my.fluffy.unicorn.main.server.parser.data;
 
 import java.util.ArrayList;
 
-public class State {
+public class StateJson {
 
     public int id;
     public String name;
@@ -22,16 +22,16 @@ public class State {
     public int invalid_17_second;
     public int invalid_13_second;
 
-    public ArrayList<PartyResults> partyResults;
+    public ArrayList<PartyResultsJson> partyResultJsons;
 
-    public State(int id, String name,
-                 int eligibleVoters_13, int eligibleVoters_17,
-                 int voters_13, int voters_17,
-                 int valid_13_first, int valid_17_first,
-                 int invalid_13_first, int invalid_17_first,
-                 int valid_13_second, int valid_17_second,
-                 int invalid_13_second, int invalid_17_second,
-                 ArrayList<PartyResults> partyResults){
+    public StateJson(int id, String name,
+                     int eligibleVoters_13, int eligibleVoters_17,
+                     int voters_13, int voters_17,
+                     int valid_13_first, int valid_17_first,
+                     int invalid_13_first, int invalid_17_first,
+                     int valid_13_second, int valid_17_second,
+                     int invalid_13_second, int invalid_17_second,
+                     ArrayList<PartyResultsJson> partyResultJsons){
 
         this.id = id;
         this.name = name;
@@ -52,6 +52,6 @@ public class State {
         this.invalid_13_second = invalid_13_second;
         this.invalid_17_second = invalid_17_second;
 
-        this.partyResults = partyResults;
+        this.partyResultJsons = partyResultJsons;
     }
 }
