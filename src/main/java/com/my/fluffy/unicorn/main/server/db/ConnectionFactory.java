@@ -9,7 +9,7 @@ class ConnectionFactory {
     private static final String driver = "jdbc:postgresql://";
     private static final String driverClass = "org.postgresql.Driver";
     private static final String host = "localhost:5432/";
-    private static final String database = "postgres";
+    private static final String database = "unicorn";
     private static final String schema = "election";
     private static final String username = "postgres";
     private static final String password = "123";
@@ -23,17 +23,11 @@ class ConnectionFactory {
 
     private ConnectionFactory() throws ClassNotFoundException, SQLException {
         loadDriver();
-        this.connection = openOrCreate();
+        this.connection = open();
     }
 
-    private static Connection openOrCreate() throws SQLException, ClassNotFoundException {
-        try {
-            return open(driver + host + database + "?currentSchema=" + schema, username, password);
-        } catch (SQLException e) {
-            System.out.println("Creating database...");
-            createDatabase(driver + host, database, username, password);
-            return open(driver + host + database, username, password);
-        }
+    private static Connection open() throws SQLException, ClassNotFoundException {
+        return open(driver + host + database + "?currentSchema=" + schema, username, password);
     }
 
     @Contract(pure = true)
@@ -43,13 +37,6 @@ class ConnectionFactory {
 
     private static Connection open(@NotNull String url, @NotNull String user, @NotNull String password) throws SQLException {
         return DriverManager.getConnection(url, user, password);
-    }
-
-    private static void createDatabase(@NotNull String url, @NotNull String database, @NotNull String username, @NotNull String password) throws SQLException {
-        try (Connection c = DriverManager.getConnection(url, username, password)) {
-            PreparedStatement stmt = c.prepareStatement("CREATE DATABASE " + database);
-            stmt.executeUpdate();
-        }
     }
 
     private static void loadDriver() throws ClassNotFoundException {

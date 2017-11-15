@@ -1,57 +1,38 @@
 package com.my.fluffy.unicorn.main.server.data;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
 
 public class State {
+    private final Integer id;
+    @NotNull private final String name;
 
-    public int id;
-    public String name;
+    @NotNull
+    public static State fullCreate(Integer id, @NotNull String name) {
+        return new State(id, name);
+    }
 
-    public int eligibleVoters_17;
-    public int eligebleVoters_13;
-    public int voters_17;
-    public int voters_13;
+    @NotNull
+    public static State create(@NotNull String name) {
+        return fullCreate(null, name);
+    }
 
-    public int valid_17_first;
-    public int valid_13_first;
-    public int invalid_17_first;
-    public int invalid_13_first;
+    /**
+     * @deprecated
+     */
+    @Deprecated public State(String name) {
+        this(null, name);
+    }
 
-    public int valid_17_second;
-    public int valid_13_second;
-    public int invalid_17_second;
-    public int invalid_13_second;
-
-    public ArrayList<PartyResults> partyResults;
-
-    public State(int id, String name,
-                 int eligibleVoters_13, int eligibleVoters_17,
-                 int voters_13, int voters_17,
-                 int valid_13_first, int valid_17_first,
-                 int invalid_13_first, int invalid_17_first,
-                 int valid_13_second, int valid_17_second,
-                 int invalid_13_second, int invalid_17_second,
-                 ArrayList<PartyResults> partyResults){
-
+    private State(Integer id, @NotNull String name) {
         this.id = id;
         this.name = name;
+    }
 
-        this.eligebleVoters_13 = eligibleVoters_13;
-        this.eligibleVoters_17 = eligibleVoters_17;
+    @NotNull public String getName() {
+        return name;
+    }
 
-        this.voters_13 = voters_13;
-        this.voters_17 = voters_17;
-
-        this.valid_13_first = valid_13_first;
-        this.valid_17_first = valid_17_first;
-        this.invalid_13_first = invalid_13_first;
-        this.invalid_17_first = invalid_17_first;
-
-        this.valid_13_second = valid_13_second;
-        this.valid_17_second = valid_17_second;
-        this.invalid_13_second = invalid_13_second;
-        this.invalid_17_second = invalid_17_second;
-
-        this.partyResults = partyResults;
+    public Integer getId() {
+        return id;
     }
 }

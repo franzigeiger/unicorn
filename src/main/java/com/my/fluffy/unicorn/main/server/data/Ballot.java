@@ -1,15 +1,26 @@
 package com.my.fluffy.unicorn.main.server.data;
 
 public class Ballot {
+    private final StateList stateList;
+    private final DirectCandidature directCandidature;
+    private final District district;
 
-    //id of candidate, -1 if vote is invalid
-    public int firstVote;
-    //id of party, -1 if vote is invalid
-    public int secondVote;
-
-    public Ballot(int first, int second){
-        this.firstVote = first;
-        this.secondVote = second;
+    public Ballot(StateList stateList, DirectCandidature directCandidature, District district) {
+        this.stateList = stateList;
+        this.directCandidature = directCandidature;
+        this.district = district;
     }
 
+    public StateList getStateList() {
+
+        return stateList;
+    }
+
+    public DirectCandidature getDirectCandidature() {
+        return directCandidature;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
 }
