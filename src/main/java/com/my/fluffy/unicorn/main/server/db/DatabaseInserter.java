@@ -1,9 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.data.Candidate;
-import com.my.fluffy.unicorn.main.server.data.Election;
-import com.my.fluffy.unicorn.main.server.data.Party;
-import com.my.fluffy.unicorn.main.server.data.State;
+import com.my.fluffy.unicorn.main.server.data.*;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -23,7 +20,7 @@ public class DatabaseInserter {
         }
 
         String query = "INSERT INTO " +
-                "candidates(title, firstname, lastname, profession, sex, hometown, birthtown, yearofbirth) " +
+                "election.candidates(title, firstname, lastname, profession, sex, hometown, birthtown, yearofbirth) " +
                 "VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setString(1, candidate.getTitle());
@@ -39,7 +36,11 @@ public class DatabaseInserter {
     }
 
     public void insertElection(Election election) throws SQLException {
-        String query = "INSERT INTO elections (year, day) VALUES (?,?)";
+        if (db.getQuery().getElection(election) != null) {
+            System.out.println("Duplicate election " + election.getYear());
+            return;
+        }
+        String query = "INSERT INTO election.elections (year, day) VALUES (?,?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setInt(1, election.getYear());
         stmt.setDate(2, Date.valueOf(election.getDate()));
@@ -48,7 +49,11 @@ public class DatabaseInserter {
     }
 
     public void insertParty(Party party) throws SQLException {
-        String query = "INSERT INTO parties (name) VALUES (?)";
+        if (db.getQuery().getParty(party) != null) {
+            System.out.println("Duplicate party " + party.getName());
+            return;
+        }
+        String query = "INSERT INTO election.parties (name) VALUES (?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setString(1, party.getName());
         stmt.executeUpdate();
@@ -56,10 +61,63 @@ public class DatabaseInserter {
     }
 
     public void insertState(State state) throws SQLException {
-        String query = "INSERT INTO states (name) VALUES (?)";
+        if (db.getQuery().getState(state) != null) {
+            System.out.println("Duplicate state " + state.getName() );
+            return;
+        }
+        String query = "INSERT INTO election.states (name) VALUES (?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setString(1, state.getName());
         stmt.executeUpdate();
         stmt.close();
+    }
+
+    public void insertDistrict(District district) throws SQLException {
+        if (db.getQuery().getDistrict(district) != null) {
+            System.out.println("Duplicate district " + district);
+        }
+
+        String query = "INSERT INTO election.districts (number, year, state, name, eligiblevoters, invalidfirstvotes, invalidsecondvotes) VALUES (?,?,?,?,?,?,?)";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
+        stmt.setInt(1, district.getNumber());
+        stmt.setInt(2, district.getElection().getYear());
+        stmt.setInt(3, db.getQuery().getState(district.getState()).getId());
+        stmt.setString(4, district.getName());
+        stmt.setInt(5, district.getEligibleVoters());
+        // aggregate values not set but calculated later
+        stmt.setInt(6, 0);
+        stmt.setInt(7, 0);
+
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    public void insertStateList(StateList stateList) throws SQLException {
+        if (db.getQuery().getStateList(stateList) != null) {
+            System.out.println("Duplicate state list " + stateList);
+        }
+
+        String query = "INSERT INTO election.statelists (party, election, state) VALUES (?,?,?)";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
+        stmt.setInt(1, db.getQuery().getParty(stateList.getParty()).getId());
+        stmt.setInt(2, db.getQuery().getElection(stateList.getElection()).getYear());
+        stmt.setInt(3, db.getQuery().getState(stateList.getState()).getId());
+
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    public void insertDirectCandidature(DirectCandidature directCandidature) {
+        // TODO
+    }
+
+    public void insertListCandidature(ListCandidature listCandidature) {
+        // TODO
+    }
+
+    public void insertBallot(Ballot ballot) {
+        // TODO
     }
 }

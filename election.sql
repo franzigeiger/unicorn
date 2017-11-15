@@ -43,7 +43,7 @@ CREATE TABLE elections (
 
 CREATE TABLE parties (
     id SERIAL PRIMARY KEY,
-    Name TEXT UNIQUE NOT NULL
+    name TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE states (
@@ -56,6 +56,7 @@ CREATE TABLE districts (
     number INTEGER NOT NULL CHECK (number BETWEEN 1 AND 299),
     year INTEGER NOT NULL REFERENCES elections(year),
     state INTEGER NOT NULL REFERENCES states(id),
+    name TEXT,
     eligibleVoters INTEGER NOT NULL,
     invalidFirstVotes INTEGER NOT NULL, -- aggregated
     invalidSecondVotes INTEGER NOT NULL -- aggregated
@@ -79,7 +80,7 @@ CREATE TABLE direct_candidatures (
 CREATE TABLE statelists (
     id SERIAL PRIMARY KEY,
     party INTEGER NOT NULL REFERENCES parties(id),
-    election integer NOT NULL REFERENCES elections(year),
+    election INTEGER NOT NULL REFERENCES elections(year),
     state INTEGER NOT NULL REFERENCES states(id)
 );
 
