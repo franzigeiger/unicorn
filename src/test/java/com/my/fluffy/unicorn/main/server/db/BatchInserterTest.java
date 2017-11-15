@@ -8,15 +8,16 @@ import com.my.fluffy.unicorn.main.server.parser.data.CandidateJson;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 
 public class BatchInserterTest {
     @Test
-    public void testBatchInserter() {
+    public void testBatchInserter() throws SQLException, ClassNotFoundException {
         BatchInserter batchInserter = new BatchInserter(
-                null,
+                DatabaseConnection.create(),
                 "complete.json",
                 "candidates2013.csv");
 
@@ -38,5 +39,7 @@ public class BatchInserterTest {
                 System.out.println(e.getCandidate().getYearOfBirth());
             }
         }
+
+        batchInserter.insertAll();
     }
 }
