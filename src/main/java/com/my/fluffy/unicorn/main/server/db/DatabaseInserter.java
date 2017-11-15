@@ -17,6 +17,11 @@ public class DatabaseInserter {
     }
 
     public void insertCandidate(Candidate candidate) throws SQLException {
+        if (db.getQuery().getCandidate(candidate) != null) {
+            System.out.println("Duplicate candidate " + candidate.getFirstName() + " " + candidate.getLastName());
+            return;
+        }
+
         String query = "INSERT INTO " +
                 "candidates(title, firstname, lastname, profession, sex, hometown, birthtown, yearofbirth) " +
                 "VALUES (?,?,?,?,?,?,?,?)";

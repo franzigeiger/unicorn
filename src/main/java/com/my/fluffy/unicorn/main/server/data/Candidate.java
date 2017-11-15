@@ -1,10 +1,15 @@
 package com.my.fluffy.unicorn.main.server.data;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
 public class Candidate {
+    private final Integer id;
 
     private final String title;
-    private final String firstName;
-    private final String lastName;
+    @NotNull private final String firstName;
+    @NotNull private final String lastName;
 
     private final String profession;
     private final String sex;
@@ -13,7 +18,34 @@ public class Candidate {
     private final String birthtown;
     private final int yearOfBirth;
 
+    /**
+     * Only for DB use intended. You should probably use {@link #create(String, String, String, String, String, String, String, int)} instead.
+     */
+    @NotNull
+    public static Candidate fullCreate(Integer id, String title, @NotNull String firstName, @NotNull String lastName, String profession, String sex, String hometown, String birthtown, int yearOfBirth) {
+        return new Candidate(id, title, firstName, lastName, profession, sex, hometown, birthtown, yearOfBirth);
+    }
+
+    @NotNull
+    public static Candidate create(String title, @NotNull String firstName, @NotNull String lastName, String profession, String sex, String hometown, String birthtown, int yearOfBirth) {
+        return fullCreate(null, title, firstName, lastName, profession, sex, hometown, birthtown, yearOfBirth);
+    }
+
+    @NotNull
+    public static Candidate minCreate(@NotNull String firstName, @NotNull String lastName, int yearOfBirth) {
+        return fullCreate(null, null, firstName, lastName, null, null, null, null, yearOfBirth);
+    }
+
+    /**
+     * @deprecated Use {@link #create(String, String, String, String, String, String, String, int)} instead
+     */
+    @Deprecated
     public Candidate(String title, String firstName, String lastName, String profession, String sex, String hometown, String birthtown, int yearOfBirth) {
+        this(null, title, firstName, lastName, profession, sex, hometown, birthtown, yearOfBirth);
+    }
+
+    private Candidate(Integer id, String title, @NotNull String firstName, @NotNull String lastName, String profession, String sex, String hometown, String birthtown, int yearOfBirth) {
+        this.id = id;
         this.title = title;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,10 +60,12 @@ public class Candidate {
         return title;
     }
 
+    @NotNull
     public String getFirstName() {
         return firstName;
     }
 
+    @NotNull
     public String getLastName() {
         return lastName;
     }
@@ -54,5 +88,9 @@ public class Candidate {
 
     public int getYearOfBirth() {
         return yearOfBirth;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

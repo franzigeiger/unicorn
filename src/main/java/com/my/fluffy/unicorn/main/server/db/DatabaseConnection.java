@@ -25,6 +25,10 @@ public class DatabaseConnection implements AutoCloseable {
         return new DatabaseInserter(this);
     }
 
+    public DatabaseQuery getQuery() {
+        return new DatabaseQuery(this);
+    }
+
     public void updateAggregates() {
         // TODO implement
     }

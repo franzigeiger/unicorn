@@ -17,6 +17,8 @@ public class DatabaseConnectionTest {
             c.getInserter().insertElection(new Election(LocalDate.now()));
             c.getInserter().insertParty(new Party("Meine neue tolle Partei!"));
             c.getInserter().insertState(new State("Bayern"));
+
+            c.getQuery().getCandidate(new Candidate(null, "Tobias", "Beeh", null, null, null, null, -1));
         }
     }
 }

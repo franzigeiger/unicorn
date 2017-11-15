@@ -1,13 +1,38 @@
 package com.my.fluffy.unicorn.main.server.data;
 
-public class Party {
-    private final String name;
+import org.jetbrains.annotations.NotNull;
 
-    public Party(String name) {
+public class Party {
+    private final Integer id;
+    @NotNull private final String name;
+
+    @NotNull
+    public static Party fullCreate(Integer id, @NotNull String name) {
+        return new Party(id, name);
+    }
+
+    @NotNull
+    public static Party create(@NotNull String name) {
+        return fullCreate(null, name);
+    }
+
+    /**
+     * @deprecated
+     */
+    @Deprecated public Party(String name) {
+        this(null, name);
+    }
+
+    private Party(Integer id, @NotNull String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public String getName() {
+    @NotNull public String getName() {
         return name;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

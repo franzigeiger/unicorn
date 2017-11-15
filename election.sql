@@ -32,7 +32,8 @@ CREATE TABLE candidates (
     sex TEXT CHECK (sex IN ('M','W')),
     hometown TEXT,
     birthtown TEXT,
-    yearofbirth INTEGER
+    yearofbirth INTEGER,
+    UNIQUE (firstname, lastname, yearofbirth)
 );
 
 CREATE TABLE elections (
@@ -42,12 +43,12 @@ CREATE TABLE elections (
 
 CREATE TABLE parties (
     id SERIAL PRIMARY KEY,
-    Name TEXT UNIQUE
+    Name TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE states (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE districts (
