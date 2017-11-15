@@ -6,170 +6,153 @@ import com.my.fluffy.unicorn.main.server.parser.data.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.*;
 
 public class BatchInserter {
-
     private final DatabaseConnection connection;
 
-    public JsonParser jsonParser;
-    public CsvParser csvParser;
-    public BallotCreator ballotCreator;
+    private ArrayList<CandidateJson> candidatesJson2013;
+    private ArrayList<CandidateJson> candidatesJson2017;
+    private ArrayList<PartyJson> allPartiesJson;
+    private ArrayList<ElectionDistrictJson> allElectionDistrictsJson;
+    private ArrayList<StateJson> allStatesJson;
+    private ArrayList<StateListJson> allStateListsJson;
 
-    public ArrayList<CandidateJson> candidatesJson2013;
-    public ArrayList<CandidateJson> candidatesJson2017;
+    private Map<Integer, Election> elections;
+    private Map<PartyJson, Party> parties;
+    private Map<StateJson, State> states;
+    private Map<CandidateJson, Candidate> candidates;
+    private Map<Integer, Map<ElectionDistrictJson, District>> districts;
+    private Map<CandidateJson, DirectCandidature> directCandidatures;
+    private Map<StateListJson, StateList> stateLists;
+    private Map<CandidateJson, ListCandidature> listCandidatures;
 
-    public ArrayList<PartyJson> allPartiesJson;
-
-    public ArrayList<ElectionDistrictJson> allElectionDistrictsJson;
-    public ArrayList<StateJson> allStatesJson;
-
-    public ArrayList<StateListJson> allStateListsJson;
-
-
-    public ArrayList<Election> elections;
-    public ArrayList<Party> parties;
-    public ArrayList<State> states;
-    public ArrayList<Candidate> candidates;
-    public ArrayList<District> districts;
-//    public ArrayList<SecondVoteAggregates> secondVoteAggregates;
-    public ArrayList<DirectCandidature> directCandidatures;
-    public ArrayList<StateList> stateLists;
-    public ArrayList<ListCandidature> listCandidatures;
-
+    private Map<ElectionDistrictJson, Map<PartyJson, CandidateJson>> districtPartyToCandidate = new HashMap<>();
+    private Map<StateJson, Map<PartyJson, StateListJson>> statePartyToList = new HashMap<>();
 
     public BatchInserter(DatabaseConnection connection, String jsonPath, String csvPath) {
 
-        this.csvParser = new CsvParser(jsonPath, csvPath);
-        this.jsonParser = csvParser.jsonParser;
-        this.ballotCreator = new BallotCreator(jsonParser.allParties,
-                jsonParser.allElectionDistrictJsons,
-                jsonParser.allCandidates2017);
+        CsvParser csvParser = new CsvParser(jsonPath, csvPath);
+        JsonParser jsonParser = csvParser.jsonParser;
 
         this.candidatesJson2013 = csvParser.candidates2013;
         this.candidatesJson2017 = jsonParser.allCandidates2017;
         this.allPartiesJson = jsonParser.allParties;
         this.allElectionDistrictsJson = jsonParser.allElectionDistrictJsons;
-        this.allStatesJson = this.jsonParser.allStates;
+        this.allStatesJson = jsonParser.allStates;
         this.allStateListsJson = jsonParser.allStateListJsons;
 
-        this.elections = new ArrayList<>();
-        elections.add(new Election(LocalDate.of(2013, 9, 22)));
-        elections.add(new Election(LocalDate.of(2017, 9, 24)));
+        this.elections = new HashMap<>(2);
+        elections.put(2013, Election.create(LocalDate.of(2013, 9, 22)));
+        elections.put(2017, Election.create(LocalDate.of(2017, 9, 24)));
 
         this.candidates = convertCandidates();
-
         this.parties = convertParties();
         this.states = convertStates();
         this.districts = convertDistricts();
-//        this.secondVoteAggregates = convertSecondVoteAggregates();
         this.directCandidatures = convertDirectCandidatures();
         this.stateLists = convertStateLists();
         this.listCandidatures = convertListCandidatures();
 
-//        convertBallots();
-
         this.connection = connection;
     }
 
-    public ArrayList<Candidate> convertCandidates(){
-
-        ArrayList<Candidate> candidates = new ArrayList<>();
-
+    private Map<CandidateJson, Candidate> convertCandidates(){
+        Map<CandidateJson, Candidate> candidates = new HashMap<>();
         for(CandidateJson c: this.candidatesJson2017){
-            candidates.add(new Candidate(c.title, c.firstName, c.name,
+            candidates.put(c, Candidate.create(c.title, c.firstName, c.name,
                     c.profession, c.gender.toUpperCase(), c.hometown, c.birthPlace, c.birthYear));
         }
         for(CandidateJson c: this.candidatesJson2013){
-            candidates.add(new Candidate(c.title, c.firstName, c.name,
+            candidates.put(c, Candidate.create(c.title, c.firstName, c.name,
                     c.profession, c.gender, c.hometown, c.birthPlace, c.birthYear));
         }
         return candidates;
     }
 
-    public ArrayList<Party> convertParties(){
-
-        ArrayList<Party> convertedParties = new ArrayList<>();
-
+    private Map<PartyJson, Party> convertParties(){
+        Map<PartyJson, Party> convertedParties = new HashMap<>();
         for(PartyJson p: allPartiesJson){
-            convertedParties.add(new Party(p.name));
+            convertedParties.put(p, Party.create(p.name));
         }
         return convertedParties;
     }
 
-    public ArrayList<State> convertStates(){
-        ArrayList<State> convertedStates = new ArrayList<>();
-
+    private Map<StateJson, State> convertStates(){
+        Map<StateJson, State> convertedStates = new HashMap<>();
         for(StateJson s: allStatesJson){
-            convertedStates.add(new State(s.name));
+            // init helper map
+            statePartyToList.put(s, new HashMap<>());
+
+            convertedStates.put(s, State.create(s.name));
         }
         return convertedStates;
     }
 
-    public ArrayList<District> convertDistricts(){
-        ArrayList<District> convertedDistricts = new ArrayList<>();
+    private Map<Integer, Map<ElectionDistrictJson, District>> convertDistricts(){
+        Map<Integer, Map<ElectionDistrictJson, District>> convertedDistricts = new HashMap<>();
+        convertedDistricts.put(2013, new HashMap<>());
+        convertedDistricts.put(2017, new HashMap<>());
 
         for(ElectionDistrictJson d: allElectionDistrictsJson){
-            convertedDistricts.add(new District(
+            // init helper map
+            districtPartyToCandidate.put(d, new HashMap<>());
+
+            convertedDistricts.get(2017).put(d, District.create(
                     d.id,
                     findElection(2017),
-                    d.eligibleVoters_17,
-                    findState(d.state)
+                    findState(d.state),
+                    d.name,
+                    d.eligibleVoters_17
             ));
-        }
-        for(ElectionDistrictJson d: allElectionDistrictsJson){
-            convertedDistricts.add(new District(
+
+            convertedDistricts.get(2013).put(d, District.create(
                     d.id,
                     findElection(2013),
-                    d.eligibleVoters_13,
-                    findState(d.state)
+                    findState(d.state),
+                    d.name,
+                    d.eligibleVoters_13
             ));
         }
         return convertedDistricts;
     }
 
-    /*public ArrayList<SecondVoteAggregates> convertSecondVoteAggregates(){
-
-        ArrayList<SecondVoteAggregates> convertedSecondVoteAggregates = new ArrayList<>();
-
-        for(ElectionDistrictJson d: this.allElectionDistrictsJson){
-            for(PartyResultsJson p: d.partyResultJsons){
-
-                convertedSecondVoteAggregates.add(new SecondVoteAggregates(findDistrict(d), findParty(p.partyJson), p.second_17));
-            }
-        }
-        return convertedSecondVoteAggregates;
-    }*/
-
-    public ArrayList<DirectCandidature> convertDirectCandidatures(){
-        ArrayList<DirectCandidature> convertedDirectCandidatures = new ArrayList<>();
+    private Map<CandidateJson, DirectCandidature> convertDirectCandidatures(){
+        Map<CandidateJson, DirectCandidature> convertedDirectCandidatures = new HashMap<>();
 
         for(CandidateJson c: this.candidatesJson2017){
             if(c.directCandidatureJson != null){
-                convertedDirectCandidatures.add( new DirectCandidature(
+                convertedDirectCandidatures.put(c, DirectCandidature.create(
                         findDistrict(c.directCandidatureJson.electionDistrictJson, 2017),
                         findCandidate(c),
                         findParty(c.directCandidatureJson.partyJson)
                 ));
+
+                districtPartyToCandidate.get(c.directCandidatureJson.electionDistrictJson)
+                        .put(c.directCandidatureJson.partyJson, c);
             }
         }
         for(CandidateJson c: this.candidatesJson2013){
             if(c.directCandidatureJson != null){
-                convertedDirectCandidatures.add( new DirectCandidature(
+                convertedDirectCandidatures.put(c, DirectCandidature.create(
                         findDistrict(c.directCandidatureJson.electionDistrictJson, 2013),
                         findCandidate(c),
                         findParty(c.directCandidatureJson.partyJson)
                 ));
+
+                districtPartyToCandidate.get(c.directCandidatureJson.electionDistrictJson)
+                        .put(c.directCandidatureJson.partyJson, c);
             }
         }
         return convertedDirectCandidatures;
     }
 
-    public ArrayList<StateList> convertStateLists(){
-        ArrayList<StateList> convertedStateLists = new ArrayList<>();
+    private Map<StateListJson, StateList> convertStateLists(){
+        Map<StateListJson, StateList> convertedStateLists = new HashMap<>();
 
         for(StateListJson stateListJson: this.allStateListsJson){
-            convertedStateLists.add(new StateList(
+            statePartyToList.get(stateListJson.state).put(stateListJson.partyJson, stateListJson);
+            convertedStateLists.put(stateListJson, StateList.create(
                     findParty(stateListJson.partyJson),
                     findElection(stateListJson.yearOfCandidature),
                     findState(stateListJson.state)
@@ -178,12 +161,12 @@ public class BatchInserter {
         return convertedStateLists;
     }
 
-    public ArrayList<ListCandidature> convertListCandidatures(){
-        ArrayList<ListCandidature> convertedListCandidatures = new ArrayList<>();
+    private Map<CandidateJson, ListCandidature> convertListCandidatures(){
+        Map<CandidateJson, ListCandidature> convertedListCandidatures = new HashMap<>();
 
         for(CandidateJson c: this.candidatesJson2017){
             if(c.listPlacementJson != null){
-                convertedListCandidatures.add(new ListCandidature(
+                convertedListCandidatures.put(c, ListCandidature.create(
                         findCandidate(c),
                         findStateList(c.listPlacementJson.stateListJson),
                         c.listPlacementJson.place
@@ -193,7 +176,7 @@ public class BatchInserter {
 
         for(CandidateJson c: this.candidatesJson2013){
             if(c.listPlacementJson != null){
-                convertedListCandidatures.add(new ListCandidature(
+                convertedListCandidatures.put(c, ListCandidature.create(
                         findCandidate(c),
                         findStateList(c.listPlacementJson.stateListJson),
                         c.listPlacementJson.place
@@ -204,155 +187,142 @@ public class BatchInserter {
         return convertedListCandidatures;
     }
 
-    public void convertBallots(){
-        ArrayList<Ballot> convertedBallotsforDistrict = new ArrayList<>();
-
-        int i = 0; int j = 0;
-        for(ElectionDistrictJson districtJson: this.allElectionDistrictsJson){
-            ArrayList<BallotJson> districtBallots = ballotCreator.createBallots2017(districtJson);
-            for(BallotJson ballotJson: districtBallots){
-                convertedBallotsforDistrict.add(new Ballot(
-                        findStateListForBallot(ballotJson.secondVote, ballotJson.electionDistrictJson),
-                        findDirectCandidatureForBallot(ballotJson.secondVote, ballotJson.firstVote, findDistrict(ballotJson.electionDistrictJson, 2017)),
-                        findDistrict(ballotJson.electionDistrictJson, 2017)
-                ));
-            }
-            j += districtBallots.size();
-            System.out.println(++i + " - " + j);
+    private List<Ballot> createBallots(District d, int count, Map<DirectCandidature, Integer> firstVotes, Map<StateList, Integer> secondVotes) {
+        List<Ballot> ballots = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            DirectCandidature dc = getAndDecrement(firstVotes);
+            StateList sl = getAndDecrement(secondVotes);
+            ballots.add(new Ballot(sl, dc, d));
         }
+        return ballots;
     }
 
-    private DirectCandidature findDirectCandidatureForBallot(PartyJson party, CandidateJson x, District district){
-        for(DirectCandidature d: this.directCandidatures){
-            if(d.getDistrict().getNumber() == district.getNumber()
-                    && d.getDistrict().getElection().getYear() == district.getNumber()
-
-                    && d.getCandidate().getFirstName().equals(x.firstName)
-                    && d.getCandidate().getLastName().equals(x.name)
-                    && d.getCandidate().getYearOfBirth() == x.birthYear
-
-                    && d.getParty().getName().equals(party.name)){
-                return d;
+    private <T> T getAndDecrement(Map<T,Integer> map) {
+        if (map.keySet().isEmpty()) {
+            return null;
+        } else {
+            T t = map.keySet().iterator().next();
+            int rem = map.get(t) - 1;
+            if (rem <= 0) {
+                map.remove(t);
+            } else {
+                map.put(t, rem);
             }
+            return t;
         }
-        /*System.out.println("Could not find matching Direct Candidature for ballot with party "
-                + party.name + ", candidate: " + candidate.name + ", district: " + district.getNumber());*/
-        if(!x.name.equals("Nicolaisen")){
-            System.out.println(x.name);
-            System.out.println(x.name.startsWith("N"));
-            System.out.println(x.name.hashCode());
-            System.out.println("Nicolaisen");
-            System.out.println("Nicolaisen".hashCode());
-            System.out.println("Could not find matching Direct Candidature for ballot with party "
-                    + party.name + ", candidate: " + x.name + ", district: " + district.getNumber());
-        }
-        return null;
-    }
-
-    private StateList findStateListForBallot(PartyJson partyJson, ElectionDistrictJson districtJson){
-        for(StateList l: this.stateLists){
-            if(l.getElection().getYear() == 2017
-                    && l.getState().getName().equals(districtJson.state.name)
-                    && l.getParty().getName().equals(partyJson.name)){
-                return l;
-            }
-        }
-        System.out.println("Could not find matching state list for ballot of party "
-                + partyJson.toString() + " in district " + districtJson.toString());
-        return null;
     }
 
     private StateList findStateList(StateListJson stateListJson){
-        for(StateList l: this.stateLists){
-            if(l.getParty().getName().equals(stateListJson.partyJson.name)
-                    && l.getState().getName().equals(stateListJson.state.name)
-                    && l.getElection().getYear() == stateListJson.yearOfCandidature){
-                return l;
-            }
+        if (stateLists.containsKey(stateListJson)) {
+            return stateLists.get(stateListJson);
+        } else {
+            throw new NoSuchElementException("Could not find matching state list for " + stateListJson.toString());
         }
-        System.out.println("Could not find matching state list for " + stateListJson.toString());
-        return null;
     }
 
     private Election findElection(int year){
-        for(Election e: elections){
-            if(e.getYear() == year){
-                return e;
-            }
+        if (elections.containsKey(year)) {
+            return elections.get(year);
+        } else {
+            throw new NoSuchElementException("Could not find matching election for " + year);
         }
-        System.out.println("Could not find matching election for " + year);
-        return null;
     }
 
     private Candidate findCandidate(CandidateJson candidateJson){
-        for(Candidate c: candidates){
-            if(c.getLastName().equals(candidateJson.name)
-                    && c.getFirstName().equals(candidateJson.firstName)
-                    && c.getYearOfBirth() == c.getYearOfBirth()){
-                return c;
-            }
+        if (candidates.containsKey(candidateJson)) {
+            return candidates.get(candidateJson);
+        } else {
+            throw new NoSuchElementException("Could not find matching candidate for " + candidateJson.toString());
         }
-        System.out.println("Could not find matching candidate for " + candidateJson.toString());
-        return null;
     }
 
     private State findState(StateJson stateJson){
-        for(State s: states){
-            if(s.getName().equals(stateJson.name)){
-                return s;
-            }
+        if (states.containsKey(stateJson)) {
+            return states.get(stateJson);
+        } else {
+            throw new NoSuchElementException("Could not find matching state for " + stateJson.toString());
         }
-        System.out.println("Could not find matching state for " + stateJson.toString());
-        return null;
     }
 
     private Party findParty(PartyJson partyJson){
-        for(Party p: parties){
-            if(p.getName().equals(partyJson.name)){
-                return p;
-            }
+        if (parties.containsKey(partyJson)) {
+            return parties.get(partyJson);
+        } else {
+            throw new NoSuchElementException("Could not find matching party for " + partyJson.toString());
         }
-        System.out.println("Could not find matching party for " + partyJson.toString());
-        return null;
     }
 
     private District findDistrict(ElectionDistrictJson districtJson, int year){
-        for(District d: districts){
-            if(d.getNumber() == districtJson.id
-                    && d.getState().getName().equals(districtJson.state.name)
-                    && d.getElection().getYear() == year){
-                return d;
-            }
+        if (districts.containsKey(year) && districts.get(year).containsKey(districtJson)) {
+            return districts.get(year).get(districtJson);
+        } else {
+            throw new NoSuchElementException("Could not find matching district for " + districtJson.toString());
         }
-        System.out.println("Could not find matching district for " + districtJson.toString());
-        return null;
     }
 
-
     public void insertAll() throws SQLException {
-        for (Election e : elections) {
+        for (Election e : elections.values()) {
             connection.getInserter().insertElection(e);
         }
-        for (Party p : parties) {
+        for (Party p : parties.values()) {
             connection.getInserter().insertParty(p);
         }
-        for (State s : states) {
+        for (State s : states.values()) {
             connection.getInserter().insertState(s);
         }
-        for (Candidate c : candidates) {
+        for (Candidate c : candidates.values()) {
             connection.getInserter().insertCandidate(c);
         }
-        for (District d : districts) {
+        for (District d : districts.get(2013).values()) {
             connection.getInserter().insertDistrict(d);
         }
-        for (DirectCandidature d : directCandidatures) {
+        for (District d : districts.get(2017).values()) {
+            connection.getInserter().insertDistrict(d);
+        }
+        for (DirectCandidature d : directCandidatures.values()) {
             connection.getInserter().insertDirectCandidature(d);
         }
-        for (StateList s : stateLists ) {
+        for (StateList s : stateLists.values()) {
             connection.getInserter().insertStateList(s);
         }
-        for (ListCandidature l : listCandidatures) {
+        for (ListCandidature l : listCandidatures.values()) {
             connection.getInserter().insertListCandidature(l);
+        }
+
+        generateBallotsIntoDatabase();
+    }
+
+    private void generateBallotsIntoDatabase(){
+        for(ElectionDistrictJson districtJson: this.allElectionDistrictsJson){
+            ArrayList<Ballot> convertedBallotsforDistrict = new ArrayList<>();
+
+            District d = findDistrict(districtJson, 2013);
+            Map<DirectCandidature, Integer> firstVotes = new HashMap<>();
+            Map<StateList, Integer> secondVotes = new HashMap<>();
+            for (PartyResultsJson json : districtJson.partyResultJsons) {
+                CandidateJson dcjson = districtPartyToCandidate.get(districtJson).get(json.partyJson);
+                StateListJson sljson = statePartyToList.get(districtJson.state).get(json.partyJson);
+                firstVotes.put(directCandidatures.get(dcjson), json.first_13);
+                secondVotes.put(stateLists.get(sljson), json.second_13);
+            }
+            convertedBallotsforDistrict.addAll(createBallots(d, districtJson.eligibleVoters_13, firstVotes, secondVotes));
+
+            d = findDistrict(districtJson, 2017);
+            firstVotes.clear();
+            secondVotes.clear();
+            for (PartyResultsJson json : districtJson.partyResultJsons) {
+                CandidateJson dcjson = districtPartyToCandidate.get(districtJson).get(json.partyJson);
+                StateListJson sljson = statePartyToList.get(districtJson.state).get(json.partyJson);
+                firstVotes.put(directCandidatures.get(dcjson), json.first_17);
+                secondVotes.put(stateLists.get(sljson), json.second_17);
+            }
+            convertedBallotsforDistrict.addAll(createBallots(d, districtJson.eligibleVoters_17, firstVotes, secondVotes));
+
+            try {
+                connection.getInserter().insertManyBallots(convertedBallotsforDistrict);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
