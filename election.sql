@@ -93,7 +93,7 @@ CREATE TABLE list_candidatures (
 
 CREATE TABLE ballots (
     firstvote INTEGER REFERENCES direct_candidatures(id),
-    secondvote INTEGER REFERENCES list_candidatures(id),
+    secondvote INTEGER REFERENCES statelists(id),
     district INTEGER NOT NULL REFERENCES districts(id)
 );
 
