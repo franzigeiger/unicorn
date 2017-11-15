@@ -10,25 +10,25 @@ public class BallotCreator {
     public ArrayList<ElectionDistrictJson> allElectionDistrictJsons;
     public ArrayList<CandidateJson> allCandidates2017;
 
-    public BallotCreator(String path) {
-        JsonParser parser = new JsonParser();
-        parser.parseAll(path);
-        this.allParties = parser.allParties;
-        this.allElectionDistrictJsons = parser.allElectionDistrictJsons;
-        this.allCandidates2017 = parser.allCandidates2017;
+    public BallotCreator(ArrayList<PartyJson> allParties,
+                         ArrayList<ElectionDistrictJson> allElectionDistrictJsons,
+                         ArrayList<CandidateJson> allCandidates2017) {
+        this.allParties = allParties;
+        this.allElectionDistrictJsons = allElectionDistrictJsons;
+        this.allCandidates2017 = allCandidates2017;
     }
 
     /**
-     *
-     * @return
+     * Get ballots for every election district for 2017
+     * @return created ballots as ArrayList
      */
-    public ArrayList<BallotJson> createBallotsForAllDistricts(){
+/*    public ArrayList<BallotJson> createBallotsForAllDistricts(){
         ArrayList<BallotJson> allBallotJsons = new ArrayList<>();
         for(int i = 0; i < allElectionDistrictJsons.size(); i++){
             allBallotJsons.addAll(createBallots(allElectionDistrictJsons.get(i)));
         }
         return allBallotJsons;
-    }
+    }*/
 
     /**
      * Get Id of direct candidate from a certain partyJson and district

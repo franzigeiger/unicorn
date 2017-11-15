@@ -22,11 +22,20 @@ public class JsonParserTest {
 
     @Test
     public void testBallotCreator() {
-        BallotCreator creator = new BallotCreator("complete.json");
+        JsonParser jsonParser = new JsonParser();
+        jsonParser.parseAll("complete.json");
+        BallotCreator creator = new BallotCreator(jsonParser.allParties,
+                jsonParser.allElectionDistrictJsons,
+                jsonParser.allCandidates2017);
         ArrayList<ElectionDistrictJson> allDistricts = creator.allElectionDistrictJsons;
 
+        int counter = 0;
         for (ElectionDistrictJson allDistrict : allDistricts) {
             ArrayList<BallotJson> ballotJsons = creator.createBallots(allDistrict);
+            System.out.println(ballotJsons.size());
+            counter += ballotJsons.size();
         }
+        System.out.println(counter);
+
     }
 }
