@@ -330,5 +330,14 @@ public class BatchInserter {
         for (District d : districts) {
             connection.getInserter().insertDistrict(d);
         }
+        for (DirectCandidature d : directCandidatures) {
+            connection.getInserter().insertDirectCandidature(d);
+        }
+        for (StateList s : stateLists ) {
+            connection.getInserter().insertStateList(s);
+        }
+        for (ListCandidature l : listCandidatures) {
+            connection.getInserter().insertListCandidature(l);
+        }
     }
 }

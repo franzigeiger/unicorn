@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DatabaseQuery {
     private DatabaseConnection db;
@@ -108,6 +109,48 @@ public class DatabaseQuery {
                 return null;
             } else {
                 return StateList.fullCreate(rs.getInt(1), p, e, s);
+            }
+        }
+    }
+
+    public DirectCandidature getDirectCandidatures(DirectCandidature directCandidature) throws SQLException {
+        District d = getDistrict(directCandidature.getDistrict());
+        Party p = getParty(directCandidature.getParty());
+        Candidate c = getCandidate(directCandidature.getCandidate());
+        if (d == null || p == null || c == null) {
+            return null;
+        }
+
+        String query = "SELECT * FROM election.direct_candidatures WHERE party=? AND district=? AND candidate=?;";
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setInt(1, p.getId());
+            stmt.setInt(2, d.getId());
+            stmt.setInt(3, c.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            } else {
+                return DirectCandidature.fullCreate(rs.getInt(1), d, c, p, rs.getInt(5));
+            }
+        }
+    }
+
+    public ListCandidature getListCandidature(ListCandidature listCandidature) throws SQLException {
+        StateList s = getStateList(listCandidature.getStateList());
+        Candidate c = getCandidate(listCandidature.getCandidate());
+        if (s == null || c == null) {
+            return null;
+        }
+
+        String query = "SELECT * FROM election.list_candidatures WHERE statelist=? AND candidate=?;";
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setInt(1, s.getId());
+            stmt.setInt(2, c.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            } else {
+                return ListCandidature.fullCreate(rs.getInt(1), c, s, rs.getInt(4));
             }
         }
     }
