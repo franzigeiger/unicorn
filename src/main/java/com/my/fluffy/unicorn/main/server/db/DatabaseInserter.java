@@ -5,9 +5,15 @@ import com.my.fluffy.unicorn.main.server.data.*;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DatabaseInserter {
     private final DatabaseConnection db;
+
+    private final Map<Class<?>, Boolean> reportDups = new HashMap<>();
 
     DatabaseInserter(DatabaseConnection connection) {
         this.db = connection;
@@ -15,7 +21,10 @@ public class DatabaseInserter {
 
     public void insertCandidate(Candidate candidate) throws SQLException {
         if (db.getQuery().getCandidate(candidate) != null) {
-            System.out.println("Duplicate candidate " + candidate.getFirstName() + " " + candidate.getLastName());
+            if (reportDups.containsKey(Candidate.class)) {
+                reportDups.put(Candidate.class, false);
+                System.out.println("Duplicate candidate " + candidate.getFirstName() + " " + candidate.getLastName());
+            }
             return;
         }
 
@@ -37,7 +46,10 @@ public class DatabaseInserter {
 
     public void insertElection(Election election) throws SQLException {
         if (db.getQuery().getElection(election) != null) {
-            System.out.println("Duplicate election " + election.getYear());
+            if (reportDups.containsKey(Election.class)) {
+                reportDups.put(Election.class, false);
+                System.out.println("Duplicate election " + election.getYear());
+            }
             return;
         }
         String query = "INSERT INTO election.elections (year, day) VALUES (?,?)";
@@ -50,7 +62,10 @@ public class DatabaseInserter {
 
     public void insertParty(Party party) throws SQLException {
         if (db.getQuery().getParty(party) != null) {
-            System.out.println("Duplicate party " + party.getName());
+            if (reportDups.containsKey(Party.class)) {
+                reportDups.put(Party.class, false);
+                System.out.println("Duplicate party " + party.getName());
+            }
             return;
         }
         String query = "INSERT INTO election.parties (name) VALUES (?)";
@@ -62,7 +77,10 @@ public class DatabaseInserter {
 
     public void insertState(State state) throws SQLException {
         if (db.getQuery().getState(state) != null) {
-            System.out.println("Duplicate state " + state.getName() );
+            if (reportDups.containsKey(State.class)) {
+                reportDups.put(State.class, false);
+                System.out.println("Duplicate state " + state.getName());
+            }
             return;
         }
         String query = "INSERT INTO election.states (name) VALUES (?)";
@@ -74,7 +92,11 @@ public class DatabaseInserter {
 
     public void insertDistrict(District district) throws SQLException {
         if (db.getQuery().getDistrict(district) != null) {
-            System.out.println("Duplicate district " + district);
+            if (reportDups.containsKey(District.class)) {
+                reportDups.put(District.class, false);
+                System.out.println("Duplicate district " + district);
+            }
+            return;
         }
 
         String query = "INSERT INTO election.districts (number, year, state, name, eligiblevoters, invalidfirstvotes, invalidsecondvotes) VALUES (?,?,?,?,?,?,?)";
@@ -95,7 +117,11 @@ public class DatabaseInserter {
 
     public void insertStateList(StateList stateList) throws SQLException {
         if (db.getQuery().getStateList(stateList) != null) {
-            System.out.println("Duplicate state list " + stateList);
+            if (reportDups.containsKey(StateList.class)) {
+                reportDups.put(StateList.class, false);
+                System.out.println("Duplicate state list " + stateList);
+            }
+            return;
         }
 
         String query = "INSERT INTO election.statelists (party, election, state) VALUES (?,?,?)";
@@ -111,7 +137,11 @@ public class DatabaseInserter {
 
     public void insertDirectCandidature(DirectCandidature directCandidature) throws SQLException {
         if (db.getQuery().getDirectCandidatures(directCandidature) != null) {
-            System.out.println("Duplicate direct candidature " + directCandidature);
+            if (reportDups.containsKey(DirectCandidature.class)) {
+                reportDups.put(DirectCandidature.class, false);
+                System.out.println("Duplicate direct candidature " + directCandidature);
+            }
+            return;
         }
 
         String query = "INSERT INTO election.direct_candidatures (district, candidate, party, votes) VALUES (?,?,?,?)";
@@ -129,7 +159,11 @@ public class DatabaseInserter {
 
     public void insertListCandidature(ListCandidature listCandidature) throws SQLException {
         if (db.getQuery().getListCandidature(listCandidature) != null) {
-            System.out.println("Duplicate list candidature " + listCandidature);
+            if (reportDups.containsKey(ListCandidature.class)) {
+                reportDups.put(ListCandidature.class, false);
+                System.out.println("Duplicate list candidature " + listCandidature);
+            }
+            return;
         }
 
         String query = "INSERT INTO election.list_candidatures (candidate, statelist, placement) VALUES (?,?,?)";
@@ -143,15 +177,45 @@ public class DatabaseInserter {
         stmt.close();
     }
 
-    public void insertBallot(Ballot ballot) throws SQLException {
+    public void insertManyBallots(Collection<Ballot> ballots) throws SQLException {
         String query = "INSERT INTO election.ballots (firstvote, secondvote, district) VALUES (?,?,?)";
+
+        Map<DirectCandidature,DirectCandidature> candidate = new HashMap<>();
+        Map<StateList,StateList> statelist = new HashMap<>();
+        Map<District,District> district = new HashMap<>();
+
+        for (Ballot b : ballots) {
+            if (b.getDirectCandidature() != null && !candidate.containsKey(b.getDirectCandidature())) {
+                candidate.put(b.getDirectCandidature(), db.getQuery().getDirectCandidatures(b.getDirectCandidature()));
+            }
+            if (b.getStateList() != null && !statelist.containsKey(b.getStateList())) {
+                statelist.put(b.getStateList(), db.getQuery().getStateList(b.getStateList()));
+            }
+            if (!district.containsKey(b.getDistrict())) {
+                district.put(b.getDistrict(), db.getQuery().getDistrict(b.getDistrict()));
+            }
+        }
+
+        System.out.println(candidate.size() + "," + statelist.size() + "," + district.size());
+
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;");
+        db.getConnection().setAutoCommit(false);
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
+        for (Ballot b : ballots) {
+            try {
+                stmt.setObject(1, b.getDirectCandidature() == null ? null : candidate.get(b.getDirectCandidature()).getId(), Types.INTEGER);
+                stmt.setObject(2, b.getStateList() == null ? null : statelist.get(b.getStateList()).getId(), Types.INTEGER);
+                stmt.setInt(3, district.get(b.getDistrict()).getId());
+                stmt.addBatch();
+            } catch (Exception e ) {
+                throw e;
+            }
+        }
+        stmt.executeBatch();
+        db.getConnection().commit();
+        db.getConnection().setAutoCommit(true);
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;");
 
-        stmt.setInt(1, db.getQuery().getDirectCandidatures(ballot.getDirectCandidature()).getId());
-        stmt.setInt(2, db.getQuery().getStateList(ballot.getStateList()).getId());
-        stmt.setInt(3, db.getQuery().getDistrict(ballot.getDistrict()).getId());
-
-        stmt.executeUpdate();
         stmt.close();
     }
 }
