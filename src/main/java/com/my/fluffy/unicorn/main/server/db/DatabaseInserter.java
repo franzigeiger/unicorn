@@ -196,8 +196,8 @@ public class DatabaseInserter {
             }
         }
 
-        db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;").execute();
         db.getConnection().setAutoCommit(false);
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;").execute();
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         for (Ballot b : ballots) {
             try {
@@ -210,9 +210,9 @@ public class DatabaseInserter {
             }
         }
         stmt.executeBatch();
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;").execute();
         db.getConnection().commit();
         db.getConnection().setAutoCommit(true);
-        db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;").execute();
 
         stmt.close();
     }
