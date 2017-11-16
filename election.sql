@@ -92,9 +92,9 @@ CREATE TABLE list_candidatures (
 );
 
 CREATE TABLE ballots (
-    firstvote INTEGER REFERENCES direct_candidatures(id),
-    secondvote INTEGER REFERENCES list_candidatures(id),
-    district INTEGER NOT NULL REFERENCES districts(id)
+    firstvote INTEGER REFERENCES direct_candidatures(id) DEFERRABLE,
+    secondvote INTEGER REFERENCES list_candidatures(id) DEFERRABLE,
+    district INTEGER NOT NULL REFERENCES districts(id) DEFERRABLE
 );
 
 ALTER TABLE ballots OWNER TO postgres;

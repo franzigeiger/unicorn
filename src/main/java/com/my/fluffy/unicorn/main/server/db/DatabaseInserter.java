@@ -196,9 +196,7 @@ public class DatabaseInserter {
             }
         }
 
-        System.out.println(candidate.size() + "," + statelist.size() + "," + district.size());
-
-        db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;");
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;").execute();
         db.getConnection().setAutoCommit(false);
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         for (Ballot b : ballots) {
@@ -214,7 +212,7 @@ public class DatabaseInserter {
         stmt.executeBatch();
         db.getConnection().commit();
         db.getConnection().setAutoCommit(true);
-        db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;");
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;").execute();
 
         stmt.close();
     }

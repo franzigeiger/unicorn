@@ -6,6 +6,7 @@ import com.my.fluffy.unicorn.main.server.parser.data.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class BatchInserter {
@@ -262,39 +263,51 @@ public class BatchInserter {
     }
 
     public void insertAll() throws SQLException {
+        System.out.println(LocalTime.now().toString() + ": Inserting elections...");
         for (Election e : elections.values()) {
             connection.getInserter().insertElection(e);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting parties...");
         for (Party p : parties.values()) {
             connection.getInserter().insertParty(p);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting states...");
         for (State s : states.values()) {
             connection.getInserter().insertState(s);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting candidates...");
         for (Candidate c : candidates.values()) {
             connection.getInserter().insertCandidate(c);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting districts (2013)...");
         for (District d : districts.get(2013).values()) {
             connection.getInserter().insertDistrict(d);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting districts (2017)...");
         for (District d : districts.get(2017).values()) {
             connection.getInserter().insertDistrict(d);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting direct candidatures...");
         for (DirectCandidature d : directCandidatures.values()) {
             connection.getInserter().insertDirectCandidature(d);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting statelists...");
         for (StateList s : stateLists.values()) {
             connection.getInserter().insertStateList(s);
         }
+        System.out.println(LocalTime.now().toString() + ": Inserting candidatures...");
         for (ListCandidature l : listCandidatures.values()) {
             connection.getInserter().insertListCandidature(l);
         }
 
+        System.out.println(LocalTime.now().toString() + ": Generating Ballots...");
         generateBallotsIntoDatabase();
     }
 
     private void generateBallotsIntoDatabase(){
+        int i = 0;
         for(ElectionDistrictJson districtJson: this.allElectionDistrictsJson){
+            System.out.println(LocalTime.now().toString() + ": Generating Ballots (" + ++i + "/" + allElectionDistrictsJson.size() + ")");
             ArrayList<Ballot> convertedBallotsforDistrict = new ArrayList<>();
 
             District d = findDistrict(districtJson, 2013);
