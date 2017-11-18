@@ -12,7 +12,7 @@ class ConnectionFactory {
     private static final String database = "unicorn";
     private static final String schema = "election";
     private static final String username = "postgres";
-    private static final String password = "123";
+    private static final String password = "root";
 
     private Connection connection;
 

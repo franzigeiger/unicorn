@@ -59,10 +59,37 @@ public class DatabaseQuery {
         }
     }
 
+    public Party getPartyByID(int id) throws SQLException {
+        String query = "SELECT * FROM election.parties WHERE id=?;";
+        try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            } else {
+                return Party.fullCreate(rs.getInt(1), rs.getString(2));
+            }
+        }
+    }
+
+
     public State getState(State state) throws SQLException {
         String query = "SELECT * FROM election.states WHERE name=?;";
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setString(1, state.getName());
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            } else {
+                return State.fullCreate(rs.getInt(1), rs.getString(2));
+            }
+        }
+    }
+
+    public State getStateByID(int state) throws SQLException {
+        String query = "SELECT * FROM election.states WHERE id=?;";
+        try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setInt(1, state);
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
                 return null;
