@@ -12,33 +12,30 @@ import java.util.*;
 public class BatchInserter {
     private final DatabaseConnection connection;
 
-    private ArrayList<CandidateJson> candidatesJson2013;
-    private ArrayList<CandidateJson> candidatesJson2017;
+    private ArrayList<CandidateJson> candidatesJson;
     private ArrayList<PartyJson> allPartiesJson;
     private ArrayList<ElectionDistrictJson> allElectionDistrictsJson;
     private ArrayList<StateJson> allStatesJson;
     private ArrayList<StateListJson> allStateListsJson;
 
-    private Map<Integer, Election> elections;
-    private Map<PartyJson, Party> parties;
-    private Map<StateJson, State> states;
-    private Map<CandidateJson, Candidate> candidates;
-    private Map<Integer, Map<ElectionDistrictJson, District>> districts;
-    private Map<CandidateJson, DirectCandidature> directCandidatures;
-    private Map<StateListJson, StateList> stateLists;
-    private Map<CandidateJson, ListCandidature> listCandidatures;
+    public Map<Integer, Election> elections;
+    public Map<PartyJson, Party> parties;
+    public Map<StateJson, State> states;
+    public Map<CandidateJson, Candidate> candidates;
+    public Map<Integer, Map<ElectionDistrictJson, District>> districts;
+    public Map<CandidateJson, DirectCandidature> directCandidatures;
+    public Map<StateListJson, StateList> stateLists;
+    public Map<CandidateJson, ListCandidature> listCandidatures;
 
     private Map<Integer, Map<ElectionDistrictJson, Map<PartyJson, CandidateJson>>> electionDistrictPartyToCandidate = new HashMap<>();
     private Map<Integer, Map<StateJson, Map<PartyJson, StateListJson>>> electionStatePartyToList = new HashMap<>();
 
-    public BatchInserter(DatabaseConnection connection, String jsonPath,
-                         String csvCandidates2013, String csvResults2013) {
+    public BatchInserter(DatabaseConnection connection, String jsonPath) {
 
-        CsvParser csvParser = new CsvParser(jsonPath, csvCandidates2013, csvResults2013);
-        JsonParser jsonParser = csvParser.jsonParser;
+        JsonParser jsonParser = new JsonParser();
+        jsonParser.parseAll(jsonPath);
 
-        this.candidatesJson2013 = csvParser.candidates2013;
-        this.candidatesJson2017 = jsonParser.allCandidates2017;
+        this.candidatesJson = jsonParser.allCandidates2017;
         this.allPartiesJson = jsonParser.allParties;
         this.allElectionDistrictsJson = jsonParser.allElectionDistrictJsons;
         this.allStatesJson = jsonParser.allStates;
@@ -65,13 +62,9 @@ public class BatchInserter {
 
     private Map<CandidateJson, Candidate> convertCandidates(){
         Map<CandidateJson, Candidate> candidates = new HashMap<>();
-        for(CandidateJson c: this.candidatesJson2017){
+        for(CandidateJson c: this.candidatesJson){
             candidates.put(c, Candidate.create(c.title, c.firstName, c.name,
                     c.profession, c.gender.toUpperCase(), c.hometown, c.birthPlace, c.birthYear));
-        }
-        for(CandidateJson c: this.candidatesJson2013){
-            candidates.put(c, Candidate.create(c.title, c.firstName, c.name,
-                    c.profession, c.gender, c.hometown, c.birthPlace, c.birthYear));
         }
         return candidates;
     }
@@ -128,7 +121,7 @@ public class BatchInserter {
     private Map<CandidateJson, DirectCandidature> convertDirectCandidatures(){
         Map<CandidateJson, DirectCandidature> convertedDirectCandidatures = new HashMap<>();
 
-        for(CandidateJson c: this.candidatesJson2017){
+        for(CandidateJson c: this.candidatesJson){
             if(c.directCandidatureJson != null){
                 convertedDirectCandidatures.put(c, DirectCandidature.create(
                         findDistrict(c.directCandidatureJson.electionDistrictJson, 2017),
@@ -141,17 +134,28 @@ public class BatchInserter {
                         .put(c.directCandidatureJson.partyJson, c);
             }
         }
-        for(CandidateJson c: this.candidatesJson2013){
-            if(c.directCandidatureJson != null){
-                convertedDirectCandidatures.put(c, DirectCandidature.create(
-                        findDistrict(c.directCandidatureJson.electionDistrictJson, 2013),
-                        findCandidate(c),
-                        findParty(c.directCandidatureJson.partyJson)
-                ));
 
-                electionDistrictPartyToCandidate.get(2013)
-                        .get(c.directCandidatureJson.electionDistrictJson)
-                        .put(c.directCandidatureJson.partyJson, c);
+       for(ElectionDistrictJson d: this.allElectionDistrictsJson){
+            for(PartyResultsJson pr: d.partyResultJsons){
+                // create dummy direct candidature for every party
+                // received more than 0 first votes in 2013
+                if(pr.first_13 > 0){
+                    // dummy candidate for 2013
+                    CandidateJson dummyCandidate = addDummyCandidate(
+                            new DirectCandidatureJson(d, pr.partyJson),
+                            null);
+
+                    convertedDirectCandidatures.put(dummyCandidate, DirectCandidature.create(
+                            findDistrict(d, 2013),
+                            findCandidate(dummyCandidate),
+                            findParty(pr.partyJson)
+                    ));
+
+                    electionDistrictPartyToCandidate.get(2013)
+                            .get(d)
+                            .put(pr.partyJson, dummyCandidate);
+
+                }
             }
         }
         return convertedDirectCandidatures;
@@ -170,13 +174,35 @@ public class BatchInserter {
                     findState(stateListJson.state)
             ));
         }
+
+        for(StateJson s: this.allStatesJson){
+            for(PartyResultsJson pr: s.partyResultJsons){
+                //if party received more than 1 vote in this state
+                if(pr.second_13 > 0){
+                    //create dummy list for party
+                    StateListJson dummyList = new StateListJson(2013, pr.partyJson, s);
+                    this.allStateListsJson.add(dummyList);
+
+                    electionStatePartyToList.get(dummyList.yearOfCandidature)
+                            .get(dummyList.state)
+                            .put(dummyList.partyJson, dummyList);
+
+                    convertedStateLists.put(dummyList, StateList.create(
+                            findParty(dummyList.partyJson),
+                            findElection(dummyList.yearOfCandidature),
+                            findState(dummyList.state)
+                    ));
+                }
+            }
+        }
+
         return convertedStateLists;
     }
 
     private Map<CandidateJson, ListCandidature> convertListCandidatures(){
         Map<CandidateJson, ListCandidature> convertedListCandidatures = new HashMap<>();
 
-        for(CandidateJson c: this.candidatesJson2017){
+        for(CandidateJson c: this.candidatesJson){
             if(c.listPlacementJson != null){
                 convertedListCandidatures.put(c, ListCandidature.create(
                         findCandidate(c),
@@ -186,13 +212,21 @@ public class BatchInserter {
             }
         }
 
-        for(CandidateJson c: this.candidatesJson2013){
-            if(c.listPlacementJson != null){
-                convertedListCandidatures.put(c, ListCandidature.create(
-                        findCandidate(c),
-                        findStateList(c.listPlacementJson.stateListJson),
-                        c.listPlacementJson.place
-                ));
+        //create dummy list candidature for every party that received more than 1 vote in a district
+        for(StateJson s: this.allStatesJson){
+            for(PartyResultsJson pr: s.partyResultJsons){
+                if(pr.second_13 > 0){
+
+                    CandidateJson dummyCandidate = addDummyCandidate(
+                            null,
+                            new ListPlacementJson(1, findDummyStateList(pr.partyJson.id, s.id)));
+
+                    convertedListCandidatures.put(dummyCandidate, ListCandidature.create(
+                            findCandidate(dummyCandidate),
+                            findStateList(dummyCandidate.listPlacementJson.stateListJson),
+                            dummyCandidate.listPlacementJson.place
+                    ));
+                }
             }
         }
 
@@ -230,6 +264,15 @@ public class BatchInserter {
         } else {
             throw new NoSuchElementException("Could not find matching state list for " + stateListJson.toString());
         }
+    }
+
+    private StateListJson findDummyStateList(int partyId, int stateId){
+        for(StateListJson l: this.allStateListsJson){
+            if(l.yearOfCandidature == 2013 && l.partyJson.id == partyId && l.state.id == stateId){
+                return l;
+            }
+        }
+        throw new NoSuchElementException("Could not find matching dummy state list for party " + partyId + " in state " + stateId);
     }
 
     private Election findElection(int year){
@@ -270,6 +313,22 @@ public class BatchInserter {
         } else {
             throw new NoSuchElementException("Could not find matching district for " + districtJson.toString());
         }
+    }
+
+    private CandidateJson addDummyCandidate(DirectCandidatureJson dc, ListPlacementJson lp){
+        CandidateJson dummyCandidate = new CandidateJson(-1, "LastName", "FirstName", "Title",
+                null, null, null,
+                2013,
+                -1, null,
+                dc,
+                lp);
+        this.candidatesJson.add(dummyCandidate);
+        candidates.put(dummyCandidate, Candidate.create(
+                dummyCandidate.title, dummyCandidate.firstName, dummyCandidate.name,
+                dummyCandidate.profession, dummyCandidate.gender, dummyCandidate.hometown,
+                dummyCandidate.birthPlace, dummyCandidate.birthYear
+        ));
+        return dummyCandidate;
     }
 
     public void insertAll() throws SQLException {
@@ -342,7 +401,7 @@ public class BatchInserter {
             }
             convertedBallotsforDistrict.addAll(createBallots(d, districtJson.voters_17, firstVotes, secondVotes));
 
-            if (i % 10 == 0) {
+            if (i % 2 == 0) {
                 insertBallots(convertedBallotsforDistrict);
                 convertedBallotsforDistrict.clear();
             }
