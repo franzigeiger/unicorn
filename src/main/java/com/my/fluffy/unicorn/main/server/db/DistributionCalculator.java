@@ -11,6 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * For execution please run script verteilung.sql in your database!
+ *
+ */
+
 public class DistributionCalculator {
     String calcSeats = "select * from election.parlamentdistribution";
 
@@ -30,8 +35,11 @@ public class DistributionCalculator {
 
         PreparedStatement stmt = db.getConnection().prepareStatement(calcSeats);
 
+        long time = System.currentTimeMillis();
         ResultSet set =stmt.executeQuery();
+        long duration= System.currentTimeMillis() - time;
 
+        System.out.println("Duration: " + duration + " ms");
         Party party ;
         int seats;
         int additional;
