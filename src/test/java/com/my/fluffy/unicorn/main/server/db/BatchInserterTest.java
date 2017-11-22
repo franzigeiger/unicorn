@@ -18,9 +18,8 @@ public class BatchInserterTest {
     public void testBatchInserter() throws SQLException, ClassNotFoundException {
         BatchInserter batchInserter = new BatchInserter(
                 DatabaseConnection.create(),
-                "complete.json",
-                "candidates2013.csv",
-                "results2013.csv");
+                "complete.json");
+
         batchInserter.insertAll();
     }
 }
