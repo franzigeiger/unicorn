@@ -1,7 +1,10 @@
 package com.my.fluffy.unicorn.main.server.db;
 
 import com.my.fluffy.unicorn.main.server.data.*;
+import org.postgresql.copy.CopyManager;
+import org.postgresql.core.BaseConnection;
 
+import java.io.*;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,6 +12,7 @@ import java.sql.Types;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class DatabaseInserter {
     private final DatabaseConnection db;
@@ -177,9 +181,7 @@ public class DatabaseInserter {
         stmt.close();
     }
 
-    public void insertManyBallots(Collection<Ballot> ballots) throws SQLException {
-        String query = "INSERT INTO election.ballots (firstvote, secondvote, district) VALUES (?,?,?)";
-
+    public void insertBallotsFromTmpFile(Collection<Ballot> ballots) throws IOException, SQLException {
         Map<DirectCandidature,DirectCandidature> candidate = new HashMap<>();
         Map<StateList,StateList> statelist = new HashMap<>();
         Map<District,District> district = new HashMap<>();
@@ -196,24 +198,63 @@ public class DatabaseInserter {
             }
         }
 
-        db.getConnection().setAutoCommit(false);
-        db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;").execute();
-        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+        File f = File.createTempFile("copy-sql", "");
+        f.deleteOnExit();
+        Writer writer = new FileWriter(f);
         for (Ballot b : ballots) {
-            try {
-                stmt.setObject(1, b.getDirectCandidature() == null ? null : candidate.get(b.getDirectCandidature()).getId(), Types.INTEGER);
-                stmt.setObject(2, b.getStateList() == null ? null : statelist.get(b.getStateList()).getId(), Types.INTEGER);
-                stmt.setInt(3, district.get(b.getDistrict()).getId());
-                stmt.addBatch();
-            } catch (Exception e ) {
-                throw e;
-            }
+            writer.write(b.getDirectCandidature() == null ? "\\N" : candidate.get(b.getDirectCandidature()).getId().toString());
+            writer.write("\t");
+            writer.write(b.getStateList() == null ? "\\N" : statelist.get(b.getStateList()).getId().toString());
+            writer.write("\t");
+            writer.write(district.get(b.getDistrict()).getId().toString() + '\n');
         }
-        stmt.executeBatch();
-        db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;").execute();
-        db.getConnection().commit();
-        db.getConnection().setAutoCommit(true);
+        writer.close();
 
-        stmt.close();
+        System.out.println("    Wrote to tmp file");
+
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;").execute();
+        CopyManager copyManager = new CopyManager((BaseConnection) db.getConnection());
+        copyManager.copyIn("COPY election.ballots FROM STDIN", new FileReader(f));
+        db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;").execute();
+
+        if (!f.delete()) System.out.println("Could not delete tmp file");
+    }
+
+    public void insertBallotsFromTmpFile(Stream<Ballot> ballots) throws IOException, SQLException {
+        Map<DirectCandidature,DirectCandidature> candidate = new HashMap<>();
+        Map<StateList,StateList> statelist = new HashMap<>();
+        Map<District,District> district = new HashMap<>();
+
+        File f = File.createTempFile("copy-sql", ".csv");
+        f.deleteOnExit();
+        Writer writer = new FileWriter(f);
+
+        ballots.forEach(b -> {
+            try {
+                if (b.getDirectCandidature() != null && !candidate.containsKey(b.getDirectCandidature())) {
+                    candidate.put(b.getDirectCandidature(), db.getQuery().getDirectCandidatures(b.getDirectCandidature()));
+                }
+                if (b.getStateList() != null && !statelist.containsKey(b.getStateList())) {
+                    statelist.put(b.getStateList(), db.getQuery().getStateList(b.getStateList()));
+                }
+                if (!district.containsKey(b.getDistrict())) {
+                    district.put(b.getDistrict(), db.getQuery().getDistrict(b.getDistrict()));
+                }
+
+                writer.write(b.getDirectCandidature() == null ? "\\N" : candidate.get(b.getDirectCandidature()).getId().toString());
+                writer.write("\t");
+                writer.write(b.getStateList() == null ? "\\N" : statelist.get(b.getStateList()).getId().toString());
+                writer.write("\t");
+                writer.write(district.get(b.getDistrict()).getId().toString() + '\n');
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        writer.close();
+
+        CopyManager copyManager = new CopyManager((BaseConnection) db.getConnection());
+        copyManager.copyIn("COPY election.ballots FROM STDIN", new FileReader(f));
+
+        if (!f.delete()) System.out.println("Could not delete tmp file");
     }
 }

@@ -4,10 +4,13 @@ import com.my.fluffy.unicorn.main.server.data.*;
 import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.parser.data.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class BatchInserter {
     private final DatabaseConnection connection;
@@ -18,14 +21,14 @@ public class BatchInserter {
     private ArrayList<StateJson> allStatesJson;
     private ArrayList<StateListJson> allStateListsJson;
 
-    public Map<Integer, Election> elections;
-    public Map<PartyJson, Party> parties;
-    public Map<StateJson, State> states;
-    public Map<CandidateJson, Candidate> candidates;
-    public Map<Integer, Map<ElectionDistrictJson, District>> districts;
-    public Map<CandidateJson, DirectCandidature> directCandidatures;
-    public Map<StateListJson, StateList> stateLists;
-    public Map<CandidateJson, ListCandidature> listCandidatures;
+    private Map<Integer, Election> elections;
+    private Map<PartyJson, Party> parties;
+    private Map<StateJson, State> states;
+    private Map<CandidateJson, Candidate> candidates;
+    private Map<Integer, Map<ElectionDistrictJson, District>> districts;
+    private Map<CandidateJson, DirectCandidature> directCandidatures;
+    private Map<StateListJson, StateList> stateLists;
+    private Map<CandidateJson, ListCandidature> listCandidatures;
 
     private Map<Integer, Map<ElectionDistrictJson, Map<PartyJson, CandidateJson>>> electionDistrictPartyToCandidate = new HashMap<>();
     private Map<Integer, Map<StateJson, Map<PartyJson, StateListJson>>> electionStatePartyToList = new HashMap<>();
@@ -416,10 +419,35 @@ public class BatchInserter {
         }
     }
 
+    private void generateBallotsWithStream() {
+        Stream<Ballot> s = this.allElectionDistrictsJson.stream()
+                .flatMap(districtJson -> Stream.of(2013, 2017).flatMap(year -> {
+                    District d = findDistrict(districtJson, year);
+                    Map<DirectCandidature, Integer> firstVotes = new HashMap<>();
+                    Map<StateList, Integer> secondVotes = new HashMap<>();
+                    for (PartyResultsJson json : districtJson.partyResultJsons) {
+                        CandidateJson dcjson = electionDistrictPartyToCandidate.get(year).get(districtJson).get(json.partyJson);
+                        StateListJson sljson = electionStatePartyToList.get(year).get(districtJson.state).get(json.partyJson);
+                        firstVotes.put(directCandidatures.get(dcjson), year == 2013? json.first_13 : json.first_17);
+                        secondVotes.put(stateLists.get(sljson), year == 2013? json.second_13 : json.second_17);
+                    }
+                    return createBallots(d, year == 2013? districtJson.voters_13 : districtJson.voters_17, firstVotes, secondVotes).stream();
+                }));
+        insertBallots(s);
+    }
+
     private void insertBallots(List<Ballot> ballots) {
         try {
-            connection.getInserter().insertManyBallots(ballots);
-        } catch (SQLException e) {
+            connection.getInserter().insertBallotsFromTmpFile(ballots);
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertBallots(Stream<Ballot> ballots) {
+        try {
+            connection.getInserter().insertBallotsFromTmpFile(ballots);
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }

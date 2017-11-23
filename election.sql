@@ -108,7 +108,8 @@ ALTER TABLE secondvote_aggregates OWNER TO postgres;
 ALTER TABLE states OWNER TO postgres;
 ALTER TABLE statelists OWNER TO postgres;
 
-CREATE INDEX ballot_district_idx ON ballots(district);
+-- No measurable performance impact
+-- CREATE INDEX ballot_district_idx ON ballots(district);
 
 --
 -- PostgreSQL database dump complete
