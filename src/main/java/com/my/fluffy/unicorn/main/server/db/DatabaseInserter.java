@@ -184,7 +184,7 @@ public class DatabaseInserter {
     public void insertBallotsFromTmpFile(Stream<Ballot> ballots) throws IOException, SQLException {
         File f = File.createTempFile("copy-sql", ".csv");
         f.deleteOnExit();
-        
+
         Writer writer = new FileWriter(f);
         ballotWithIds(ballots).map(DatabaseInserter::ballotToTmpfileString).forEach(s -> {
             try {

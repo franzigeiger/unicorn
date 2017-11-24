@@ -370,13 +370,13 @@ public class BatchInserter {
     }
 
     private Stream<Ballot> generateBallotsForDistrictAndYear(ElectionDistrictJson districtJson, int year) {
-        Map<DirectCandidature, Integer> firstVotes = districtJson.partyResultJsons.stream().collect(Collectors.groupingBy(
-                        json -> directCandidatures.get(electionDistrictPartyToCandidate.get(year).get(districtJson).get(json.partyJson)),
+        Map<Optional<DirectCandidature>, Integer> firstVotes = districtJson.partyResultJsons.stream().collect(Collectors.groupingBy(
+                        json -> Optional.ofNullable(directCandidatures.get(electionDistrictPartyToCandidate.get(year).get(districtJson).get(json.partyJson))),
                         Collectors.summingInt(prj -> year == 2017? prj.first_17 : prj.first_13))
         );
 
-        Map<StateList, Integer> secondVotes = districtJson.partyResultJsons.stream().collect(Collectors.groupingBy(
-                        json -> stateLists.get(electionStatePartyToList.get(year).get(districtJson.state).get(json.partyJson)),
+        Map<Optional<StateList>, Integer> secondVotes = districtJson.partyResultJsons.stream().collect(Collectors.groupingBy(
+                        json -> Optional.ofNullable(stateLists.get(electionStatePartyToList.get(year).get(districtJson.state).get(json.partyJson))),
                         Collectors.summingInt(json -> year == 2017? json.second_17 : json.second_13))
         );
 
@@ -384,17 +384,17 @@ public class BatchInserter {
                 .limit(year == 2017? districtJson.voters_17 : districtJson.voters_13);
     }
 
-    private synchronized <T> T getAndDecrement(Map<T,Integer> map) {
+    private synchronized <T> T getAndDecrement(Map<Optional<T>,Integer> map) {
         if (map.keySet().isEmpty()) {
             return null;
         } else {
-            T t = map.keySet().iterator().next();
+            Optional<T> t = map.keySet().iterator().next();
             if (map.get(t) <= 1) {
                 map.remove(t);
             } else {
                 map.put(t, map.get(t) - 1);
             }
-            return t;
+            return t.orElse(null);
         }
     }
 }
