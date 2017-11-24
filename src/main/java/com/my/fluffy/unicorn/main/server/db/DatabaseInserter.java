@@ -181,36 +181,19 @@ public class DatabaseInserter {
         stmt.close();
     }
 
-    public void insertBallotsFromTmpFile(Collection<Ballot> ballots) throws IOException, SQLException {
-        Map<DirectCandidature,DirectCandidature> candidate = new HashMap<>();
-        Map<StateList,StateList> statelist = new HashMap<>();
-        Map<District,District> district = new HashMap<>();
-
-        for (Ballot b : ballots) {
-            if (b.getDirectCandidature() != null && !candidate.containsKey(b.getDirectCandidature())) {
-                candidate.put(b.getDirectCandidature(), db.getQuery().getDirectCandidatures(b.getDirectCandidature()));
-            }
-            if (b.getStateList() != null && !statelist.containsKey(b.getStateList())) {
-                statelist.put(b.getStateList(), db.getQuery().getStateList(b.getStateList()));
-            }
-            if (!district.containsKey(b.getDistrict())) {
-                district.put(b.getDistrict(), db.getQuery().getDistrict(b.getDistrict()));
-            }
-        }
-
-        File f = File.createTempFile("copy-sql", "");
+    public void insertBallotsFromTmpFile(Stream<Ballot> ballots) throws IOException, SQLException {
+        File f = File.createTempFile("copy-sql", ".csv");
         f.deleteOnExit();
+        
         Writer writer = new FileWriter(f);
-        for (Ballot b : ballots) {
-            writer.write(b.getDirectCandidature() == null ? "\\N" : candidate.get(b.getDirectCandidature()).getId().toString());
-            writer.write("\t");
-            writer.write(b.getStateList() == null ? "\\N" : statelist.get(b.getStateList()).getId().toString());
-            writer.write("\t");
-            writer.write(district.get(b.getDistrict()).getId().toString() + '\n');
-        }
+        ballotWithIds(ballots).map(DatabaseInserter::ballotToTmpfileString).forEach(s -> {
+            try {
+                writer.write(s);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         writer.close();
-
-        System.out.println("    Wrote to tmp file");
 
         db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;").execute();
         CopyManager copyManager = new CopyManager((BaseConnection) db.getConnection());
@@ -220,41 +203,27 @@ public class DatabaseInserter {
         if (!f.delete()) System.out.println("Could not delete tmp file");
     }
 
-    public void insertBallotsFromTmpFile(Stream<Ballot> ballots) throws IOException, SQLException {
-        Map<DirectCandidature,DirectCandidature> candidate = new HashMap<>();
-        Map<StateList,StateList> statelist = new HashMap<>();
-        Map<District,District> district = new HashMap<>();
-
-        File f = File.createTempFile("copy-sql", ".csv");
-        f.deleteOnExit();
-        Writer writer = new FileWriter(f);
-
-        ballots.forEach(b -> {
+    private Stream<Ballot> ballotWithIds(Stream<Ballot> ballots) {
+        Map<DirectCandidature,DirectCandidature> dcs = new HashMap<>();
+        Map<StateList,StateList> sls = new HashMap<>();
+        Map<District,District> ds = new HashMap<>();
+        return ballots.peek(b -> {
             try {
-                if (b.getDirectCandidature() != null && !candidate.containsKey(b.getDirectCandidature())) {
-                    candidate.put(b.getDirectCandidature(), db.getQuery().getDirectCandidatures(b.getDirectCandidature()));
-                }
-                if (b.getStateList() != null && !statelist.containsKey(b.getStateList())) {
-                    statelist.put(b.getStateList(), db.getQuery().getStateList(b.getStateList()));
-                }
-                if (!district.containsKey(b.getDistrict())) {
-                    district.put(b.getDistrict(), db.getQuery().getDistrict(b.getDistrict()));
-                }
-
-                writer.write(b.getDirectCandidature() == null ? "\\N" : candidate.get(b.getDirectCandidature()).getId().toString());
-                writer.write("\t");
-                writer.write(b.getStateList() == null ? "\\N" : statelist.get(b.getStateList()).getId().toString());
-                writer.write("\t");
-                writer.write(district.get(b.getDistrict()).getId().toString() + '\n');
-            } catch (IOException | SQLException e) {
+                DirectCandidature dc = b.getDirectCandidature();
+                StateList sl = b.getStateList();
+                District d = b.getDistrict();
+                if (dc != null && !dcs.containsKey(dc)) dcs.put(dc, db.getQuery().getDirectCandidatures(dc));
+                if (sl != null && !sls.containsKey(sl)) sls.put(sl, db.getQuery().getStateList(sl));
+                if (!ds.containsKey(d)) ds.put(d, db.getQuery().getDistrict(d));
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-        });
-        writer.close();
+        }).map(b -> new Ballot(sls.get(b.getStateList()), dcs.get(b.getDirectCandidature()), ds.get(b.getDistrict())));
+    }
 
-        CopyManager copyManager = new CopyManager((BaseConnection) db.getConnection());
-        copyManager.copyIn("COPY election.ballots FROM STDIN", new FileReader(f));
-
-        if (!f.delete()) System.out.println("Could not delete tmp file");
+    private static String ballotToTmpfileString(Ballot b) {
+        return (b.getDirectCandidature() == null? "\\N" : b.getDirectCandidature().getId().toString()) + "\t"
+                + (b.getStateList() == null ? "\\N" : b.getStateList().getId().toString()) + "\t"
+                + b.getDistrict().getId().toString() + "\n";
     }
 }
