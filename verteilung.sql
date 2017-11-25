@@ -1,39 +1,50 @@
+set SEARCH_PATH  to election;
+
+DROP MATERIALIZED VIEW IF EXISTS rawdistributionstate CASCADE;
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS election.rawdistributionstate
+TABLESPACE pg_default
+  AS
+    SELECT s.election, s.party,
+      s.state,
+      count(*) AS count
+    FROM election.ballots b
+      JOIN election.statelists s ON b.secondvote = s.id
+    WHERE   b.secondvote is not null
+    GROUP BY s.party, s.state, s.election
+WITH DATA;
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS election.allsecondvoters
 TABLESPACE pg_default
-AS
- SELECT s.election AS year,
-    count(*) AS voters
-   FROM election.ballots b
-     JOIN election.statelists s ON b.secondvote = s.id
-  WHERE b.secondvote IS NOT NULL
-  GROUP BY s.election
+  AS
+    SELECT s.election AS year,
+          sum(s.count) AS voters
+    FROM rawdistributionstate s
+    WHERE b.secondvote IS NOT NULL
+    GROUP BY s.election
 WITH DATA;
-
-ALTER TABLE election.allsecondvoters
-    OWNER TO postgres;
 	
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS election.directwinner
 TABLESPACE pg_default
 AS
  WITH allcandidates AS (
-         SELECT d.id AS district,
+         SELECT d.year, d.id AS district,
             dc.id AS candidate,
             count(*) AS reached
            FROM election.districts d
              LEFT JOIN election.direct_candidatures dc ON dc.district = d.id
              JOIN election.ballots b ON dc.id = b.firstvote
-          WHERE d.year = 2017
-          GROUP BY d.id, dc.id
+          GROUP BY d.id, dc.id, d.year
         )
  SELECT a1.district,
     a1.candidate AS winner,
-    a1.reached AS votes
+    a1.reached AS votes,
+   a1.year as year
    FROM allcandidates a1
   WHERE a1.reached = (( SELECT max(ac.reached) AS max
            FROM allcandidates ac
-          WHERE ac.district = a1.district))
+          WHERE ac.district = a1.district and ac.year = a1.year))
 WITH DATA;
 
 
@@ -42,45 +53,30 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS election.rawdistribution
 
 TABLESPACE pg_default
 AS
- SELECT s.party,
-    count(*) AS count,
-    count(*)::numeric(12,2) / (( SELECT allsecondvoters.voters
+ SELECT s.party, s.election,
+    sum(s.count) AS count,
+    sum(s.count)::numeric(12,2) / (( SELECT allsecondvoters.voters
            FROM election.allsecondvoters
-          WHERE allsecondvoters.year = 2017))::numeric * 100::numeric AS percent
-   FROM election.ballots b
-     JOIN election.statelists s ON b.secondvote = s.id
-  WHERE s.election = 2017 AND b.secondvote IS NOT NULL
-  GROUP BY s.party
+          WHERE allsecondvoters.year = s.election))::numeric * 100::numeric AS percent
+   FROM rawdistributionstate s
+  GROUP BY s.party, s.election
 WITH DATA;	
 
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS election.rawdistributionstate
-TABLESPACE pg_default
-AS
- SELECT s.party,
-    s.state,
-    count(*) AS count,
-    count(*)::numeric(12,2) / (( SELECT allsecondvoters.voters
-           FROM election.allsecondvoters
-          WHERE allsecondvoters.year = 2017))::numeric * 100::numeric AS percent
-   FROM election.ballots b
-     JOIN election.statelists s ON b.secondvote = s.id
-  WHERE s.election = 2017 AND b.secondvote IS NOT NULL
-  GROUP BY s.party, s.state
-WITH DATA;
+
 
 
 
 set search_path to election;
 
-drop view parlamentDistribution;
+drop view parlamentDistribution2017;
 
-create view parlamentDistribution(party,state,baseseats, seatswithdirect, seatsFromLandlist, seatsFromDistrict, FinalSeats) as (
+create view parlamentDistribution2017(party,state,baseseats, seatswithdirect, seatsFromLandlist, seatsFromDistrict, FinalSeats) as (
 /*1. step:   Create the table with divided votes for party and states out of second votes */
           with recursive  highAll (party, state, counter, divisor) as (
-            select p.party,p.state, (cast (p.count as decimal (16,4))) / 0.5 , 1.5 from rawDistributionstate p where p.party in(select party from rawdistribution where percent > 5.0)
+            select p.party,p.state, (cast (p.count as decimal (16,4))) / 0.5 , 1.5 from rawDistributionstate p where p.party in(select party from rawdistribution where percent > 5.0 and election=2017) and p.election=2017
             union all
-            select distinct h.party ,h.state, cast ((select p.count from rawDistributionstate p where p.party = h.party and p.state=h.state) as decimal (14,3))/h.divisor, h.divisor +1
+            select distinct h.party ,h.state, cast ((select p.count from rawDistributionstate p where p.party = h.party and p.state=h.state and p.election=2017 ) as decimal (14,3))/h.divisor, h.divisor +1
             from highall h where h.divisor < 50
             ),
 
@@ -101,6 +97,7 @@ create view parlamentDistribution(party,state,baseseats, seatswithdirect, seatsF
              seatsStates(state, counter) as(
             SELECT *
               FROM highallstates
+              where counter  is not null
              ORDER BY counter DESC
              limit 598
             ),
@@ -137,6 +134,7 @@ create view parlamentDistribution(party,state,baseseats, seatswithdirect, seatsF
           	directWinnerPartyAggregate(party, state, directWinners) as (
             select  k.party, d.state, count(*)
             from (directWinner w join direct_candidatures k on w.winner=k.id) join districts d on d.id=k.district
+            where w.year = 2017
             group by k.party, d.state
             ),
 
@@ -184,9 +182,9 @@ create view parlamentDistribution(party,state,baseseats, seatswithdirect, seatsF
               Now I need another recursive table to calculate the divisor values per party.
               */
             highPerPartyAll (party, counter, divisor) as (
-            select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from rawDistribution p where p.party in(select party from rawdistribution where percent > 5.0)
+            select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from rawDistribution p where p.party in(select party from rawdistribution where percent > 5.0 and election=2017)and election=2017
             union all
-            select distinct h.party , cast ((select p.count from rawDistribution p where p.party = h.party) as decimal (14,3))/h.divisor, h.divisor +1
+            select distinct h.party , cast ((select p.count from rawDistribution p where p.party = h.party and p.election=2017) as decimal (14,3))/h.divisor, h.divisor +1
             from highPerPartyAll h where h.divisor < 500
             ),
 
@@ -279,7 +277,7 @@ create view parlamentDistribution(party,state,baseseats, seatswithdirect, seatsF
             + (case when (select directwinners from directWinnerPartyAggregate w where w.party=r.party and w.state=r.state )  is null then 0 else (select directwinners from directWinnerPartyAggregate w where w.party=r.party and w.state=r.state )  end)
             from  (select party, state, count(*) from statelists
                    where party in
-                  (select party from rawdistribution where percent > 5.0)
+                  (select party from rawdistribution where percent > 5.0 and election=2017)
                    group by party, state
                   )as r order by party, state );
 

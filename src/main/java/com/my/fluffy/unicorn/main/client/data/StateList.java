@@ -1,12 +1,17 @@
-package com.my.fluffy.unicorn.main.server.data;
+package com.my.fluffy.unicorn.main.client.data;
 
 import org.jetbrains.annotations.NotNull;
 
-public class StateList {
-    private final Integer id;
-    @NotNull private final Party party;
-    @NotNull private final Election election;
-    @NotNull private final State state;
+import java.io.Serializable;
+
+public class StateList implements Serializable{
+    private  Integer id;
+    @NotNull private  Party party;
+    @NotNull private  Election election;
+    @NotNull private  State state;
+
+    public StateList() {
+    }
 
     @NotNull
     public static StateList fullCreate(Integer id, @NotNull Party party, @NotNull Election election, @NotNull State state) {
@@ -46,5 +51,21 @@ public class StateList {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
+    public void setElection(Election election) {
+        this.election = election;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }

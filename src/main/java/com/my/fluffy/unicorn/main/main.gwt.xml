@@ -3,12 +3,15 @@
 
     <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
-    <inherits name="gwt.material.design.themes.ThemeBlue"/>
+    <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+    <inherits name="com.googlecode.gwt.charts.Charts"/>
+    <inherits name="com.google.gwt.resources.Resources" />
     <!-- Specify the app entry point class.                   -->
     <entry-point class='com.my.fluffy.unicorn.main.client.main'/>
 
 
     <!-- Specify the app servlets.                   -->
     <servlet path='/mainService' class='com.my.fluffy.unicorn.main.server.mainServiceImpl'/>
+    <source path="client" />
 
 </module>

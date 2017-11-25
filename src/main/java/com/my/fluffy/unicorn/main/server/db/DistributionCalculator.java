@@ -1,15 +1,14 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.data.Candidate;
-import com.my.fluffy.unicorn.main.server.data.Party;
-import com.my.fluffy.unicorn.main.server.data.State;
-import com.my.fluffy.unicorn.main.server.parser.data.PartyResultsJson;
+import com.my.fluffy.unicorn.main.server.Controller;
+import com.my.fluffy.unicorn.main.client.data.Party;
+import com.my.fluffy.unicorn.main.client.data.State;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * For execution please run script verteilung.sql in your database!
@@ -17,17 +16,18 @@ import java.util.List;
  */
 
 public class DistributionCalculator {
-    String calcSeats = "select * from election.parlamentdistribution";
+    String calcSeats = "select * from election.parlamentdistribution2017";
 
 
     private final DatabaseConnection db;
     DatabaseQuery calculator;
 
 
-    DistributionCalculator(DatabaseConnection connection) {
+    public DistributionCalculator(DatabaseConnection connection) {
         this.db = connection;
         calculator = new DatabaseQuery(db);
     }
+
 
 
     //calculates number of seats without overwhelming seats
@@ -71,9 +71,11 @@ public class DistributionCalculator {
 
     }
 
-    public void calculatePerParty()throws Exception {
+    public Map<Party, Integer> calculatePerParty()throws Exception {
         System.out.println("Distribution between Parties");
-        PreparedStatement stmt = db.getConnection().prepareStatement("select party, sum(finalseats) from parlamentdistribution group by party");
+
+        Map<Party, Integer> dist = new HashMap<Party, Integer>();
+        PreparedStatement stmt = db.getConnection().prepareStatement("select party, sum(finalseats) from parlamentdistribution2017 group by party");
 
         ResultSet set = stmt.executeQuery();
         Party party;
@@ -82,14 +84,16 @@ public class DistributionCalculator {
         int endresult = 0;
         System.out.println("| Party \t | Values | ");
         while (set.next()) {
-            party = calculator.getPartyByID(set.getInt(1));
+            party = Controller.get().getParty(set.getInt(1));
             int base = set.getInt(2);
-
+            dist.put(party, base);
             System.out.println("| " + party.getName() + "\t | " + base + "\t | ");
 
         }
         stmt.close();
         set.close();
+
+        return dist;
     }
 
     public void calculatePerState()throws Exception{
@@ -124,4 +128,5 @@ public class DistributionCalculator {
            System.out.print("Error");
        }
    }
+
 }

@@ -58,6 +58,14 @@
                 <artifactId>gwt-material-themes</artifactId>
                 <version>2.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.googlecode.gwt-charts/gwt-charts -->
+        <dependency>
+            <groupId>com.googlecode.gwt-charts</groupId>
+            <artifactId>gwt-charts</artifactId>
+            <version>0.9.10</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -102,6 +110,11 @@
                     <groupId>com.google.gwt</groupId>
                     <artifactId>gwt-user</artifactId>
                     <version>${gwt.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.googlecode.gwt-charts</groupId>
+                    <artifactId>gwt-charts</artifactId>
+                    <version>0.9.10</version>
                 </dependency>
                 <dependency>
                     <groupId>com.google.gwt</groupId>

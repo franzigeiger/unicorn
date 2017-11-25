@@ -1,6 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.data.*;
+import com.my.fluffy.unicorn.main.client.data.*;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -55,7 +55,7 @@ public class DatabaseInserter {
         String query = "INSERT INTO election.elections (year, day) VALUES (?,?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setInt(1, election.getYear());
-        stmt.setDate(2, Date.valueOf(election.getDate()));
+        stmt.setDate(2, new Date(election.getDate().getTime()));
         stmt.executeUpdate();
         stmt.close();
     }
