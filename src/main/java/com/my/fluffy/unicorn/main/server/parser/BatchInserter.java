@@ -4,10 +4,13 @@ import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.parser.data.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BatchInserter {
     private final DatabaseConnection connection;
@@ -18,14 +21,14 @@ public class BatchInserter {
     private ArrayList<StateJson> allStatesJson;
     private ArrayList<StateListJson> allStateListsJson;
 
-    public Map<Integer, Election> elections;
-    public Map<PartyJson, Party> parties;
-    public Map<StateJson, State> states;
-    public Map<CandidateJson, Candidate> candidates;
-    public Map<Integer, Map<ElectionDistrictJson, District>> districts;
-    public Map<CandidateJson, DirectCandidature> directCandidatures;
-    public Map<StateListJson, StateList> stateLists;
-    public Map<CandidateJson, ListCandidature> listCandidatures;
+    private Map<Integer, Election> elections;
+    private Map<PartyJson, Party> parties;
+    private Map<StateJson, State> states;
+    private Map<CandidateJson, Candidate> candidates;
+    private Map<Integer, Map<ElectionDistrictJson, District>> districts;
+    private Map<CandidateJson, DirectCandidature> directCandidatures;
+    private Map<StateListJson, StateList> stateLists;
+    private Map<CandidateJson, ListCandidature> listCandidatures;
 
     private Map<Integer, Map<ElectionDistrictJson, Map<PartyJson, CandidateJson>>> electionDistrictPartyToCandidate = new HashMap<>();
     private Map<Integer, Map<StateJson, Map<PartyJson, StateListJson>>> electionStatePartyToList = new HashMap<>();
@@ -233,31 +236,6 @@ public class BatchInserter {
         return convertedListCandidatures;
     }
 
-    private List<Ballot> createBallots(District d, int count, Map<DirectCandidature, Integer> firstVotes, Map<StateList, Integer> secondVotes) {
-        List<Ballot> ballots = new ArrayList<>(count);
-        for (int i = 0; i < count; i++) {
-            DirectCandidature dc = getAndDecrement(firstVotes);
-            StateList sl = getAndDecrement(secondVotes);
-            ballots.add(new Ballot(sl, dc, d));
-        }
-        return ballots;
-    }
-
-    private <T> T getAndDecrement(Map<T,Integer> map) {
-        if (map.keySet().isEmpty()) {
-            return null;
-        } else {
-            T t = map.keySet().iterator().next();
-            int rem = map.get(t) - 1;
-            if (rem <= 0) {
-                map.remove(t);
-            } else {
-                map.put(t, rem);
-            }
-            return t;
-        }
-    }
-
     private StateList findStateList(StateListJson stateListJson){
         if (stateLists.containsKey(stateListJson)) {
             return stateLists.get(stateListJson);
@@ -370,57 +348,53 @@ public class BatchInserter {
         }
 
         System.out.println(LocalTime.now().toString() + ": Generating Ballots...");
-        generateBallotsIntoDatabase();
+        createAndInsertBallots();
     }
 
-    private void generateBallotsIntoDatabase() {
-        int i = 0;
-        ArrayList<Ballot> convertedBallotsforDistrict = new ArrayList<>();
-        for(ElectionDistrictJson districtJson: this.allElectionDistrictsJson){
-            System.out.println(LocalTime.now().toString() + ": Generating Ballots (" + ++i + "/" + allElectionDistrictsJson.size() + ")");
-
-            District d = findDistrict(districtJson, 2013);
-            Map<DirectCandidature, Integer> firstVotes = new HashMap<>();
-            Map<StateList, Integer> secondVotes = new HashMap<>();
-            for (PartyResultsJson json : districtJson.partyResultJsons) {
-                CandidateJson dcjson = electionDistrictPartyToCandidate.get(2013).get(districtJson).get(json.partyJson);
-                StateListJson sljson = electionStatePartyToList.get(2013).get(districtJson.state).get(json.partyJson);
-                firstVotes.put(directCandidatures.get(dcjson), json.first_13);
-                secondVotes.put(stateLists.get(sljson), json.second_13);
-            }
-            convertedBallotsforDistrict.addAll(createBallots(d, districtJson.voters_13, firstVotes, secondVotes));
-
-            d = findDistrict(districtJson, 2017);
-            firstVotes.clear();
-            secondVotes.clear();
-            for (PartyResultsJson json : districtJson.partyResultJsons) {
-                CandidateJson dcjson = electionDistrictPartyToCandidate.get(2017).get(districtJson).get(json.partyJson);
-                StateListJson sljson = electionStatePartyToList.get(2017).get(districtJson.state).get(json.partyJson);
-                firstVotes.put(directCandidatures.get(dcjson), json.first_17);
-                secondVotes.put(stateLists.get(sljson), json.second_17);
-            }
-            convertedBallotsforDistrict.addAll(createBallots(d, districtJson.voters_17, firstVotes, secondVotes));
-
-            if (i % 2 == 0) {
-                insertBallots(convertedBallotsforDistrict);
-                convertedBallotsforDistrict.clear();
-            }
-        }
-        insertBallots(convertedBallotsforDistrict);
-        System.out.println(LocalTime.now().toString() + ": Aggregating...");
+    private void createAndInsertBallots() {
         try {
+            connection.getInserter().insertBallotsFromTmpFile(
+                    this.allElectionDistrictsJson.stream()
+                            .peek(json -> System.out.println(LocalTime.now().toString() + ": District " + json.id))
+                            .flatMap(json -> Stream.concat(
+                                    generateBallotsForDistrictAndYear(json, 2013),
+                                    generateBallotsForDistrictAndYear(json, 2017)
+                            ))
+            );
+            System.out.println(LocalTime.now().toString() + ": Aggregating...");
             connection.updateAggregates();
             System.out.println(LocalTime.now().toString() + ": Done.");
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void insertBallots(List<Ballot> ballots) {
-        try {
-            connection.getInserter().insertManyBallots(ballots);
-        } catch (SQLException e) {
-            e.printStackTrace();
+    private Stream<Ballot> generateBallotsForDistrictAndYear(ElectionDistrictJson districtJson, int year) {
+        Map<Optional<DirectCandidature>, Integer> firstVotes = districtJson.partyResultJsons.stream().collect(Collectors.groupingBy(
+                        json -> Optional.ofNullable(directCandidatures.get(electionDistrictPartyToCandidate.get(year).get(districtJson).get(json.partyJson))),
+                        Collectors.summingInt(prj -> year == 2017? prj.first_17 : prj.first_13))
+        );
+
+        Map<Optional<StateList>, Integer> secondVotes = districtJson.partyResultJsons.stream().collect(Collectors.groupingBy(
+                        json -> Optional.ofNullable(stateLists.get(electionStatePartyToList.get(year).get(districtJson.state).get(json.partyJson))),
+                        Collectors.summingInt(json -> year == 2017? json.second_17 : json.second_13))
+        );
+
+        return Stream.generate(() -> new Ballot(getAndDecrement(secondVotes), getAndDecrement(firstVotes), findDistrict(districtJson, year)))
+                .limit(year == 2017? districtJson.voters_17 : districtJson.voters_13);
+    }
+
+    private synchronized <T> T getAndDecrement(Map<Optional<T>,Integer> map) {
+        if (map.keySet().isEmpty()) {
+            return null;
+        } else {
+            Optional<T> t = map.keySet().iterator().next();
+            if (map.get(t) <= 1) {
+                map.remove(t);
+            } else {
+                map.put(t, map.get(t) - 1);
+            }
+            return t.orElse(null);
         }
     }
 }
