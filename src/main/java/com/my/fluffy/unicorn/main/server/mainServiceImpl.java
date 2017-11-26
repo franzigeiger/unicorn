@@ -1,14 +1,11 @@
 package com.my.fluffy.unicorn.main.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.client.mainService;
 import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
 import com.my.fluffy.unicorn.main.server.db.DistributionCalculator;
-import com.my.fluffy.unicorn.main.client.data.Candidate;
-import com.my.fluffy.unicorn.main.client.data.District;
-import com.my.fluffy.unicorn.main.client.data.Party;
-import com.my.fluffy.unicorn.main.client.data.State;
 
 import java.util.List;
 import java.util.Map;
@@ -74,5 +71,10 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     @Override
     public List<Candidate> getTopTen(int parteiID) {
         return null;
+    }
+
+    @Override
+    public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year) {
+        return Controller.get().getDifferenceFirstSecond(year);
     }
 }

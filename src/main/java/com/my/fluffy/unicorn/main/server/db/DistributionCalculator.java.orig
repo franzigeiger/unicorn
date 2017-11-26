@@ -1,12 +1,18 @@
 package com.my.fluffy.unicorn.main.server.db;
 
+<<<<<<< Updated upstream
+import com.my.fluffy.unicorn.main.server.Controller;
 import com.my.fluffy.unicorn.main.client.data.Party;
 import com.my.fluffy.unicorn.main.client.data.State;
-import com.my.fluffy.unicorn.main.server.Controller;
+=======
+import com.my.fluffy.unicorn.main.server.data.Party;
+import com.my.fluffy.unicorn.main.server.data.State;
+>>>>>>> Stashed changes
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+<<<<<<< Updated upstream
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +22,12 @@ import java.util.Map;
  */
 
 public class DistributionCalculator {
-    String calcSeats = "select * from election.parlamentDistribution2017";
+    String calcSeats = "select * from election.parlamentdistribution2017";
+=======
+
+public class DistributionCalculator {
+    String calcSeats = "select * from election.parlamentDistribution";
+>>>>>>> Stashed changes
 
 
     private final DatabaseConnection db;
@@ -41,8 +52,6 @@ public class DistributionCalculator {
 
         System.out.println("Duration: " + duration + " ms");
         Party party ;
-        int seats;
-        int additional;
         State state;
 
         int baseseats=0;
@@ -98,7 +107,7 @@ public class DistributionCalculator {
 
     public void calculatePerState()throws Exception{
         System.out.println("Distribution between States");
-        PreparedStatement stmt = db.getConnection().prepareStatement("select state, sum(finalseats) from parlamentdistribution2017 group by state");
+        PreparedStatement stmt = db.getConnection().prepareStatement("select state, sum(finalseats) from parlamentdistribution group by state");
 
         ResultSet set =stmt.executeQuery();
         State state ;

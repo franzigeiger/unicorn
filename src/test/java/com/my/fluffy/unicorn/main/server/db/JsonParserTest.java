@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class JsonParserTest {
-    @Test
+    /*@Test
     public void testParser() {
         JsonParser jsonParser = new JsonParser();
         jsonParser.parseAll("complete.json");
@@ -37,5 +37,5 @@ public class JsonParserTest {
         }
         System.out.println(counter);
 
-    }
+    }*/
 }

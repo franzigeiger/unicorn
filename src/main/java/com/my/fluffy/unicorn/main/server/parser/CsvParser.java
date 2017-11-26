@@ -13,8 +13,8 @@ public class CsvParser {
     public CsvParser(String jsonPath, String path13, String result13){
         this.jsonParser = new JsonParser();
         jsonParser.parseAll(jsonPath);
-        addMissingParties();
-        addMissingPartyResults(result13);
+        //addMissingParties();
+        //addMissingPartyResults(result13);
 
         this.candidates2013 = parse2013Candidates(path13);
     }
@@ -23,7 +23,7 @@ public class CsvParser {
      * Adds parties that only ran for an office in 2013, but not in 2017
      * as PartyJson to ArrayList jsonParser.allParties
      */
-    public void addMissingParties(){
+    /*public void addMissingParties(){
         this.jsonParser.allParties.add(new PartyJson(44, "BIG"));
         this.jsonParser.allParties.add(new PartyJson(45, "RENTNER"));
         this.jsonParser.allParties.add(new PartyJson(46, "REP"));
@@ -34,19 +34,19 @@ public class CsvParser {
         this.jsonParser.allParties.add(new PartyJson(51, "PBC"));
         this.jsonParser.allParties.add(new PartyJson(52, "Nichtwähler"));
         this.jsonParser.allParties.add(new PartyJson(53, "BGD"));
-    }
+    }*/
 
     /**
      * Adds party results for parties that only ran for office in 2013, but not in 2017
      * as PartyResultJson to ArrayList jsonParser.allElectionDistrictJsons
      * @param result13 path to csv-file containing results of elections of 2013 for all districts
      */
-    public void addMissingPartyResults(String result13){
+    /*public void addMissingPartyResults(String result13){
         for(int i = 44; i <= 53; i++){
             PartyJson party = jsonParser.getParty(i);
             parseMissingPartyResults(result13, party, jsonParser.allElectionDistrictJsons);
         }
-    }
+    }*/
 
     /**
      * Reads party results for a party that only ran for office in 2013, but not in 2017, from csv
@@ -197,6 +197,7 @@ public class CsvParser {
                 if(partyJson == null){
                     //if there is no corresponding partyJson for candidate:
                     //candidate gets default partyJson
+                    System.out.println("Could not find party " + cols[6]);
                     partyJson = jsonParser.getParty(43);
                 }
 

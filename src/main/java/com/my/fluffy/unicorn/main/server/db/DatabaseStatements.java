@@ -1,5 +1,7 @@
 package com.my.fluffy.unicorn.main.server.db;
 
+import com.my.fluffy.unicorn.main.client.data.DifferenceFirstSecondVotes;
+import com.my.fluffy.unicorn.main.client.data.District;
 import com.my.fluffy.unicorn.main.client.data.Party;
 import com.my.fluffy.unicorn.main.server.Controller;
 
@@ -57,6 +59,33 @@ public class DatabaseStatements {
         return parties;
     }
 
+    public Map<Integer, District> getDistricts() throws SQLException {
+        System.out.println("Fetch all districts");
+        PreparedStatement stmt = db.getConnection().prepareStatement("select * from districts");
+
+        Map<Integer, District> districts = new HashMap<Integer, District>();
+        ResultSet rs =stmt.executeQuery();
+
+        while(rs.next()) {
+            int id = rs.getInt(1);
+            districts.put(id, District.fullCreate(
+                    id,
+                    rs.getInt(2),
+                    null,
+                    null,
+                    rs.getString(5),
+                    rs.getInt(6),
+                    rs.getInt(7),
+                    rs.getInt(8)
+                ));
+        }
+
+        stmt.close();
+        rs.close();
+
+        return districts;
+    }
+
 
     public Map<Party,Double> getPartyPercent(int year) throws SQLException {
 
@@ -82,5 +111,33 @@ public class DatabaseStatements {
         rs.close();
 
         return parties;
+    }
+
+    public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(
+            int year) throws SQLException {
+        System.out.println("Fetch Differences");
+        PreparedStatement stmt = db.getConnection().prepareStatement(
+                "select party, diff, first, second, district, year " +
+                        "from election.differencefirstsecondvotes where year = ? " +
+                        "order by diff desc");
+        stmt.setInt(1   ,year);
+        Map<Party, DifferenceFirstSecondVotes> differenceTotal = new HashMap<Party, DifferenceFirstSecondVotes>();
+        ResultSet rs =stmt.executeQuery();
+
+        while(rs.next()) {
+            Party party = Controller.get().getParty(rs.getInt(1));
+            DifferenceFirstSecondVotes diff =  DifferenceFirstSecondVotes.create(
+                    rs.getInt(2),
+                    rs.getInt(3),
+                    rs.getInt(4),
+                    Controller.get().getDistrict(rs.getInt(5)).getName(),
+                    rs.getInt(6)
+            );
+            differenceTotal.put(party, diff);
+        }
+        stmt.close();
+        rs.close();
+
+        return differenceTotal;
     }
 }

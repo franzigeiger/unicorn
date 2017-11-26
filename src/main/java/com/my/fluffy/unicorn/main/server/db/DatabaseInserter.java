@@ -1,7 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
 import com.my.fluffy.unicorn.main.client.data.*;
-import com.my.fluffy.unicorn.main.server.data.*;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
 

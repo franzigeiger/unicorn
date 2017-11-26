@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Unicorn" />
+        <module name="unicorn" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Unicorn" target="1.8" />
+      <module name="unicorn" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,10 +1,7 @@
 package com.my.fluffy.unicorn.main.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.my.fluffy.unicorn.main.client.data.Candidate;
-import com.my.fluffy.unicorn.main.client.data.District;
-import com.my.fluffy.unicorn.main.client.data.Party;
-import com.my.fluffy.unicorn.main.client.data.State;
+import com.my.fluffy.unicorn.main.client.data.*;
 
 import java.util.List;
 import java.util.Map;
@@ -30,4 +27,7 @@ public interface mainServiceAsync {
     void getTopTen(int parteiID, AsyncCallback<List<Candidate>> async);
 
     void getPartyPercent(int year, AsyncCallback<Map<Party, Double>> async);
+
+    void getDifferencesFirstSecondVotes(int year, AsyncCallback<Map<Party, DifferenceFirstSecondVotes>> async);
+
 }

@@ -2,6 +2,7 @@ package com.my.fluffy.unicorn.main.client;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.*;
+import com.my.fluffy.unicorn.main.client.views.DifferencePerPartyView;
 import com.my.fluffy.unicorn.main.client.views.DistrictView;
 import com.my.fluffy.unicorn.main.client.views.ParlamentView;
 import com.my.fluffy.unicorn.main.client.views.StateView;
@@ -65,6 +66,34 @@ public class BaseView {
             public void execute() {
                 contentPanel.clear();
                 contentPanel.add(new Label("Nothing to see here"));
+            }
+        }));
+
+
+        menu.addItem(new MenuItem("Differences per Party", new Command(){
+
+            @Override
+            public void execute() {
+                contentPanel.clear();
+                contentPanel.add(new DifferencePerPartyView());
+            }
+        }));
+
+        menu.addItem(new MenuItem("First Votes", new Command(){
+
+            @Override
+            public void execute() {
+                contentPanel.clear();
+                contentPanel.add(new Label("This should show the distribution of first votes."));
+            }
+        }));
+
+        menu.addItem(new MenuItem("Women in Parlament", new Command(){
+
+            @Override
+            public void execute() {
+                contentPanel.clear();
+                contentPanel.add(new Label("This should show the percentage of women in parlament."));
             }
         }));
 
