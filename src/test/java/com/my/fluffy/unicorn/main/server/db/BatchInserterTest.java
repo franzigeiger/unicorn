@@ -1,8 +1,5 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.data.Candidate;
-import com.my.fluffy.unicorn.main.server.data.DirectCandidature;
-import com.my.fluffy.unicorn.main.server.data.Election;
 import com.my.fluffy.unicorn.main.server.parser.BatchInserter;
 import com.my.fluffy.unicorn.main.server.parser.data.CandidateJson;
 import org.junit.Test;
