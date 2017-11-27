@@ -16,7 +16,6 @@ class ConnectionFactory {
 
     private Connection connection;
 
-    @NotNull
     static Connection create() throws SQLException, ClassNotFoundException {
         return new ConnectionFactory().getConnection();
     }

@@ -1,12 +1,17 @@
-package com.my.fluffy.unicorn.main.server.data;
+package com.my.fluffy.unicorn.main.client.data;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ListCandidature {
-    private final Integer id;
-    @NotNull private final Candidate candidate;
-    @NotNull private final StateList stateList;
-    private final Integer placement;
+import java.io.Serializable;
+
+public class ListCandidature implements Serializable{
+    private  Integer id;
+    @NotNull private  Candidate candidate;
+    @NotNull private  StateList stateList;
+    private  Integer placement;
+
+    public ListCandidature() {
+    }
 
     @NotNull public static ListCandidature fullCreate(Integer id, @NotNull Candidate candidate, @NotNull StateList stateList, Integer placement) {
         return new ListCandidature(id, candidate, stateList, placement);
@@ -49,5 +54,21 @@ public class ListCandidature {
 
     public int getPlacement() {
         return placement;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCandidate(Candidate candidate) {
+        this.candidate = candidate;
+    }
+
+    public void setStateList(StateList stateList) {
+        this.stateList = stateList;
+    }
+
+    public void setPlacement(Integer placement) {
+        this.placement = placement;
     }
 }

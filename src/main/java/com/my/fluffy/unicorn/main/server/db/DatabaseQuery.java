@@ -1,12 +1,11 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.data.*;
+import com.my.fluffy.unicorn.main.client.data.*;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class DatabaseQuery {
     private DatabaseConnection db;
@@ -36,12 +35,12 @@ public class DatabaseQuery {
     public Election getElection(Election e) throws SQLException {
         String query = "SELECT * FROM election.elections WHERE day=?";
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
-            stmt.setDate(1, Date.valueOf(e.getDate()));
+            stmt.setDate(1, new Date(e.getDate().getTime()));
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
                 return null;
             } else {
-                return Election.create(rs.getDate(2).toLocalDate());
+                return Election.create(rs.getDate(2));
             }
         }
     }

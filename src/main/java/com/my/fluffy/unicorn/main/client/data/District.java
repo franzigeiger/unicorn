@@ -1,29 +1,30 @@
-package com.my.fluffy.unicorn.main.server.data;
+package com.my.fluffy.unicorn.main.client.data;
 
 import org.jetbrains.annotations.NotNull;
 
-public class District {
-    private final Integer id;
-    private final int number;
-    @NotNull private final Election election;
-    @NotNull private final State state;
-    private final String name;
-    private final int eligibleVoters;
-    private final Integer invalidFirstVotes;
-    private final Integer invalidSecondVotes;
+import java.io.Serializable;
 
-    @NotNull
-    public static District fullCreate(Integer id, int number, @NotNull Election election, @NotNull State state, String name, int eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
+public class District implements Serializable{
+    private  Integer id;
+    private  int number;
+    State state;
+    private  String name;
+    private  int eligibleVoters;
+    private  Integer invalidFirstVotes;
+    private  Integer invalidSecondVotes;
+    Election election;
+
+    public static District fullCreate(Integer id, int number,  Election election, State state, String name, int eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
         return new District(id, number, election, state, name, eligibleVoters, invalidFirst, invalidSecond);
     }
 
-    @NotNull
-    public static District create(int number, @NotNull Election election, @NotNull State state, String name, int eligibleVoters) {
+
+    public static District create(int number,  Election election,  State state, String name, int eligibleVoters) {
         return District.fullCreate(null, number, election, state, name, eligibleVoters, null, null);
     }
 
-    @NotNull
-    public static District minCreate(int number, @NotNull Election election, @NotNull State state, int eligibleVoters) {
+
+    public static District minCreate(int number,  Election election,  State state, int eligibleVoters) {
         return District.fullCreate(null, number, election, state, null, eligibleVoters, null, null);
     }
 
@@ -32,11 +33,11 @@ public class District {
      * @param election The election. (number, election) are unique.
      * @deprecated
      */
-    @Deprecated public District(int number, Election election, int eligibleVoters, State state) {
+    public District(int number, Election election, int eligibleVoters, State state) {
         this(null, number, election, state, null, eligibleVoters, null, null);
     }
 
-    private District(Integer id, int number, @NotNull Election election, @NotNull State state, String name, int eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
+    private District(Integer id, int number,  Election election, State state, String name, int eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
         this.id = id;
         this.number = number;
         this.election = election;
@@ -47,11 +48,15 @@ public class District {
         this.invalidSecondVotes = invalidSecond;
     }
 
+    public District(){
+
+    }
+
     public int getNumber() {
         return number;
     }
 
-    @NotNull public Election getElection() {
+    public Election getElection() {
         return election;
     }
 
@@ -59,7 +64,7 @@ public class District {
         return eligibleVoters;
     }
 
-    @NotNull public State getState() {
+    public State getState() {
         return state;
     }
 
@@ -91,5 +96,37 @@ public class District {
                 ", invalidFirstVotes=" + invalidFirstVotes +
                 ", invalidSecondVotes=" + invalidSecondVotes +
                 '}';
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setElection(Election election) {
+        this.election = election;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEligibleVoters(int eligibleVoters) {
+        this.eligibleVoters = eligibleVoters;
+    }
+
+    public void setInvalidFirstVotes(Integer invalidFirstVotes) {
+        this.invalidFirstVotes = invalidFirstVotes;
+    }
+
+    public void setInvalidSecondVotes(Integer invalidSecondVotes) {
+        this.invalidSecondVotes = invalidSecondVotes;
     }
 }

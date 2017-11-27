@@ -1,6 +1,6 @@
 package com.my.fluffy.unicorn.main.server.parser;
 
-import com.my.fluffy.unicorn.main.server.data.*;
+import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.parser.data.*;
 
@@ -45,8 +45,8 @@ public class BatchInserter {
         this.allStateListsJson = jsonParser.allStateListJsons;
 
         this.elections = new HashMap<>(2);
-        elections.put(2013, Election.create(LocalDate.of(2013, 9, 22)));
-        elections.put(2017, Election.create(LocalDate.of(2017, 9, 24)));
+        elections.put(2013, Election.create(new Date(2013, 9, 22)));
+        elections.put(2017, Election.create(new Date(2017, 9,22)));
         electionStatePartyToList.put(2013, new HashMap<>());
         electionStatePartyToList.put(2017, new HashMap<>());
         electionDistrictPartyToCandidate.put(2013, new HashMap<>());
