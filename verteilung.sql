@@ -20,7 +20,6 @@ TABLESPACE pg_default
     SELECT s.election AS year,
           sum(s.count) AS voters
     FROM rawdistributionstate s
-    WHERE b.secondvote IS NOT NULL
     GROUP BY s.election
 WITH DATA;
 	

@@ -1,7 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
 import com.my.fluffy.unicorn.main.client.data.*;
-import com.my.fluffy.unicorn.main.server.data.*;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
 
@@ -9,8 +8,6 @@ import java.io.*;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
