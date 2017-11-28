@@ -246,7 +246,7 @@ create view parlamentDistribution2017(party,state,baseseats, seatswithdirect, se
             /*get number of assignable seats to land list from parties common contingent */
             seatsforlandlist(party, seats) as (
             select f.party, f.count - (case when d.seats is null then 0 else d.seats end)from finalPartySteas f left join directwinners d on d.party=f.party
-            ),DROP
+            ),
 
             /*find the minimal values for each party for state list seats from  list of free seat values */
              minimalStateListPlaces( party,  counter) as(
