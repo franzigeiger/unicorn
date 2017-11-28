@@ -80,7 +80,7 @@ public class DatabaseQuery {
             if (!rs.next()) {
                 return null;
             } else {
-                return State.fullCreate(rs.getInt(1), rs.getString(2));
+                return State.fullCreate(rs.getInt(1), rs.getString(2), rs.getInt(3));
             }
         }
     }
@@ -93,7 +93,7 @@ public class DatabaseQuery {
             if (!rs.next()) {
                 return null;
             } else {
-                return State.fullCreate(rs.getInt(1), rs.getString(2));
+                return State.fullCreate(rs.getInt(1), rs.getString(2), rs.getInt(3));
             }
         }
     }
