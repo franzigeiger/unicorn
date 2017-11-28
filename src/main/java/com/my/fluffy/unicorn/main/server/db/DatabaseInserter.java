@@ -1,7 +1,6 @@
 package com.my.fluffy.unicorn.main.server.db;
 
 import com.my.fluffy.unicorn.main.client.data.*;
-import com.my.fluffy.unicorn.main.server.data.*;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
 
@@ -88,9 +87,10 @@ public class DatabaseInserter {
             }
             return;
         }
-        String query = "INSERT INTO election.states (name) VALUES (?)";
+        String query = "INSERT INTO election.states (name,eligiblevoters2017) VALUES (?,?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setString(1, state.getName());
+        stmt.setInt(2, state.getEligibleVoters2017());
         stmt.executeUpdate();
         stmt.close();
     }

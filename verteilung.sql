@@ -20,7 +20,6 @@ TABLESPACE pg_default
     SELECT s.election AS year,
           sum(s.count) AS voters
     FROM rawdistributionstate s
-    WHERE b.secondvote IS NOT NULL
     GROUP BY s.election
 WITH DATA;
 	
@@ -69,7 +68,7 @@ WITH DATA;
 
 set search_path to election;
 
-drop view parlamentDistribution2017;
+drop view if exists parlamentDistribution2017;
 
 create view parlamentDistribution2017(party,state,baseseats, seatswithdirect, seatsFromLandlist, seatsFromDistrict, FinalSeats) as (
 /*1. step:   Create the table with divided votes for party and states out of second votes */
@@ -87,9 +86,9 @@ create view parlamentDistribution2017(party,state,baseseats, seatswithdirect, se
 
             /*Create a table with divided inhabitants for each state to evaluate the states safe seats*/
              highAllStates ( state, counter, divisor) as (
-            select p.id, (cast (p.inhabitans as decimal (16,4))) / 0.5 , 1.5 from states p
+            select p.id, (cast (p.eligiblevoters2017 as decimal (16,4))) / 0.5 , 1.5 from states p
             union all
-            select distinct h.state, cast ((select p.inhabitans from states p where p.id=h.state) as decimal (14,3))/h.divisor, h.divisor +1
+            select distinct h.state, cast ((select p.eligiblevoters2017 from states p where p.id=h.state) as decimal (14,3))/h.divisor, h.divisor +1
             from highallstates h where h.divisor < 250
             ),
 
@@ -247,7 +246,7 @@ create view parlamentDistribution2017(party,state,baseseats, seatswithdirect, se
             /*get number of assignable seats to land list from parties common contingent */
             seatsforlandlist(party, seats) as (
             select f.party, f.count - (case when d.seats is null then 0 else d.seats end)from finalPartySteas f left join directwinners d on d.party=f.party
-            ),
+            ),DROP
 
             /*find the minimal values for each party for state list seats from  list of free seat values */
              minimalStateListPlaces( party,  counter) as(

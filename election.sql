@@ -48,7 +48,8 @@ CREATE TABLE parties (
 
 CREATE TABLE states (
     id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL
+    name TEXT UNIQUE NOT NULL,
+    eligiblevoters2017 INTEGER NOT NULL
 );
 
 CREATE TABLE districts (
@@ -57,7 +58,7 @@ CREATE TABLE districts (
     year INTEGER NOT NULL REFERENCES elections(year),
     state INTEGER NOT NULL REFERENCES states(id),
     name TEXT,
-    eligibleVoters INTEGER NOT NULL,
+    eligibleVoters2017 INTEGER NOT NULL,
     invalidFirstVotes INTEGER NOT NULL, -- aggregated
     invalidSecondVotes INTEGER NOT NULL -- aggregated
 );
