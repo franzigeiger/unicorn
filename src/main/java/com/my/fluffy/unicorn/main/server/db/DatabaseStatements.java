@@ -21,9 +21,7 @@ public class DatabaseStatements {
     public DatabaseStatements(){
         try {
             db = DatabaseConnection.create();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -33,7 +31,7 @@ public class DatabaseStatements {
             System.out.println("Fetch all parties");
             PreparedStatement stmt = db.getConnection().prepareStatement("select * from parties");
 
-            Map<Integer, Party> parties = new HashMap<Integer, Party>();
+            Map<Integer, Party> parties = new HashMap<>();
             ResultSet rs =stmt.executeQuery();
 
             while(rs.next()) {
@@ -49,12 +47,7 @@ public class DatabaseStatements {
 
     public static List<Party> getStates(int year) throws SQLException {
         System.out.println("Fetch all parties");
-
-        List<Party> parties = new ArrayList<Party>();
-
-
-
-        return parties;
+        return new ArrayList<>();
     }
 
 
@@ -63,7 +56,7 @@ public class DatabaseStatements {
         System.out.println("Fetch all parties");
         PreparedStatement stmt = db.getConnection().prepareStatement("select * from rawdistribution where election = ?");
         stmt.setInt(1   ,year);
-        Map<Party, Double> parties = new HashMap<Party, Double>();
+        Map<Party, Double> parties = new HashMap<>();
         ResultSet rs =stmt.executeQuery();
         double others=0;
         while(rs.next()) {

@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class Controller {
 
-    public static Controller instance;
+    private static Controller instance;
 
-    Map<Integer, Party> parties = null;
+    private Map<Integer, Party> parties = null;
 
     public static Controller get(){
         if(instance ==  null){

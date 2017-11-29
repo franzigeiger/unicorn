@@ -16,11 +16,10 @@ import java.util.Map;
  */
 
 public class DistributionCalculator {
-    String calcSeats = "select * from election.parlamentdistribution2017";
-
+    private static final String calcSeats = "select * from election.parlamentdistribution2017";
 
     private final DatabaseConnection db;
-    DatabaseQuery calculator;
+    private final DatabaseQuery calculator;
 
 
     public DistributionCalculator(DatabaseConnection connection) {
@@ -40,9 +39,7 @@ public class DistributionCalculator {
         long duration= System.currentTimeMillis() - time;
 
         System.out.println("Duration: " + duration + " ms");
-        Party party ;
-        int seats;
-        int additional;
+        Party party;
         State state;
 
         int baseseats=0;
@@ -74,14 +71,11 @@ public class DistributionCalculator {
     public Map<Party, Integer> calculatePerParty()throws Exception {
         System.out.println("Distribution between Parties");
 
-        Map<Party, Integer> dist = new HashMap<Party, Integer>();
+        Map<Party, Integer> dist = new HashMap<>();
         PreparedStatement stmt = db.getConnection().prepareStatement("select party, sum(finalseats) from parlamentdistribution2017 group by party");
 
         ResultSet set = stmt.executeQuery();
         Party party;
-        int baseseats = 0;
-        int seatswithdirect = 0;
-        int endresult = 0;
         System.out.println("| Party \t | Values | ");
         while (set.next()) {
             party = Controller.get().getParty(set.getInt(1));
@@ -101,10 +95,7 @@ public class DistributionCalculator {
         PreparedStatement stmt = db.getConnection().prepareStatement("select state, sum(finalseats) from parlamentdistribution group by state");
 
         ResultSet set =stmt.executeQuery();
-        State state ;
-        int baseseats=0;
-        int seatswithdirect =0;
-        int endresult =0;
+        State state;
         System.out.println( "| State \t | Values | ");
         while(set.next()) {
             state = calculator.getStateByID(set.getInt(1));

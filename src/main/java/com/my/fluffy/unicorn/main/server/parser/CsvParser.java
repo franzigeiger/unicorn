@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class CsvParser {
 
-    public JsonParser jsonParser;
+    private JsonParser jsonParser;
 
-    public ArrayList<CandidateJson> candidates2013;
+    private ArrayList<CandidateJson> candidates2013;
 
     public CsvParser(String jsonPath, String path13, String result13){
         this.jsonParser = new JsonParser();
@@ -107,7 +107,7 @@ public class CsvParser {
                             districts.get(districtPosition).partyResultJsons.add(newResult);
 
                             /*System.out.println("Added party result of party " + party.name
-                                    + " to district " + districtId + ": " + first + ", " + second)*/;
+                                    + " to district " + districtId + ": " + first + ", " + second)*/
                         }
                     }
                 }
