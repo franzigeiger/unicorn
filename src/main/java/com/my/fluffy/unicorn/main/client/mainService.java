@@ -3,7 +3,10 @@ package com.my.fluffy.unicorn.main.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.my.fluffy.unicorn.main.client.data.*;
+import com.my.fluffy.unicorn.main.client.data.Candidate;
+import com.my.fluffy.unicorn.main.client.data.District;
+import com.my.fluffy.unicorn.main.client.data.Party;
+import com.my.fluffy.unicorn.main.client.data.State;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +26,9 @@ public interface mainService extends RemoteService {
 
     List<Candidate> getDistrictWinners(int districtID);
 
-    List<PartyStateInfos> getAdditionalMandatsPerParty(int year);
+    Map<Party, Map<State, Integer>> getAdditionalMandatsPerParty();
+
+    Map<State, Integer>getAdditionalMandatsPerstate();
 
     List<Party> getParties();
 

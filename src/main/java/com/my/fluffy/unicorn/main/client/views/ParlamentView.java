@@ -20,35 +20,42 @@ import com.my.fluffy.unicorn.main.client.data.Party;
 
 import java.util.Map;
 
-public class ParlamentView extends VerticalPanel{
+public class ParlamentView extends HorizontalPanel {
 
-    SelectableElectionView parent;
     Map<Party, Integer> distribution;
-    HorizontalPanel chartPanel = new HorizontalPanel();
     Map<Party, Double> percent;
     PieChart chart;
     BarChart chartPercent ;
-    CheckBox use2013 ;
-    CheckBox use2017 ;
 
-    public ParlamentView(SelectableElectionView parent){
-        this.parent = parent;
-        add(chartPanel);
-        mainService.App.getInstance().getParlamentSeats(parent.getElectionYear(), new AsyncCallback<Map<Party, Integer>>() {
+    public ParlamentView(){
+        mainService.App.getInstance().getParlamentSeats(2017, new AsyncCallback<Map<Party, Integer>>() {
             @Override
             public void onFailure(Throwable throwable) {
 
             }
+
+            @Override
             public void onSuccess(Map<Party, Integer> partyIntegerMap) {
                 distribution = partyIntegerMap;
-                if(percent != null){
-                    drawCharts();
-                }
+                ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+                chartLoader.loadApi(new Runnable() {
 
+                    @Override
+                    public void run() {
+                        // Create and attach the chart
+                        chart = new PieChart();
+
+                        add(chart);
+                        draw();
+
+                        chart.setWidth("600px");
+                        chart.setHeight("600px");
+                    }
+                });
             }
         });
 
-        mainService.App.getInstance().getPartyPercent(parent.getElectionYear(), new AsyncCallback<Map<Party, Double>>() {
+        mainService.App.getInstance().getPartyPercent(2017, new AsyncCallback<Map<Party, Double>>() {
             @Override
             public void onFailure(Throwable throwable) {
 
@@ -57,48 +64,23 @@ public class ParlamentView extends VerticalPanel{
             @Override
             public void onSuccess(Map<Party, Double> percentMap) {
                percent=percentMap;
-               if(distribution!= null){
-                   drawCharts();
-               }
+                ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+                chartLoader.loadApi(new Runnable() {
 
+                    @Override
+                    public void run() {
+                        // Create and attach the chart
+                        chartPercent = new BarChart();
+
+                       add(chartPercent);
+                        drawPercent();
+                        chartPercent.setWidth("600px");
+                        chartPercent.setHeight("600px");
+                    }
+                });
             }
         });
 
-        createAdditionalMandatView();
-
-    }
-
-    private void createAdditionalMandatView() {
-    }
-
-    private void drawCharts() {
-        ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
-        chartLoader.loadApi(new Runnable() {
-
-            @Override
-            public void run() {
-                // Create and attach the chart
-                chart = new PieChart();
-
-                chartPanel.add(chart);
-                draw();
-                chart.setWidth("600px");
-                chart.setHeight("600px");
-            }
-        });
-
-        chartLoader.loadApi(new Runnable() {
-
-            @Override
-            public void run() {
-                // Create and attach the chart
-                chartPercent = new BarChart();
-                chartPanel.add(chartPercent);
-                drawPercent();
-                chartPercent.setWidth("600px");
-                chartPercent.setHeight("600px");
-            }
-        });
     }
 
     public void draw(){

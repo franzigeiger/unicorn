@@ -1,6 +1,5 @@
 package com.my.fluffy.unicorn.main.server;
 
-import com.my.fluffy.unicorn.main.client.data.State;
 import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
 import com.my.fluffy.unicorn.main.client.data.Party;
 
@@ -12,7 +11,6 @@ public class Controller {
     public static Controller instance;
 
     Map<Integer, Party> parties = null;
-    Map<Integer, State> states = null;
 
     public static Controller get(){
         if(instance ==  null){
@@ -28,7 +26,6 @@ public class Controller {
         try {
             //parties do not have a year
             parties = statements.getParties(2017);
-            states = statements.getStates();
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,14 +41,12 @@ public class Controller {
         try {
 
            return statements.getPartyPercent(year);
+
+
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public State getState(int stateID) {
-       return  states.get(stateID);
     }
 }

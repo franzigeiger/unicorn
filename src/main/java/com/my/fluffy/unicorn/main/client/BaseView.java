@@ -4,13 +4,11 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.*;
 import com.my.fluffy.unicorn.main.client.views.DistrictView;
 import com.my.fluffy.unicorn.main.client.views.ParlamentView;
-import com.my.fluffy.unicorn.main.client.views.SelectableElectionView;
 import com.my.fluffy.unicorn.main.client.views.StateView;
 
 public class BaseView {
 
     Panel content;
-    SelectableElectionView contentPanel ;
 
     public BaseView(Panel base){
         super();
@@ -29,16 +27,16 @@ public class BaseView {
 
         content.add(menu);
 
-        SelectableElectionView parent = new SelectableElectionView(2017, true);
-        content.add(parent);
+        Panel contentPanel = new HorizontalPanel();
         content.add(contentPanel);
 
         menu.addItem(new MenuItem("Parlament", new Command(){
 
             @Override
             public void execute() {
+
                 contentPanel.clear();
-                contentPanel.add(new ParlamentView(parent));
+                contentPanel.add(new ParlamentView());
             }
         }));
 
@@ -48,7 +46,7 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new StateView(parent));
+                contentPanel.add(new StateView());
             }
         }));
 
@@ -57,7 +55,7 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new DistrictView(parent));
+                contentPanel.add(new DistrictView());
             }
         }));
 
