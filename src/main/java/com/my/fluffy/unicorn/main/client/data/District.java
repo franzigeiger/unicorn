@@ -9,23 +9,23 @@ public class District implements Serializable{
     private  int number;
     State state;
     private  String name;
-    private  int eligibleVoters;
+    private  Integer eligibleVoters;
     private  Integer invalidFirstVotes;
     private  Integer invalidSecondVotes;
     Election election;
 
-    public static District fullCreate(Integer id, int number,  Election election, State state, String name, int eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
+    public static District fullCreate(Integer id, int number,  Election election, State state, String name, Integer eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
         return new District(id, number, election, state, name, eligibleVoters, invalidFirst, invalidSecond);
     }
 
 
-    public static District create(int number,  Election election,  State state, String name, int eligibleVoters) {
+    public static District create(int number,  Election election,  State state, String name, Integer eligibleVoters) {
         return District.fullCreate(null, number, election, state, name, eligibleVoters, null, null);
     }
 
 
-    public static District minCreate(int number,  Election election,  State state, int eligibleVoters) {
-        return District.fullCreate(null, number, election, state, null, eligibleVoters, null, null);
+    public static District minCreate(int number,  Election election) {
+        return District.fullCreate(null, number, election, null, null, null, null, null);
     }
 
     /**
@@ -37,7 +37,7 @@ public class District implements Serializable{
         this(null, number, election, state, null, eligibleVoters, null, null);
     }
 
-    private District(Integer id, int number,  Election election, State state, String name, int eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
+    private District(Integer id, int number,  Election election, State state, String name, Integer eligibleVoters, Integer invalidFirst, Integer invalidSecond) {
         this.id = id;
         this.number = number;
         this.election = election;
@@ -60,7 +60,7 @@ public class District implements Serializable{
         return election;
     }
 
-    public int getEligibleVoters() {
+    public Integer getEligibleVoters() {
         return eligibleVoters;
     }
 
@@ -118,7 +118,7 @@ public class District implements Serializable{
         this.name = name;
     }
 
-    public void setEligibleVoters(int eligibleVoters) {
+    public void setEligibleVoters(Integer eligibleVoters) {
         this.eligibleVoters = eligibleVoters;
     }
 

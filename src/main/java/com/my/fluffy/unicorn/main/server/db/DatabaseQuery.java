@@ -32,6 +32,21 @@ public class DatabaseQuery {
         }
     }
 
+    public Candidate getCandidateById(int candidateId) throws SQLException {
+        String query = "SELECT * FROM election.candidates WHERE id=?;";
+        try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setInt(1, candidateId);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            } else {
+                return Candidate.fullCreate(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6),
+                        rs.getString(7), rs.getString(8), rs.getInt(9));
+            }
+        }
+    }
+
     public Election getElection(Election e) throws SQLException {
         String query = "SELECT * FROM election.elections WHERE day=?";
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
@@ -99,19 +114,18 @@ public class DatabaseQuery {
     }
 
     public District getDistrict(District district) throws SQLException {
-        State s = getState(district.getState());
         Election e = getElection(district.getElection());
-        if (s == null) return null;
 
-        String query = "SELECT * FROM election.districts WHERE number=? AND year=? AND state=?;";
+        String query = "SELECT * FROM election.districts WHERE number=? AND year=?;";
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setInt(1, district.getNumber());
             stmt.setInt(2, district.getElection().getYear());
-            stmt.setInt(3, s.getId());
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
                 return null;
             } else {
+                State s = getStateByID(rs.getInt(4));
+                if (s == null) return null;
                 return District.fullCreate(rs.getInt(1), rs.getInt(2), e, s, rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
             }
         }

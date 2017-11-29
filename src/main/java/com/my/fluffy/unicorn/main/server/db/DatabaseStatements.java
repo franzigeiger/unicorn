@@ -1,15 +1,14 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.client.data.Party;
+import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.server.Controller;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is thought for our database statements
@@ -75,5 +74,45 @@ public class DatabaseStatements {
         rs.close();
 
         return parties;
+    }
+
+    public District getDistrict(int districtId, int year) throws SQLException {
+        Logger.getLogger("").log(Level.INFO, "Fetch a district");
+        return db.getQuery().getDistrict(District.minCreate(districtId, Election.create(new Date())));
+    }
+
+    public List<District> getDistricts(int year) throws SQLException {
+        Logger.getLogger("").log(Level.INFO, "Fetch all districts");
+        PreparedStatement stmt = db.getConnection().prepareStatement("select * from election.districts where year = ?;");
+        stmt.setInt(1, year);
+        ResultSet rs = stmt.executeQuery();
+
+        List<District> districts = new ArrayList<>();
+        while(rs.next()) {
+            districts.add(District.fullCreate(
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    db.getQuery().getElection(Election.minCreate(rs.getInt(3))),
+                    db.getQuery().getStateByID(rs.getInt(4)),
+                    rs.getString(5),
+                    rs.getInt(6),
+                    rs.getInt(7),
+                    rs.getInt(8)));
+        }
+        stmt.close();
+        rs.close();
+        return districts;
+    }
+
+    public Candidate getDirectWinner(District district) throws SQLException {
+        Logger.getLogger("").log(Level.INFO, "Get district winner");
+        PreparedStatement stmt = db.getConnection().prepareStatement("select * from election.directwinner where district = ?;");
+        stmt.setInt(1, district.getId());
+        ResultSet rs = stmt.executeQuery();
+        if (!rs.next()) {
+            return null;
+        }
+        int candidateId = rs.getInt("winner");
+        return db.getQuery().getCandidateById(candidateId);
     }
 }

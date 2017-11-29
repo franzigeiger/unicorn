@@ -13,11 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class mainServiceImpl extends RemoteServiceServlet implements mainService {
-    // Implementation of sample interface method
-    public String getMessage(String msg) {
-        return "Client said: \"" + msg + "\"<br>Server answered: \"Hi!\"";
-    }
-
     @Override
     public Map<Party, Integer> getParlamentSeats(int year) {
         try {
@@ -41,18 +36,19 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     }
 
     @Override
-    public Map<Integer, String> getAllDistricts(int year) {
-        return null;
+    public List<District> getAllDistricts(int year) {
+        return Controller.get().getDistricts(year);
     }
 
     @Override
     public District getDistrict(int districtId, int year) {
-        return null;
+        return Controller.get().getDistrict(districtId,year);
     }
 
     @Override
-    public List<Candidate> getDistrictWinners(int districtID) {
-        return null;
+    public Candidate getDistrictWinner(int districtID, int year) {
+        District district = getDistrict(districtID, year);
+        return Controller.get().getDistrictWinner(district);
     }
 
     @Override
