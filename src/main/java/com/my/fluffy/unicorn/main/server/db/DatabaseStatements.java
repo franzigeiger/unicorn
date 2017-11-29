@@ -1,6 +1,8 @@
 package com.my.fluffy.unicorn.main.server.db;
 
 import com.my.fluffy.unicorn.main.client.data.Party;
+import com.my.fluffy.unicorn.main.client.data.PartyStateInfos;
+import com.my.fluffy.unicorn.main.client.data.State;
 import com.my.fluffy.unicorn.main.server.Controller;
 
 import java.sql.PreparedStatement;
@@ -82,5 +84,47 @@ public class DatabaseStatements {
         rs.close();
 
         return parties;
+    }
+
+    public  List<PartyStateInfos> getAdditionalMandats(int year) throws SQLException {
+
+        System.out.println("Fetch additional mandats");
+        List<PartyStateInfos> infos = new ArrayList<PartyStateInfos>();
+        PreparedStatement stmt = null;
+        if(year == 2017) {
+             stmt = db.getConnection().prepareStatement("select party, state ,\n" +
+                    "  (case when seatswithdirect > baseseats\n" +
+                    "  then seatswithdirect - baseseats else 0 end) as additionalMandats from   election.parlamentdistribution2017 order by additionalmandats desc;");
+        }else {
+            //todo 2013 statement
+        }
+        ResultSet rs =stmt.executeQuery();
+        double others=0;
+        while(rs.next()) {
+            int partyID =rs.getInt(1);
+            int stateID = rs.getInt(2);
+            int additional = rs.getInt(3);
+            Party party = Controller.get().getParty(partyID);
+            State state = Controller.get().getState(stateID);
+            infos.add(new PartyStateInfos(party, state, additional));
+        }
+
+        stmt.close();
+        rs.close();
+
+        return infos;
+    }
+
+    public Map<Integer, State> getStates() throws SQLException {
+        String query = "SELECT * FROM election.states";
+        Map<Integer, State> states = new HashMap<Integer, State>();
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
+            ResultSet rs = stmt.executeQuery();
+            while(!rs.next()) {
+                states.put(rs.getInt(1), State.fullCreate(rs.getInt(1), rs.getString(2)));
+            }
+
+            return states;
     }
 }
