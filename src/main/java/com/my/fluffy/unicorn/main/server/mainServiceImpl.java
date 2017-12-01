@@ -12,11 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public class mainServiceImpl extends RemoteServiceServlet implements mainService {
-    // Implementation of sample interface method
-    public String getMessage(String msg) {
-        return "Client said: \"" + msg + "\"<br>Server answered: \"Hi!\"";
-    }
-
     @Override
     public Map<Party, Integer> getParlamentSeats(int year) {
         try {
@@ -36,26 +31,35 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public Map<Candidate, Party> getParlamentMembers(int year) {
-        return null;
+        DatabaseStatements statements = new DatabaseStatements();
+        try {
+
+            return statements.getParlamentMembers();
+            //all other basic infos for 2017 and 2013!
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public Map<Integer, String> getAllDistricts(int year) {
-        return null;
+    public List<District> getAllDistricts(int year) {
+        return Controller.get().getDistricts(year);
     }
 
     @Override
     public District getDistrict(int districtId, int year) {
-        return null;
+        return Controller.get().getDistrict(districtId,year);
     }
 
     @Override
-    public List<Candidate> getDistrictWinners(int districtID) {
-        return null;
+    public Candidate getDistrictWinner(int districtID, int year) {
+        District district = getDistrict(districtID, year);
+        return Controller.get().getDistrictWinner(district);
     }
 
     @Override
-    public  List<PartyStateInfos> getAdditionalMandatsPerParty(int year) {
+    public List<PartyStateInfos> getAdditionalMandatsPerParty(int year) {
         DatabaseStatements statements = new DatabaseStatements();
         try {
 
@@ -67,15 +71,19 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
         }
     }
 
-
     @Override
-    public List<Party> getParties() {
+    public Map<State, Integer> getAdditionalMandatsPerstate() {
         return null;
     }
 
     @Override
-    public List<Candidate> getTopTen(int parteiID) {
-        return null;
+    public List<Party> getParties() {
+        return Controller.get().getParties();
+    }
+
+    @Override
+    public List<Candidate> getTopTen(int parteiID, int year) {
+        return Controller.get().getTopTen(parteiID, year);
     }
 
     @Override

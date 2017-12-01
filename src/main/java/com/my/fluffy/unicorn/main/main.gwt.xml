@@ -6,6 +6,7 @@
     <inherits name='com.google.gwt.user.theme.standard.Standard'/>
     <inherits name="com.googlecode.gwt.charts.Charts"/>
     <inherits name="com.google.gwt.resources.Resources" />
+    <inherits name="com.google.gwt.logging.Logging" />
     <!-- Specify the app entry point class.                   -->
     <entry-point class='com.my.fluffy.unicorn.main.client.main'/>
 

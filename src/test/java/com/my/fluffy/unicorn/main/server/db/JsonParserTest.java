@@ -1,7 +1,5 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import com.my.fluffy.unicorn.main.server.parser.data.*;
-import com.my.fluffy.unicorn.main.server.parser.BallotCreator;
 import com.my.fluffy.unicorn.main.server.parser.JsonParser;
 import org.junit.Test;
 

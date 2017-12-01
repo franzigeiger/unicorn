@@ -2,12 +2,22 @@ package com.my.fluffy.unicorn.main.client;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.*;
+<<<<<<< HEAD
 import com.my.fluffy.unicorn.main.client.views.*;
+=======
+import com.my.fluffy.unicorn.main.client.views.DistrictView;
+import com.my.fluffy.unicorn.main.client.views.ParlamentView;
+import com.my.fluffy.unicorn.main.client.views.StateView;
+>>>>>>> 681bb4134fcf452ada7b9961f3357d7b237af679
 
 public class BaseView {
 
     Panel content;
+<<<<<<< HEAD
+    SelectableElectionView contentPanel = new SelectableElectionView(2017, true);
+=======
     VerticalPanel contentPanel ;
+>>>>>>> 681bb4134fcf452ada7b9961f3357d7b237af679
 
     public BaseView(Panel base){
         super();
@@ -87,12 +97,12 @@ public class BaseView {
             }
         }));
 
-        menu.addItem(new MenuItem("Women in Parliament", new Command(){
+        menu.addItem(new MenuItem("Women in Parlament", new Command(){
 
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new WomenInParliamentView(parent.getElectionYear()));
+                contentPanel.add(new Label("This should show the percentage of women in parlament."));
             }
         }));
 

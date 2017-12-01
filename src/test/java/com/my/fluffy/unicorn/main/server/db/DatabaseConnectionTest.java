@@ -18,8 +18,8 @@ public class DatabaseConnectionTest {
             c.getInserter().insertDistrict(District.create(1, Election.create(new Date()), State.create("Bayern", 1), "Augsburg Uni", 2));
 
             c.getQuery().getCandidate(Candidate.minCreate("Tobias", "Beeh", -1));
-            System.out.println(c.getQuery().getDistrict(District.minCreate(1, Election.create(new Date()), State.create("Bayern", 1), 2)));
-            System.out.println(c.getQuery().getDistrict(District.minCreate(1, Election.create(new Date()), State.create("Bayern", 1), 2)));
+            System.out.println(c.getQuery().getDistrict(District.minCreate(1, Election.create(new Date()))));
+            System.out.println(c.getQuery().getDistrict(District.minCreate(1, Election.create(new Date()) )));
         }
     }*/
 }

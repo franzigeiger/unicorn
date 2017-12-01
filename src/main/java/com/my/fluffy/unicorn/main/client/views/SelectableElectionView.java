@@ -23,19 +23,19 @@ public class SelectableElectionView extends VerticalPanel {
     }
 
     public void generateWidgets(boolean useAggregated){
-         use2013= new CheckBox("2013");
-         use2017 = new CheckBox("2017");
+        use2013= new CheckBox("2013");
+        use2017 = new CheckBox("2017");
 
-         use2017.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-             @Override
-             public void onValueChange(ValueChangeEvent<Boolean> valueChangeEvent) {
-                 if(valueChangeEvent.getValue() == true){
-                     use2013.setValue(false);
-                 } else {
-                     use2013.setValue(true);
-                 }
-             }
-         });
+        use2017.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> valueChangeEvent) {
+                if(valueChangeEvent.getValue() == true){
+                    use2013.setValue(false);
+                } else {
+                    use2013.setValue(true);
+                }
+            }
+        });
 
         use2013.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override
@@ -48,9 +48,9 @@ public class SelectableElectionView extends VerticalPanel {
             }
         });
 
-         if(year == 2017){
-             use2017.setValue(true);
-         }
+        if(year == 2017){
+            use2017.setValue(true);
+        }
         aggregated = new CheckBox("Use aggregated Data: ");
         aggregated.setValue(useAggregated);
         this.add(aggregated);
