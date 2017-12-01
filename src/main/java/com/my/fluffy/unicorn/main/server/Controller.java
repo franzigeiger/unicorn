@@ -1,5 +1,6 @@
 package com.my.fluffy.unicorn.main.server;
 
+import com.my.fluffy.unicorn.main.client.data.Candidate;
 import com.my.fluffy.unicorn.main.client.data.State;
 import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
 import com.my.fluffy.unicorn.main.client.data.Party;
@@ -13,6 +14,7 @@ public class Controller {
 
     Map<Integer, Party> parties = null;
     Map<Integer, State> states = null;
+    Map<Integer, Candidate> candidates = null;
 
     public static Controller get(){
         if(instance ==  null){
@@ -29,6 +31,7 @@ public class Controller {
             //parties do not have a year
             parties = statements.getParties(2017);
             states = statements.getStates();
+            candidates = statements.getCandidates();
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,6 +55,11 @@ public class Controller {
     }
 
     public State getState(int stateID) {
+        System.out.println(states + "Looking for id: " + stateID);
        return  states.get(stateID);
+    }
+
+    public Candidate getCandidate(int candidateID){
+        return candidates.get(candidateID);
     }
 }

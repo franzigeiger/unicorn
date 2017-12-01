@@ -4,5 +4,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class DistrictView extends VerticalPanel {
     public DistrictView(SelectableElectionView parent) {
+
     }
 }

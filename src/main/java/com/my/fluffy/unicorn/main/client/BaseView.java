@@ -10,7 +10,7 @@ import com.my.fluffy.unicorn.main.client.views.StateView;
 public class BaseView {
 
     Panel content;
-    SelectableElectionView contentPanel ;
+    VerticalPanel contentPanel ;
 
     public BaseView(Panel base){
         super();
@@ -31,6 +31,7 @@ public class BaseView {
 
         SelectableElectionView parent = new SelectableElectionView(2017, true);
         content.add(parent);
+        contentPanel= new VerticalPanel();
         content.add(contentPanel);
 
         menu.addItem(new MenuItem("Parlament", new Command(){

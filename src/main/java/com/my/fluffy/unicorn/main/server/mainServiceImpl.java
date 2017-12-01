@@ -36,7 +36,15 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public Map<Candidate, Party> getParlamentMembers(int year) {
-        return null;
+        DatabaseStatements statements = new DatabaseStatements();
+        try {
+
+            return statements.getParlamentMembers();
+            //all other basic infos for 2017 and 2013!
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
