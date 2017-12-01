@@ -32,7 +32,7 @@ public interface mainService extends RemoteService {
 
     List<Party> getParties();
 
-    List<Candidate> getTopTen(int parteiID);
+    List<Candidate> getTopTen(int parteiID, int year);
 
     class App {
         private static mainServiceAsync ourInstance = GWT.create(mainService.class);

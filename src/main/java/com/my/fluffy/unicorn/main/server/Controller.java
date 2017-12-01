@@ -6,6 +6,7 @@ import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
 import com.my.fluffy.unicorn.main.client.data.Party;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class Controller {
         try {
             statements = new DatabaseStatements();
             //parties do not have a year
-            parties = statements.getParties(2017);
+            parties = statements.getParties();
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,6 +73,19 @@ public class Controller {
     public List<District> getDistricts(int year) {
         try {
             return statements.getDistricts(year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Party> getParties() {
+        return new ArrayList<>(parties.values());
+    }
+
+    public List<Candidate> getTopTen(int partyId, int year) {
+        try {
+            return statements.getTopTen(getParty(partyId), year);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

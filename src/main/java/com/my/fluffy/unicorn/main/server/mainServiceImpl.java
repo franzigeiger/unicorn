@@ -63,11 +63,11 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public List<Party> getParties() {
-        return null;
+        return Controller.get().getParties();
     }
 
     @Override
-    public List<Candidate> getTopTen(int parteiID) {
-        return null;
+    public List<Candidate> getTopTen(int parteiID, int year) {
+        return Controller.get().getTopTen(parteiID, year);
     }
 }
