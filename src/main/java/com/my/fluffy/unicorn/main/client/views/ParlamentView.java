@@ -1,6 +1,8 @@
 package com.my.fluffy.unicorn.main.client.views;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.googlecode.gwt.charts.client.ChartLoader;

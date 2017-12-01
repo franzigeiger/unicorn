@@ -33,7 +33,7 @@ public class Controller {
         try {
             statements = new DatabaseStatements();
             //parties do not have a year
-            parties = statements.getParties(2017);
+            parties = statements.getParties();
             states = statements.getStates();
             candidates = statements.getCandidates();
             //all other basic infos for 2017 and 2013!
@@ -96,6 +96,7 @@ public class Controller {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
     public State getState(int stateID) {
         System.out.println(states + "Looking for id: " + stateID);
        return  states.get(stateID);
