@@ -77,4 +77,14 @@ public class Controller {
             return diffFirstSecond;
         }
     }
+
+
+    public Map<String, Integer> getAmountPerGender(){
+        try {
+            return statements.getAmountPerGender();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

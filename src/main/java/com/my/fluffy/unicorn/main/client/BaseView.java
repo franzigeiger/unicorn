@@ -23,7 +23,7 @@ public class BaseView {
 
         MenuBar menu = new MenuBar();
         menu.setAutoOpen(true);
-        menu.setWidth("500px");
+        menu.setWidth("1000px");
         menu.setAnimationEnabled(true);
 
         content.add(menu);
@@ -69,13 +69,22 @@ public class BaseView {
             }
         }));
 
+        menu.addItem(new MenuItem("Top10", new Command(){
+
+            @Override
+            public void execute() {
+                contentPanel.clear();
+                contentPanel.add(new Top10View(parent));
+            }
+        }));
+
 
         menu.addItem(new MenuItem("Differences per Party", new Command(){
 
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new DifferencePerPartyView());
+                contentPanel.add(new DifferencePerPartyView(parent));
             }
         }));
 
@@ -84,16 +93,16 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new Label("This should show the distribution of first votes."));
+                contentPanel.add(new FirstVotesTotalView(parent));
             }
         }));
 
-        menu.addItem(new MenuItem("Women in Parlament", new Command(){
+        menu.addItem(new MenuItem("Women in Parliament", new Command(){
 
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new Label("This should show the percentage of women in parlament."));
+                contentPanel.add(new WomenInParliamentView(parent));
             }
         }));
 

@@ -32,6 +32,10 @@ public interface mainService extends RemoteService {
     List<Candidate> getTopTen(int parteiID);
 
     Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year);
+    Map<Party, Double> getFirstVotesTotal(int year);
+
+    Map<String, Integer> getAmountPerGender();
+
 
     public static class App {
         private static mainServiceAsync ourInstance = GWT.create(mainService.class);

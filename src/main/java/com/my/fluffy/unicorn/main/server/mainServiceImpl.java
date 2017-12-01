@@ -77,4 +77,9 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year) {
         return Controller.get().getDifferenceFirstSecond(year);
     }
+
+    @Override
+    public Map<String, Integer> getAmountPerGender() {
+        return Controller.get().getAmountPerGender();
+    }
 }

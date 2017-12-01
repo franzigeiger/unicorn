@@ -21,13 +21,13 @@ import java.util.Map;
 public class DifferencePerPartyView extends HorizontalPanel {
 
     Map<Party, DifferenceFirstSecondVotes> differenceTotal;
-
+    SelectableElectionView parent;
     BarChart chart;
 
-    public DifferencePerPartyView() {
-
+    public DifferencePerPartyView(SelectableElectionView parent) {
+        this.parent = parent;
         mainService.App.getInstance().getDifferencesFirstSecondVotes(
-                2017, new AsyncCallback<Map<Party, DifferenceFirstSecondVotes>>() {
+                parent.getElectionYear(), new AsyncCallback<Map<Party, DifferenceFirstSecondVotes>>() {
                 @Override
                 public void onFailure(Throwable throwable) {
 
@@ -58,12 +58,18 @@ public class DifferencePerPartyView extends HorizontalPanel {
     public void draw(){
         DataTable dataTable = DataTable.create();
 
-        dataTable.addColumn(ColumnType.STRING, "Party");
-        dataTable.addColumn(ColumnType.NUMBER, "Difference");
+        dataTable.addColumn(ColumnType.STRING, "Difference");
+        dataTable.addColumn(ColumnType.NUMBER, "Party");
         int i = 0;
         for(Map.Entry<Party, DifferenceFirstSecondVotes> partyDiff : differenceTotal.entrySet()){
             String district = differenceTotal.get(partyDiff.getKey()).getDistrictName();
-            String partyLabel = partyDiff.getKey().getName() + ",\n(" + district + ")";
+            String partyLabel = partyDiff.getKey().getName() + ",\n(" + district + "";
+            if(differenceTotal.get(partyDiff.getKey()).getFirstVotes()
+                    > differenceTotal.get(partyDiff.getKey()).getSecondVotes()){
+                partyLabel += ",\n first > second)";
+            } else {
+                partyLabel += ",\n second > first)";
+            }
             dataTable.addRow( partyLabel, partyDiff.getValue().getDiff());
             i++;
         }
@@ -77,8 +83,8 @@ public class DifferencePerPartyView extends HorizontalPanel {
         Bar bar = Bar.create();
         bar.setGroupWidth("100px");
         options.setBar(bar);
-        options.setHeight(600);
-        options.setWidth(550);
+        options.setHeight(1200);
+        options.setWidth(1100);
 
         // Draw the chart
         chart.draw(dataTable, options);
