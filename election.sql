@@ -48,7 +48,8 @@ CREATE TABLE parties (
 
 CREATE TABLE states (
     id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL
+    name TEXT UNIQUE NOT NULL,
+    eligiblevoters2017 INTEGER NOT NULL
 );
 
 CREATE TABLE districts (
@@ -108,8 +109,7 @@ ALTER TABLE secondvote_aggregates OWNER TO postgres;
 ALTER TABLE states OWNER TO postgres;
 ALTER TABLE statelists OWNER TO postgres;
 
--- No measurable performance impact
--- CREATE INDEX ballot_district_idx ON ballots(district);
+CREATE INDEX ballot_district_idx ON ballots (district,firstvote,secondvote);
 
 --
 -- PostgreSQL database dump complete

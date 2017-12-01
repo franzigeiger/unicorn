@@ -2,14 +2,12 @@ package com.my.fluffy.unicorn.main.client;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.*;
-import com.my.fluffy.unicorn.main.client.views.DifferencePerPartyView;
-import com.my.fluffy.unicorn.main.client.views.DistrictView;
-import com.my.fluffy.unicorn.main.client.views.ParlamentView;
-import com.my.fluffy.unicorn.main.client.views.StateView;
+import com.my.fluffy.unicorn.main.client.views.*;
 
 public class BaseView {
 
     Panel content;
+    SelectableElectionView contentPanel = new SelectableElectionView(2017, true);
 
     public BaseView(Panel base){
         super();
@@ -28,16 +26,16 @@ public class BaseView {
 
         content.add(menu);
 
-        Panel contentPanel = new HorizontalPanel();
+        SelectableElectionView parent = new SelectableElectionView(2017, true);
+        content.add(parent);
         content.add(contentPanel);
 
         menu.addItem(new MenuItem("Parlament", new Command(){
 
             @Override
             public void execute() {
-
                 contentPanel.clear();
-                contentPanel.add(new ParlamentView());
+                contentPanel.add(new ParlamentView(parent));
             }
         }));
 
@@ -47,7 +45,7 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new StateView());
+                contentPanel.add(new StateView(parent));
             }
         }));
 
@@ -56,7 +54,7 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new DistrictView());
+                contentPanel.add(new DistrictView(parent));
             }
         }));
 
@@ -75,7 +73,7 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new DifferencePerPartyView());
+                contentPanel.add(new DifferencePerPartyView(parent.getElectionYear()));
             }
         }));
 
@@ -84,7 +82,7 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new Label("This should show the distribution of first votes."));
+                contentPanel.add(new FirstVotesTotalView(parent.getElectionYear()));
             }
         }));
 

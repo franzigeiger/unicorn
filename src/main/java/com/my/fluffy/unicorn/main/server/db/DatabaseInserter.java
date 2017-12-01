@@ -8,8 +8,6 @@ import java.io.*;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -87,9 +85,10 @@ public class DatabaseInserter {
             }
             return;
         }
-        String query = "INSERT INTO election.states (name) VALUES (?)";
+        String query = "INSERT INTO election.states (name,eligiblevoters2017) VALUES (?,?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setString(1, state.getName());
+        stmt.setInt(2, state.getEligibleVoters2017());
         stmt.executeUpdate();
         stmt.close();
     }

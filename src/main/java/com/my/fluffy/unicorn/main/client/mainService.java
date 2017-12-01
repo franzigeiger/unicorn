@@ -23,15 +23,14 @@ public interface mainService extends RemoteService {
 
     List<Candidate> getDistrictWinners(int districtID);
 
-    Map<Party, Map<State, Integer>> getAdditionalMandatsPerParty();
-
-    Map<State, Integer>getAdditionalMandatsPerstate();
+    List<PartyStateInfos> getAdditionalMandatsPerParty(int year);
 
     List<Party> getParties();
 
     List<Candidate> getTopTen(int parteiID);
 
     Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year);
+    Map<Party, Double> getFirstVotesTotal(int year);
 
     public static class App {
         private static mainServiceAsync ourInstance = GWT.create(mainService.class);

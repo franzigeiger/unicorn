@@ -7,6 +7,7 @@ import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
 import com.my.fluffy.unicorn.main.server.db.DistributionCalculator;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -54,14 +55,18 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     }
 
     @Override
-    public Map<Party, Map<State, Integer>> getAdditionalMandatsPerParty() {
-        return null;
+    public  List<PartyStateInfos> getAdditionalMandatsPerParty(int year) {
+        DatabaseStatements statements = new DatabaseStatements();
+        try {
+
+            return statements.getAdditionalMandats(year);
+            //all other basic infos for 2017 and 2013!
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    public Map<State, Integer> getAdditionalMandatsPerstate() {
-        return null;
-    }
 
     @Override
     public List<Party> getParties() {
@@ -76,5 +81,10 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     @Override
     public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year) {
         return Controller.get().getDifferenceFirstSecond(year);
+    }
+
+    @Override
+    public Map<Party, Double> getFirstVotesTotal(int year) {
+        return Controller.get().getFirstVotesPerParty(year);
     }
 }

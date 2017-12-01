@@ -24,9 +24,10 @@ public interface mainServiceAsync {
 
     void getPartyPercent(int year, AsyncCallback<Map<Party, Double>> async);
 
+<<<<<<< HEAD
     void getDifferencesFirstSecondVotes(int year, AsyncCallback<Map<Party, DifferenceFirstSecondVotes>> async);
-    void getFirstVotesTotal(int year, AsyncCallback<Map<Party, Double>> async);
 
+=======
     void getAdditionalMandatsPerParty(int year, AsyncCallback<List<PartyStateInfos>> async);
-
+>>>>>>> ce53709e7ccc19cb8b166cb7b4647777fe320ad1
 }
