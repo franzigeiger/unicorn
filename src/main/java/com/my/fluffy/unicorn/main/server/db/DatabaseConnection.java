@@ -17,7 +17,7 @@ public class DatabaseConnection implements AutoCloseable {
         return new DatabaseConnection(c);
     }
 
-    protected Connection getConnection() {
+    Connection getConnection() {
         return connection;
     }
 
@@ -33,14 +33,14 @@ public class DatabaseConnection implements AutoCloseable {
      * WARNING: will take some time.
      */
     public void updateAggregates() throws SQLException {
-        String query = "DELETE FROM secondvote_aggregates";
+        String query = "DELETE FROM election.secondvote_aggregates";
         PreparedStatement stmt = connection.prepareStatement(query);
         stmt.executeUpdate();
         stmt.close();
 
-        query = "INSERT INTO secondvote_aggregates(district,party,votes)" +
+        query = "INSERT INTO election.secondvote_aggregates(district,party,votes)" +
                 "SELECT b.district,s.party,COUNT(*) AS votes " +
-                "FROM ballots AS b, statelists AS s " +
+                "FROM election.ballots AS b, election.statelists AS s " +
                 "WHERE b.secondvote = s.id " +
                 "GROUP BY b.district,s.party";
         stmt = connection.prepareStatement(query);

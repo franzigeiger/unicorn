@@ -4,7 +4,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.*;
 import com.my.fluffy.unicorn.main.client.views.DistrictView;
 import com.my.fluffy.unicorn.main.client.views.ParlamentView;
-import com.my.fluffy.unicorn.main.client.views.SelectableElectionView;
 import com.my.fluffy.unicorn.main.client.views.StateView;
 
 public class BaseView {

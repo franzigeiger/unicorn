@@ -13,13 +13,16 @@ public class Election implements Serializable{
     public Election() {
     }
 
-
-    public static Election create( Date date) {
-        return new Election(date);
+    public static Election minCreate(int year) {
+        return new Election(year, null);
     }
 
-     public Election( Date date) {
-        this.year = date.getYear();
+    public static Election create( Date date) {
+        return new Election(date.getYear(), date);
+    }
+
+     public Election(int year, Date date) {
+        this.year = year;
         this.date = date;
     }
 
