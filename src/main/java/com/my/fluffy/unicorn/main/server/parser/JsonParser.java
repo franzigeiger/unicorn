@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class JsonParser {
 
-    public JSONObject obj;
+    private JSONObject obj;
 
     public ArrayList<PartyJson> allParties;
     public ArrayList<StateJson> allStates;
@@ -337,7 +337,7 @@ public class JsonParser {
      */
     private String loadFileToString(String fileName) throws IOException {
         File file = new File(this.getClass().getClassLoader().getResource(fileName).getFile());
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         BufferedReader reader = null;
 
         try {
@@ -347,17 +347,9 @@ public class JsonParser {
             while ((s = reader.readLine()) != null) {
                 content.append(s).append(System.getProperty("line.separator"));
             }
-        } catch (FileNotFoundException e) {
-            throw e;
-        } catch (IOException e) {
-            throw e;
         } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                throw e;
+            if (reader != null) {
+                reader.close();
             }
         }
         return content.toString();

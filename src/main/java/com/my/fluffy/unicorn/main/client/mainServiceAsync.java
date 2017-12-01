@@ -12,23 +12,24 @@ public interface mainServiceAsync {
 
     void getParlamentMembers(int year, AsyncCallback<Map<Candidate, Party>> async);
 
-    void getAllDistricts(int year, AsyncCallback<Map<Integer, String>> async);
+    void getAllDistricts(int year, AsyncCallback<List<District>> async);
 
     void getDistrict(int districtId, int year, AsyncCallback<District> async);
 
-    void getDistrictWinners(int districtID, AsyncCallback<List<Candidate>> async);
+    void getDistrictWinner(int districtID, int year, AsyncCallback<Candidate> async);
 
-    void getAdditionalMandatsPerParty(AsyncCallback<Map<Party, Map<State, Integer>>> async);
+    void getAdditionalMandatsPerParty(int year, AsyncCallback<List<PartyStateInfos>> async);
 
     void getAdditionalMandatsPerstate(AsyncCallback<Map<State, Integer>> async);
 
     void getParties(AsyncCallback<List<Party>> async);
 
-    void getTopTen(int parteiID, AsyncCallback<List<Candidate>> async);
+    void getTopTen(int parteiID, int year, AsyncCallback<List<Candidate>> async);
 
     void getPartyPercent(int year, AsyncCallback<Map<Party, Double>> async);
     void getAmountPerGender(AsyncCallback<Map<String, Integer>> async);
-
     void getDifferencesFirstSecondVotes(int year, AsyncCallback<Map<Party, DifferenceFirstSecondVotes>> async);
+    void getFirstVotesTotal(int year, AsyncCallback<Map<Party, Double>> async);
+
 
 }

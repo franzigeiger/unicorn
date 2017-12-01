@@ -6,7 +6,6 @@ import com.my.fluffy.unicorn.main.server.parser.data.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -87,7 +86,7 @@ public class BatchInserter {
             electionStatePartyToList.get(2013).put(s, new HashMap<>());
             electionStatePartyToList.get(2017).put(s, new HashMap<>());
 
-            convertedStates.put(s, State.create(s.name));
+            convertedStates.put(s, State.create(s.name, s.eligibleVoters_17));
         }
         return convertedStates;
     }

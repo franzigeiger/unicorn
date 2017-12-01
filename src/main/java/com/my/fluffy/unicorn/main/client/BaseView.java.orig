@@ -2,12 +2,22 @@ package com.my.fluffy.unicorn.main.client;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.*;
+<<<<<<< HEAD
 import com.my.fluffy.unicorn.main.client.views.*;
+=======
+import com.my.fluffy.unicorn.main.client.views.DistrictView;
+import com.my.fluffy.unicorn.main.client.views.ParlamentView;
+import com.my.fluffy.unicorn.main.client.views.StateView;
+>>>>>>> 681bb4134fcf452ada7b9961f3357d7b237af679
 
 public class BaseView {
 
     Panel content;
+<<<<<<< HEAD
+    SelectableElectionView contentPanel = new SelectableElectionView(2017, true);
+=======
     VerticalPanel contentPanel ;
+>>>>>>> 681bb4134fcf452ada7b9961f3357d7b237af679
 
     public BaseView(Panel base){
         super();
@@ -21,7 +31,7 @@ public class BaseView {
 
         MenuBar menu = new MenuBar();
         menu.setAutoOpen(true);
-        menu.setWidth("1000px");
+        menu.setWidth("500px");
         menu.setAnimationEnabled(true);
 
         content.add(menu);
@@ -68,22 +78,13 @@ public class BaseView {
             }
         }));
 
-        menu.addItem(new MenuItem("Top10", new Command(){
-
-            @Override
-            public void execute() {
-                contentPanel.clear();
-                contentPanel.add(new Top10View(parent));
-            }
-        }));
-
 
         menu.addItem(new MenuItem("Differences per Party", new Command(){
 
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new DifferencePerPartyView(parent));
+                contentPanel.add(new DifferencePerPartyView(parent.getElectionYear()));
             }
         }));
 
@@ -92,16 +93,16 @@ public class BaseView {
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new FirstVotesTotalView(parent));
+                contentPanel.add(new FirstVotesTotalView(parent.getElectionYear()));
             }
         }));
 
-        menu.addItem(new MenuItem("Women in Parliament", new Command(){
+        menu.addItem(new MenuItem("Women in Parlament", new Command(){
 
             @Override
             public void execute() {
                 contentPanel.clear();
-                contentPanel.add(new WomenInParliamentView(parent));
+                contentPanel.add(new Label("This should show the percentage of women in parlament."));
             }
         }));
 

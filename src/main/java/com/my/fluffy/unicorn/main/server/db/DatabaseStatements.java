@@ -4,6 +4,7 @@ import com.my.fluffy.unicorn.main.client.data.DifferenceFirstSecondVotes;
 import com.my.fluffy.unicorn.main.client.data.Candidate;
 import com.my.fluffy.unicorn.main.client.data.District;
 import com.my.fluffy.unicorn.main.client.data.Party;
+import com.my.fluffy.unicorn.main.client.data.PartyStateInfos;
 import com.my.fluffy.unicorn.main.client.data.State;
 import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.server.Controller;
@@ -55,39 +56,44 @@ public class DatabaseStatements {
         return new ArrayList<>();
     }
 
-
-    public Map<String, Integer> getAmountPerGender() throws SQLException {
-        String query = "select c.sex, count(*) as total\n" +
-                "from election.parliamentmembers m join election.candidates c on m.id = c.id\n" +
-                "group by c.sex";
-        PreparedStatement stmt = db.getConnection().prepareStatement(query);
-        Map<String, Integer> amountPerGender = new HashMap<String, Integer>();
-        ResultSet rs =stmt.executeQuery();
-        while(rs.next()) {
-            amountPerGender.put(rs.getString(1), rs.getInt(2));
-        }
-        stmt.close();
-        rs.close();
-
-        return amountPerGender;
-    }
-
-
     public Map<Candidate,Party> getParlamentMembers() throws SQLException {
-        String query = "select * from election.parliamentMembers";
+        String query = "with directCandidates as(\n" +
+                "select c.id , d.party from (directwinner w join direct_candidatures d on  w.winner = d.id) join candidates c on d.candidate=c.id where w.year =2017\n" +
+                "),\n" +
+                "\n" +
+                "directFreeCandidates as(\n" +
+                "select c.id, s.party, s.state, l.placement from (statelists s join list_candidatures l on s.id=l.statelist) join candidates c on c.id= l.candidate where s.election=2017 and \n" +
+                "    c.id not in(select id from directCandidates)\n" +
+                "),\n" +
+                "\n" +
+                "landlist as (\n" +
+                "select x.id, x.state, x.party \n" +
+                "    from (select ROW_NUMBER() over(partition by party, state order by placement) as r , t.* from directFreeCandidates t) x \n" +
+                "    where x.r <=  (select seatsfromlandlist from parlamentdistribution2017 p where p.party =x.party and p.state=x.state)\n" +
+                ")\n" +
+                "\n" +
+                "select * from  directCandidates\n" +
+                "union\n" +
+                "select id, party from landlist;";
 
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         //stmt.setInt(1   ,year);
         Map<Candidate, Party> members = new LinkedHashMap<Candidate, Party>();
         ResultSet rs =stmt.executeQuery();
+        double others=0;
         while(rs.next()) {
             Candidate candidate = Controller.get().getCandidate(rs.getInt(1));
             Party party = Controller.get().getParty(rs.getInt(2));
             members.put(candidate, party);
         }
+
+
+
         stmt.close();
         rs.close();
-        return members;
+
+    return members;
+
     }
 
     public Map<Integer, District> getDistricts() throws SQLException {
@@ -338,33 +344,5 @@ public Map<Party, Double> getFirstVotesPerParty(
         rs.close();
 
         return candidates;
-    }
-
-    public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(
-            int year) throws SQLException {
-        System.out.println("Fetch Differences for " + year);
-        PreparedStatement stmt = db.getConnection().prepareStatement(
-                "select party, diff, first, second, district, year " +
-                        "from election.differencefirstsecondvotes where year = ? " +
-                        "order by diff desc");
-        stmt.setInt(1   ,year);
-        Map<Party, DifferenceFirstSecondVotes> differenceTotal = new HashMap<Party, DifferenceFirstSecondVotes>();
-        ResultSet rs =stmt.executeQuery();
-
-        while(rs.next()) {
-            Party party = Controller.get().getParty(rs.getInt(1));
-            DifferenceFirstSecondVotes diff =  DifferenceFirstSecondVotes.create(
-                    rs.getInt(2),
-                    rs.getInt(3),
-                    rs.getInt(4),
-                    Controller.get().getDistrict(rs.getInt(5)).getName(),
-                    rs.getInt(6)
-            );
-            differenceTotal.put(party, diff);
-        }
-        stmt.close();
-        rs.close();
-
-        return differenceTotal;
     }
 }

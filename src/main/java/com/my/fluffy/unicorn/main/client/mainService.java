@@ -17,27 +17,28 @@ public interface mainService extends RemoteService {
 
     Map<Candidate, Party> getParlamentMembers(int year);
 
-    Map<Integer, String> getAllDistricts(int year);
+    List<District> getAllDistricts(int year);
 
     District getDistrict(int districtId, int year);
 
-    List<Candidate> getDistrictWinners(int districtID);
+    Candidate getDistrictWinner(int districtID, int year);
 
-    Map<Party, Map<State, Integer>> getAdditionalMandatsPerParty();
+    List<PartyStateInfos> getAdditionalMandatsPerParty(int year);
 
     Map<State, Integer>getAdditionalMandatsPerstate();
 
     List<Party> getParties();
 
-    List<Candidate> getTopTen(int parteiID);
+    List<Candidate> getTopTen(int parteiID, int year);
 
     Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year);
     Map<Party, Double> getFirstVotesTotal(int year);
 
     Map<String, Integer> getAmountPerGender();
+    
+    class App {
 
 
-    public static class App {
         private static mainServiceAsync ourInstance = GWT.create(mainService.class);
 
         public static synchronized mainServiceAsync getInstance() {
