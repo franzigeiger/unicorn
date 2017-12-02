@@ -232,41 +232,39 @@ public Map<Party, Double> getFirstVotesPerParty(
         List<Candidate> retVal = new ArrayList<>(10);
 
         String maxvotes_per_district = "SELECT district,year,MAX(votes) AS maxvotes FROM election.direct_candidatures AS dc JOIN election.districts AS d ON d.id = dc.district GROUP BY year,district";
-        String winners_per_district = "SELECT dc.*,maxvotes,year FROM election.direct_candidatures AS dc JOIN maxvotes_per_district AS mv ON mv.district = dc.district AND mv.maxvotes = dc.votes";
+        String winners_per_district = "SELECT dc.*,maxvotes,year FROM election.direct_candidatures AS dc JOIN maxvotes_per_district AS mv ON (mv.district = dc.district AND mv.maxvotes = dc.votes)";
         String second_max_votes_per_district = "SELECT district,MAX(votes) AS secondvotes FROM election.direct_candidatures AS dc WHERE NOT EXISTS (SELECT * FROM winners_per_district WHERE id = dc.id) GROUP BY district";
         String second_candidate_per_district = "SELECT dc.*,secondvotes FROM election.direct_candidatures AS dc JOIN secondvotes_per_district AS sv ON sv.district = dc.district AND sv.secondvotes = dc.votes";
-        String join_and_votediff_per_district = "SELECT winners.district,winners.year," +
-                "winners.votes - second.votes AS votediff," +
-                "winners.candidate AS winner,winners.party AS winnerparty,winners.votes AS winnervotes," +
-                "second.candidate AS second,second.party AS secondparty,second.votes AS secondvotes" +
+        String join_and_votediff_per_district = "SELECT winners.district,winners.year, " +
+                "winners.votes - second.votes AS votediff, " +
+                "winners.candidate AS winner,winners.party AS winnerparty,winners.votes AS winnervotes, " +
+                "second.candidate AS second,second.party AS secondparty,second.votes AS secondvotes " +
                 "FROM winners_per_district as winners JOIN second_per_district AS second ON winners.district = second.district";
 
-        String query = "WITH maxvotes_per_district AS (" + maxvotes_per_district + ")," +
+        String withClause = "WITH maxvotes_per_district AS (" + maxvotes_per_district + ")," +
                 "winners_per_district AS (" + winners_per_district + ")," +
                 "secondvotes_per_district AS (" + second_max_votes_per_district + ")," +
                 "second_per_district AS (" + second_candidate_per_district + ")," +
-                "first_second_diff_per_district AS (" + join_and_votediff_per_district + ")" +
-                "SELECT * FROM first_second_diff_per_district WHERE ?=? AND year=? ORDER BY votediff ASC LIMIT 10";
+                "first_second_diff_per_district AS (" + join_and_votediff_per_district + ")";
 
+        String query = withClause + "SELECT * FROM first_second_diff_per_district WHERE winnerparty=? AND year=? ORDER BY votediff ASC LIMIT 10";
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
-            {
-                stmt.setString(1, "winnerparty");
-                stmt.setInt(2, party.getId());
-                stmt.setInt(3, year);
-                ResultSet rs = stmt.executeQuery();
+            stmt.setInt(1, party.getId());
+            stmt.setInt(2, year);
+            ResultSet rs = stmt.executeQuery();
 
-                while (rs.next()) {
-                    retVal.add(db.getQuery().getCandidateById(rs.getInt("winner")));
-                }
+            while (rs.next()) {
+                retVal.add(db.getQuery().getCandidateById(rs.getInt("winner")));
             }
-
-            if (retVal.size() < 10) {
-                stmt.setString(1, "secondparty");
-                stmt.setInt(2, party.getId());
-                stmt.setInt(3, year);
+        }
+        if (retVal.size() < 10) {
+            query = withClause + "SELECT * FROM first_second_diff_per_district WHERE secondparty=? AND year=? ORDER BY votediff ASC LIMIT 10";
+            try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+                stmt.setInt(1, party.getId());
+                stmt.setInt(2, year);
                 ResultSet rs = stmt.executeQuery();
 
-                while (rs.next()) {
+                while (rs.next() && retVal.size() < 10) {
                     retVal.add(db.getQuery().getCandidateById(rs.getInt("winner")));
                 }
             }

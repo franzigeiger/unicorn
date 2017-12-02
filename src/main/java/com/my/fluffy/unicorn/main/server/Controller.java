@@ -70,9 +70,8 @@ public class Controller {
     public Map<Party, DifferenceFirstSecondVotes> getDifferenceFirstSecond(int year){
         DatabaseStatements statements = new DatabaseStatements();
         try {
-
-            return statements.getDifferencesFirstSecondVotes(year);
-
+            throw new SQLException();
+            //return statements.getDifferencesFirstSecondVotes(year);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -142,7 +141,8 @@ public class Controller {
 
     public Map<String, Integer> getAmountPerGender(){
         try {
-            return statements.getAmountPerGender();
+            throw new SQLException();
+            //return statements.getAmountPerGender();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
