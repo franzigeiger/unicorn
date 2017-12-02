@@ -36,5 +36,7 @@ public interface mainServiceAsync {
     void getDistrictResults(int districtIdOld, int districtIdNew, AsyncCallback<List<DistrictResults>> async);
     void getDistrictMap(AsyncCallback<Map<Integer, District>> async);
 
+    void getWinningParties(int districtId, AsyncCallback<List<String>> async);
+
     void updateAggregates(AsyncCallback<Integer> async);
 }

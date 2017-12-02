@@ -1,6 +1,7 @@
 package com.my.fluffy.unicorn.main.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.my.fluffy.unicorn.main.client.data.*;
@@ -38,6 +39,8 @@ public interface mainService extends RemoteService {
     Map<String, Integer> getAmountPerGender();
     List<DistrictResults> getDistrictResults(int districtIdOld, int districtIdNew);
     Map<Integer, District> getDistrictMap();
+
+    List<String> getWinningParties(int districtId);
 
     int updateAggregates();
 

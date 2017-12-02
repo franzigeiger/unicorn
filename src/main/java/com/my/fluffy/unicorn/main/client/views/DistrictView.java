@@ -28,6 +28,11 @@ public class DistrictView extends VerticalPanel {
     List<DistrictResults> results;
     Candidate winner2017;
 
+    String winningPartyFirst13;
+    String winningPartyFirst17;
+    String winningPartySecond13;
+    String winningPartySecond17;
+
     HorizontalPanel chartPanel = new HorizontalPanel();
     PieChart chartPartyFirst;
     PieChart chartPartySecond;
@@ -114,6 +119,34 @@ public class DistrictView extends VerticalPanel {
                 }
             });
 
+            //get winning parties for 2017
+            mainService.App.getInstance().getWinningParties(chosen2017.getId(), new AsyncCallback<List<String>>() {
+                @Override
+                public void onFailure(Throwable throwable) {
+
+                }
+
+                @Override
+                public void onSuccess(List<String> strings) {
+                    winningPartyFirst17 = strings.get(0);
+                    winningPartySecond17 = strings.get(1);
+                }
+            });
+
+            //get winning parties for 2013
+            mainService.App.getInstance().getWinningParties(chosen2013.getId(), new AsyncCallback<List<String>>() {
+                @Override
+                public void onFailure(Throwable throwable) {
+
+                }
+
+                @Override
+                public void onSuccess(List<String> strings) {
+                    winningPartyFirst13 = strings.get(0);
+                    winningPartySecond13 = strings.get(1);
+                }
+            });
+
             // get direct winner 2017
             mainService.App.getInstance().getDistrictWinner(chosen2017,2017,  new AsyncCallback<Candidate>() {
                 @Override
@@ -125,6 +158,11 @@ public class DistrictView extends VerticalPanel {
                     winner2017 = winner;
                     table.setText(0, 0,
                             "Direct Winner: " + winner2017.getLastName() + ", " + winner2017.getFirstName());
+                    table.setText(1, 0,
+                            "Winning Party (first): " + winningPartyFirst17
+                                    + " (2013: " + winningPartyFirst13 + ")");
+                    table.setText(2, 0,"Winning Party (second): " + winningPartySecond17
+                            + " (2013: " + winningPartySecond13 + ")");
                     drawCharts();
                 }
             });
@@ -139,65 +177,74 @@ public class DistrictView extends VerticalPanel {
 
                 @Override
                 public void run() {
-                    // Create and attach the chart
+                    // Create and attach chart for voters/non-voters
                     chartVoters = new PieChart();
-
                     chartPanel.add(chartVoters);
 
+                    //data for voter/non-voters of 2017
                     DataTable pieNewDataVoters = DataTable.create();
                     pieNewDataVoters.addColumn(ColumnType.STRING, "Voters");
                     pieNewDataVoters.addColumn(ColumnType.NUMBER, "Amount");
                     pieNewDataVoters.addRows(2);
+                    //add values for voters/non-voters chart of 2017
                     int voters = getFirstSum(2017) + chosen2017.getInvalidFirstVotes();
                     pieNewDataVoters.addRow("Voters",
                             voters);
                     pieNewDataVoters.addRow("Non-Voters",
                             chosen2017.getEligibleVoters() - voters);
 
-
+                    //data for voter/non-voters of 2013
                     DataTable pieOldDataVoters = DataTable.create();
                     pieOldDataVoters.addColumn(ColumnType.STRING, "Voters");
                     pieOldDataVoters.addColumn(ColumnType.NUMBER, "Amount");
                     pieOldDataVoters.addRows(2);
+                    //add values for voters/non-voters chart of 2013
                     int votersOld = getFirstSum(2013) + chosen2013.getInvalidFirstVotes();
                     pieOldDataVoters.addRow("Voters",
                             votersOld);
                     pieOldDataVoters.addRow("Non-Voters",
                             chosen2013.getEligibleVoters() - votersOld);
 
+                    //set title and draw chart
                     PieChartOptions optionsVoters = PieChartOptions.create();
                     optionsVoters.setTitle("Voters");
-                    // Draw the chart
                     chartVoters.draw(chartVoters.computeDiff(pieOldDataVoters, pieNewDataVoters),
                             optionsVoters);
 
 
+                    //create and attach chart for first votes
                     chartPartyFirst = new PieChart();
                     chartPanel.add(chartPartyFirst);
 
+                    //create and attach chart for second votes
                     chartPartySecond = new PieChart();
                     chartPanel.add(chartPartySecond);
 
+                    //data for first votes 2017
                     DataTable pieNewDataFirst = DataTable.create();
                     pieNewDataFirst.addColumn(ColumnType.STRING, "Party");
                     pieNewDataFirst.addColumn(ColumnType.NUMBER, "Amount - First");
                     pieNewDataFirst.addRows(results.size());
 
+                    //data for for first votes 2013
                     DataTable pieOldDataFirst = DataTable.create();
                     pieOldDataFirst.addColumn(ColumnType.STRING, "Party");
                     pieOldDataFirst.addColumn(ColumnType.NUMBER, "Amount - First");
                     pieOldDataFirst.addRows(results.size());
 
+                    //data for second votes 2017
                     DataTable pieNewDataSecond = DataTable.create();
                     pieNewDataSecond.addColumn(ColumnType.STRING, "Party");
                     pieNewDataSecond.addColumn(ColumnType.NUMBER, "Amount - Second");
                     pieNewDataSecond.addRows(results.size());
 
+                    //data for second votes 2013
                     DataTable pieOldDataSecond = DataTable.create();
                     pieOldDataSecond.addColumn(ColumnType.STRING, "Party");
                     pieOldDataSecond.addColumn(ColumnType.NUMBER, "Amount - Second");
                     pieOldDataSecond.addRows(results.size());
 
+                    //add values for each chart
                     for(DistrictResults dr: results){
                         pieNewDataFirst.addRow(dr.getPartyName(), dr.getFirst17());
                         pieOldDataFirst.addRow(dr.getPartyName(), dr.getFirst13());
@@ -206,13 +253,15 @@ public class DistrictView extends VerticalPanel {
                         pieOldDataSecond.addRow(dr.getPartyName(), dr.getSecond13());
                     }
 
+                    // set title of first votes pie chart and draw chart
                     PieChartOptions optionsFirst = PieChartOptions.create();
                     optionsFirst.setTitle("First");
                     chartPartyFirst.draw(chartPartyFirst.computeDiff(pieOldDataFirst, pieNewDataFirst), optionsFirst);
 
-
+                    // set title of second votes pie chart and draw chart
                     PieChartOptions optionsSecond = PieChartOptions.create();
                     optionsSecond.setTitle("Second");
+                    //
                     chartPartySecond.draw(chartPartySecond.computeDiff(pieOldDataSecond, pieNewDataSecond),
                             optionsSecond);
 

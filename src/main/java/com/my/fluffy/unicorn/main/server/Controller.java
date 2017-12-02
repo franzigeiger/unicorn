@@ -99,7 +99,6 @@ public class Controller {
     public Candidate getDistrictWinner(District district) {
         try {
             Candidate winner = statements.getDirectWinner(district);
-            System.out.println(winner.getLastName());
             return winner;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,6 +158,15 @@ public class Controller {
     public void updateAggregates(){
         try {
            statements.updateAggregates();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<String> getWinningParties(int districtId){
+        try {
+            return statements.getWinnigParties(districtId);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

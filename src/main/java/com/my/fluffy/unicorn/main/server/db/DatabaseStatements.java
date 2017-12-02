@@ -123,7 +123,6 @@ public class DatabaseStatements {
         return districts;
     }
 
-
     public Map<Party,Double> getPartyPercent(int year) throws SQLException {
 
         System.out.println("Fetch all parties");
@@ -182,7 +181,6 @@ public class DatabaseStatements {
         return firstVotesPerParty;
     }
     
-    
     public District getDistrict(int districtId, int year) throws SQLException {
         Logger.getLogger("").log(Level.INFO, "Fetch a district");
         return db.getQuery().getDistrict(District.minCreate(districtId, Election.minCreate(year)));
@@ -213,15 +211,18 @@ public class DatabaseStatements {
 
     public Candidate getDirectWinner(District district) throws SQLException {
         Logger.getLogger("").log(Level.INFO, "Get district winner");
-        PreparedStatement stmt = db.getConnection().prepareStatement("select * from election.directwinner where district = ?;");
+        PreparedStatement stmt = db.getConnection().prepareStatement(
+                "select c.id\n" +
+                        "from election.directwinner dw join election.direct_candidatures dc\n" +
+                        "on dw.winner = dc.id\n" +
+                        "join election.candidates c on dc.candidate = c.id\n" +
+                        "where dw.district = ?;");
         stmt.setInt(1, district.getId());
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
             return null;
         }
-        int candidateId = rs.getInt("winner");
-        System.out.println(candidateId);
-        return db.getQuery().getCandidateById(candidateId);
+        return Controller.get().getCandidate(rs.getInt(1));
     }
 
     public List<Candidate> getTopTen(Party party, int year) throws SQLException {
@@ -481,5 +482,42 @@ public class DatabaseStatements {
         stmt = db.getConnection().prepareStatement(query);
         stmt.executeUpdate();
         stmt.close();
+    }
+
+    public List<String> getWinnigParties(int districtId) throws SQLException{
+        String query = "with firstWinner as(\n" +
+                "    select max(dc.votes) as winner\n" +
+                "    from election.direct_candidatures dc join election.districts d on d.id = dc.district\n" +
+                "    where d.id = ?\n" +
+                "),\n" +
+                "\n" +
+                "secondWinner as(\n" +
+                "    select max(sa.votes) as winner\n" +
+                "    from election.secondvote_aggregates sa join election.districts d on d.id = sa.district\n" +
+                "    where d.id = ?\n" +
+                ")\n" +
+                "\n" +
+                "select dc.party, sa.party\n" +
+                "from \n" +
+                "election.direct_candidatures dc join firstWinner fw on dc.votes = fw.winner,\n" +
+                "election.secondvote_aggregates sa join secondWinner sw on sa.votes = sw.winner\n" +
+                "where dc.district = ? and sa.district = ?";
+
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+        stmt.setInt(1   , districtId);
+        stmt.setInt(2   , districtId);
+        stmt.setInt(3   , districtId);
+        stmt.setInt(4   , districtId);
+        List<String> winningParty = new ArrayList<String>();
+
+        ResultSet rs =stmt.executeQuery();
+        while(rs.next()) {
+            winningParty.add(Controller.get().getParty(rs.getInt(1)).getName());
+            winningParty.add(Controller.get().getParty(rs.getInt(2)).getName());
+        }
+        stmt.close();
+        rs.close();
+
+        return winningParty;
     }
 }

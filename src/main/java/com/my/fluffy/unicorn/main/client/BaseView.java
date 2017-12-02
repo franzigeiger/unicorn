@@ -41,14 +41,14 @@ public class BaseView {
         }));
 
 
-        menu.addItem(new MenuItem("States", new Command(){
+        /*menu.addItem(new MenuItem("States", new Command(){
 
             @Override
             public void execute() {
                 contentPanel.clear();
                 contentPanel.add(new StateView(parent));
             }
-        }));
+        }));*/
 
         menu.addItem(new MenuItem("District", new Command(){
 

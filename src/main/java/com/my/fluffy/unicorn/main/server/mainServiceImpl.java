@@ -54,9 +54,7 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public Candidate getDistrictWinner(District district, int year) {
-//        District district = getDistrict(districtID, year);
         Candidate winner = Controller.get().getDistrictWinner(district);
-        System.out.println(winner.getLastName());
         return winner;
     }
 
@@ -111,6 +109,11 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     @Override
     public Map<Integer, District> getDistrictMap(){
         return Controller.get().getDistrictMap();
+    }
+
+    @Override
+    public List<String> getWinningParties(int districtId) {
+        return Controller.get().getWinningParties(districtId);
     }
 
     @Override
