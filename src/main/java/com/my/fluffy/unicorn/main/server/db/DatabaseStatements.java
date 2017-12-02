@@ -345,4 +345,49 @@ public Map<Party, Double> getFirstVotesPerParty(
 
         return candidates;
     }
+
+
+    public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(
+        int year) throws SQLException {
+            System.out.println("Fetch Differences for " + year);
+            PreparedStatement stmt = db.getConnection().prepareStatement(
+                    "select party, diff, first, second, district, year " +
+                            "from election.differencefirstsecondvotes where year = ? " +
+                            "order by diff desc");
+            stmt.setInt(1   ,year);
+            Map<Party, DifferenceFirstSecondVotes> differenceTotal = new HashMap<Party, DifferenceFirstSecondVotes>();
+            ResultSet rs =stmt.executeQuery();
+
+            while(rs.next()) {
+                Party party = Controller.get().getParty(rs.getInt(1));
+                DifferenceFirstSecondVotes diff =  DifferenceFirstSecondVotes.create(
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        Controller.get().getDistrict(rs.getInt(5)).getName(),
+                        rs.getInt(6)
+                );
+                differenceTotal.put(party, diff);
+            }
+            stmt.close();
+            rs.close();
+
+            return differenceTotal;
+        }
+
+    public Map<String, Integer> getAmountPerGender() throws SQLException {
+        String query = "select c.sex, count(*) as total\n" +
+                "from election.parliamentmembers m join election.candidates c on m.id = c.id\n" +
+                "group by c.sex";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+        Map<String, Integer> amountPerGender = new HashMap<String, Integer>();
+        ResultSet rs =stmt.executeQuery();
+        while(rs.next()) {
+            amountPerGender.put(rs.getString(1), rs.getInt(2));
+        }
+        stmt.close();
+        rs.close();
+
+        return amountPerGender;
+    }
 }
