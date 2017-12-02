@@ -3,6 +3,7 @@ package com.my.fluffy.unicorn.main.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.my.fluffy.unicorn.main.client.data.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,8 @@ public interface mainServiceAsync {
 
     void getDistrict(int districtId, int year, AsyncCallback<District> async);
 
-    void getDistrictWinner(int districtID, int year, AsyncCallback<Candidate> async);
+//    void getDistrictWinner(int districtID, int year, AsyncCallback<Candidate> async);
+    void getDistrictWinner(District district, int year, AsyncCallback<Candidate> async);
 
     void getAdditionalMandatsPerParty(int year, AsyncCallback<List<PartyStateInfos>> async);
 
@@ -29,7 +31,10 @@ public interface mainServiceAsync {
     void getPartyPercent(int year, AsyncCallback<Map<Party, Double>> async);
     void getAmountPerGender(AsyncCallback<Map<String, Integer>> async);
     void getDifferencesFirstSecondVotes(int year, AsyncCallback<Map<Party, DifferenceFirstSecondVotes>> async);
-    void getFirstVotesTotal(int year, AsyncCallback<Map<Party, Double>> async);
+    void getFirstVotesTotal(int year, AsyncCallback<Map<Party, Integer>> async);
 
+    void getDistrictResults(int districtIdOld, int districtIdNew, AsyncCallback<List<DistrictResults>> async);
+    void getDistrictMap(AsyncCallback<Map<Integer, District>> async);
 
+    void updateAggregates(AsyncCallback<Integer> async);
 }

@@ -20,22 +20,29 @@ public class Top10View extends HorizontalPanel {
 
     public Top10View(SelectableElectionView parent) {
         this.parent = parent;
-        mainService.App.getInstance().getParties(new AsyncCallback<List<Party>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
+        if(parent.getElectionYear() == 2013) {
+            this.add(new Label("Unfortunately, there is no corresponding data for 2013."));
+        } else {
+            mainService.App.getInstance().getParties(new AsyncCallback<List<Party>>() {
+                @Override
+                public void onFailure(Throwable throwable) {
 
-            }
-            public void onSuccess(List<Party> p) {
-                parties = p;
-                System.out.println("Parties: " + p.size());
-                createPerPartyView();
-            }
-        });
+                }
+
+                public void onSuccess(List<Party> p) {
+                    parties = p;
+                    System.out.println("Parties: " + p.size());
+                    createPerPartyView();
+                }
+            });
+        }
 
     }
 
     private void createPerPartyView() {
         final FlexTable table = new FlexTable();
+
+        this.add(new HTML("<h3>Choose Party: </h3>"));
 
         ListBox dropdownParties = new ListBox();
         dropdownParties.addItem("None");
@@ -44,7 +51,6 @@ public class Top10View extends HorizontalPanel {
             dropdownParties.addItem(p.getName());
         }
 
-        this.add(new Label("Select Party: "));
         this.add(dropdownParties);
         this.add(table);
 

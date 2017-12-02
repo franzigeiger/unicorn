@@ -108,7 +108,7 @@ public class DatabaseStatements {
             districts.put(id, District.fullCreate(
                     id,
                     rs.getInt(2),
-                    null,
+                    Election.minCreate(rs.getInt(3)),
                     null,
                     rs.getString(5),
                     rs.getInt(6),
@@ -150,36 +150,31 @@ public class DatabaseStatements {
         return parties;
     }
 
-public Map<Party, Double> getFirstVotesPerParty(
+    public Map<Party, Integer> getFirstVotesPerParty(
             int year) throws SQLException {
         System.out.println("Fetch First Votes perParty for " + year);
 
         PreparedStatement stmt = db.getConnection().prepareStatement(
-                "with allVotes as(select sum(votes) as total, d.year\n" +
-                        "                 from election.direct_candidatures dc join election.districts d on d.id = dc.district\n" +
-                        "                group by d.year),\n" +
-                        "\n" +
-                        "firstVotesPercentage as(\n" +
+                "with firstVotesPercentage as(\n" +
                         "    select \n" +
                         "        dc.party, \n" +
                         "        sum(dc.votes) as votes, \n" +
-                        "        sum(dc.votes)::numeric(12,2) / (select total from allVotes where year = d.year)::numeric(12,2) as percentage,\n" +
                         "        d.year\n" +
                         "    from election.direct_candidatures dc join election.districts d on d.id = dc.district\n" +
                         "    group by dc.party, d.year\n" +
                         ")\n" +
                         "\n" +
-                        "select p.id, votes, percentage, year \n" +
+                        "select p.id, votes, year \n" +
                         "from firstVotesPercentage f join election.parties p on p.id = f.party\n" +
                         "where year = ? ");
 
         stmt.setInt(1   ,year);
-        Map<Party, Double> firstVotesPerParty = new HashMap<Party, Double>();
+        Map<Party, Integer> firstVotesPerParty = new HashMap<Party, Integer>();
         ResultSet rs =stmt.executeQuery();
 
         while(rs.next()) {
             Party party = Controller.get().getParty(rs.getInt(1));
-            firstVotesPerParty.put(party, rs.getDouble(3));
+            firstVotesPerParty.put(party, rs.getInt(2));
         }
         stmt.close();
         rs.close();
@@ -204,7 +199,7 @@ public Map<Party, Double> getFirstVotesPerParty(
             districts.add(District.fullCreate(
                     rs.getInt(1),
                     rs.getInt(2),
-                    db.getQuery().getElection(Election.minCreate(rs.getInt(3))),
+                    Election.minCreate(rs.getInt(3)),
                     db.getQuery().getStateByID(rs.getInt(4)),
                     rs.getString(5),
                     rs.getInt(6),
@@ -225,6 +220,7 @@ public Map<Party, Double> getFirstVotesPerParty(
             return null;
         }
         int candidateId = rs.getInt("winner");
+        System.out.println(candidateId);
         return db.getQuery().getCandidateById(candidateId);
     }
 
@@ -378,6 +374,7 @@ public Map<Party, Double> getFirstVotesPerParty(
                 "from election.parliamentmembers m join election.candidates c on m.id = c.id\n" +
                 "group by c.sex";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
         Map<String, Integer> amountPerGender = new HashMap<String, Integer>();
         ResultSet rs =stmt.executeQuery();
         while(rs.next()) {
@@ -387,5 +384,102 @@ public Map<Party, Double> getFirstVotesPerParty(
         rs.close();
 
         return amountPerGender;
+    }
+
+    public ArrayList<DistrictResults> getDistrictResults(int distOldId, int distNewId) throws SQLException {
+        String query = "with pfirst2013(party, first2013) as(\n" +
+                "    select dc.party, dc.votes as first2013\n" +
+                "    from election.direct_candidatures dc\n" +
+                "    where dc.district = ?\n" +
+                "),\n" +
+                "\n" +
+                "psecond2013(party, second2013) as(\n" +
+                "    select dc.party, dc.votes as second2013\n" +
+                "    from election.secondvote_aggregates dc\n" +
+                "    where dc.district = ?\n" +
+                "),\n" +
+                "\n" +
+                "pfirst2017(party, first2017) as(\n" +
+                "    select dc.party, dc.votes as first2017\n" +
+                "    from election.direct_candidatures dc\n" +
+                "    where dc.district = ?\n" +
+                "),\n" +
+                "\n" +
+                "psecond2017(party, second2017) as(\n" +
+                "    select dc.party, dc.votes as second2017\n" +
+                "    from election.secondvote_aggregates dc\n" +
+                "    where dc.district = ?\n" +
+                ")\n" +
+                "\n" +
+                "select p.name, pf13.first2013, ps13.second2013, pf17.first2017, ps17.second2017\n" +
+                "from election.parties p \n" +
+                "left outer join pFirst2013 pf13 on p.id = pf13.party \n" +
+                "left outer join pSecond2013 ps13 on p.id = ps13.party\n" +
+                "left outer join pFirst2017 pf17 on p.id = pf17.party \n" +
+                "left outer join pSecond2017 ps17 on p.id = ps17.party";
+
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+
+        stmt.setInt(1   , distOldId);
+        stmt.setInt(2   , distOldId);
+        stmt.setInt(3   , distNewId);
+        stmt.setInt(4   , distNewId);
+
+        ArrayList<DistrictResults> districtResults = new ArrayList<DistrictResults>();
+        ResultSet rs =stmt.executeQuery();
+
+        while(rs.next()) {
+            districtResults.add(
+                    DistrictResults.create(rs.getString(1),
+                            rs.getInt(2),
+                            rs.getInt(3),
+                            rs.getInt(4),
+                            rs.getInt(5)
+                    ));
+            System.out.println(districtResults.get(districtResults.size()-1));
+
+        }
+        stmt.close();
+        rs.close();
+
+        return districtResults;
+    }
+
+    public void updateAggregates() throws SQLException {
+        String query = "DELETE FROM election.secondvote_aggregates";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+        stmt.executeUpdate();
+        stmt.close();
+
+        query = "INSERT INTO election.secondvote_aggregates(district,party,votes)" +
+                "SELECT b.district,s.party,COUNT(*) AS votes " +
+                "FROM election.ballots AS b, election.statelists AS s " +
+                "WHERE b.secondvote = s.id " +
+                "GROUP BY b.district,s.party";
+        stmt = db.getConnection().prepareStatement(query);
+        stmt.executeUpdate();
+        stmt.close();
+
+        query = "WITH aggregated_first AS (SELECT b.firstvote,COUNT(*) AS votes " +
+                "    FROM election.ballots AS b " +
+                "    GROUP BY b.firstvote " +
+                "    HAVING b.firstvote IS NOT NULL) " +
+                "UPDATE election.direct_candidatures " +
+                "    SET votes = (SELECT votes FROM aggregated_first WHERE firstvote = id) " +
+                "    WHERE EXISTS (SELECT * FROM aggregated_first WHERE firstvote = id)";
+        stmt = db.getConnection().prepareStatement(query);
+        stmt.executeUpdate();
+        stmt.close();
+
+        query = "WITH invalid_first AS (" +
+                "       SELECT district,COUNT(*) AS votes FROM election.ballots WHERE firstvote  IS NULL GROUP BY district)," +
+                "     invalid_second AS (" +
+                "       SELECT district,COUNT(*) AS votes FROM election.ballots WHERE secondvote IS NULL GROUP BY district)" +
+                "UPDATE election.districts" +
+                "   SET invalidfirstvotes =  (SELECT votes FROM invalid_first  WHERE district = id)," +
+                "       invalidsecondvotes = (SELECT votes FROM invalid_second WHERE district = id)";
+        stmt = db.getConnection().prepareStatement(query);
+        stmt.executeUpdate();
+        stmt.close();
     }
 }

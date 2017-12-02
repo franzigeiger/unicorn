@@ -2,10 +2,12 @@ package com.my.fluffy.unicorn.main.client.views;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.my.fluffy.unicorn.main.client.mainService;
 
 public class SelectableElectionView extends VerticalPanel {
     int year;
@@ -50,8 +52,28 @@ public class SelectableElectionView extends VerticalPanel {
         if(year == 2017){
             use2017.setValue(true);
         }
-        aggregated = new CheckBox("Use aggregated Data: ");
+        aggregated = new CheckBox("Re-aggregate Data: ");
         aggregated.setValue(useAggregated);
+        aggregated.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> valueChangeEvent) {
+                Label aggregateLabel = new Label("Counting Ballots. This will take a few minutes...");
+                add(aggregateLabel);
+                mainService.App.getInstance().updateAggregates(new AsyncCallback<Integer>() {
+                    @Override
+                    public void onFailure(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Integer integer) {
+                        remove(aggregateLabel);
+                        add(new Label("Finished counting ballots. Using newly aggregated data."));
+                        aggregated.setValue(true);
+                    }
+                });
+            }
+        });
         this.add(aggregated);
 
         this.add(new Label("Select the year for election information:"));

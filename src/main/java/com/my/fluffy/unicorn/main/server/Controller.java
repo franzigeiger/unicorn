@@ -1,11 +1,7 @@
 package com.my.fluffy.unicorn.main.server;
 
-import com.my.fluffy.unicorn.main.client.data.DifferenceFirstSecondVotes;
-import com.my.fluffy.unicorn.main.client.data.State;
-import com.my.fluffy.unicorn.main.client.data.Candidate;
-import com.my.fluffy.unicorn.main.client.data.District;
+import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
-import com.my.fluffy.unicorn.main.client.data.Party;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,20 +62,21 @@ public class Controller {
         return districts.get(index);
     }
 
+    public Map<Integer, District> getDistrictMap(){
+        return this.districts;
+    }
+
 
     public Map<Party, DifferenceFirstSecondVotes> getDifferenceFirstSecond(int year){
-        DatabaseStatements statements = new DatabaseStatements();
         try {
-            throw new SQLException();
-            //return statements.getDifferencesFirstSecondVotes(year);
+            return statements.getDifferencesFirstSecondVotes(year);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public Map<Party, Double> getFirstVotesPerParty(int year){
-        DatabaseStatements statements = new DatabaseStatements();
+    public Map<Party, Integer> getFirstVotesPerParty(int year){
         try {
 
             return statements.getFirstVotesPerParty(year);
@@ -101,7 +98,9 @@ public class Controller {
 
     public Candidate getDistrictWinner(District district) {
         try {
-            return statements.getDirectWinner(district);
+            Candidate winner = statements.getDirectWinner(district);
+            System.out.println(winner.getLastName());
+            return winner;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -141,8 +140,25 @@ public class Controller {
 
     public Map<String, Integer> getAmountPerGender(){
         try {
-            throw new SQLException();
-            //return statements.getAmountPerGender();
+            return statements.getAmountPerGender();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<DistrictResults> getDistrictResults(int districtIdOld, int districtIdNew){
+        try {
+            return statements.getDistrictResults(districtIdOld, districtIdNew);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateAggregates(){
+        try {
+           statements.updateAggregates();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

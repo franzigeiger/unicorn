@@ -22,39 +22,39 @@ import java.util.Map;
 
 public class FirstVotesTotalView extends HorizontalPanel {
 
-    Map<Party, Double> firstVotesPerParty;
+    Map<Party, Integer> firstVotesPerParty;
     SelectableElectionView parent;
     PieChart chart;
 
     public FirstVotesTotalView(SelectableElectionView parent) {
         this.parent = parent;
-        mainService.App.getInstance().getFirstVotesTotal(
-                parent.getElectionYear(), new AsyncCallback<Map<Party, Double>>() {
-                @Override
-                public void onFailure(Throwable throwable) {
+            mainService.App.getInstance().getFirstVotesTotal(
+                parent.getElectionYear(), new AsyncCallback<Map<Party, Integer>>() {
+                    @Override
+                    public void onFailure(Throwable throwable) {
 
-                }
+                    }
 
-                @Override
-                public void onSuccess(Map<Party, Double> firstVotesParty) {
-                    firstVotesPerParty = firstVotesParty;
-                    ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
-                    chartLoader.loadApi(new Runnable() {
+                    @Override
+                    public void onSuccess(Map<Party, Integer> firstVotesParty) {
+                        firstVotesPerParty = firstVotesParty;
+                        ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+                        chartLoader.loadApi(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            // Create and attach the chart
-                            chart = new PieChart();
+                            @Override
+                            public void run() {
+                                // Create and attach the chart
+                                chart = new PieChart();
 
-                            add(chart);
-                            draw();
+                                add(chart);
+                                draw();
 
-                            chart.setWidth("600px");
-                            chart.setHeight("600px");
-                        }
-                    });
-                }
-            });
+                                chart.setWidth("600px");
+                                chart.setHeight("600px");
+                            }
+                        });
+                    }
+                });
     }
 
     public void draw(){
@@ -65,10 +65,10 @@ public class FirstVotesTotalView extends HorizontalPanel {
 
         DataTable pieNewData = DataTable.create();
         pieNewData.addColumn(ColumnType.STRING, "Party");
-        pieNewData.addColumn(ColumnType.NUMBER, "First (%)");
+        pieNewData.addColumn(ColumnType.NUMBER, "First Votes");
         pieNewData.addRows(firstVotesPerParty.size());
         int counter = 0;
-        for(Map.Entry<Party, Double> entry : firstVotesPerParty.entrySet()){
+        for(Map.Entry<Party, Integer> entry : firstVotesPerParty.entrySet()){
             System.out.println(counter++);
             pieNewData.addRow(entry.getKey().getName(), entry.getValue());
         }
