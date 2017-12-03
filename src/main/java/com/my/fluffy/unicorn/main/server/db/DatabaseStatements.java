@@ -126,7 +126,8 @@ public class DatabaseStatements {
     public Map<Party,Double> getPartyPercent(int year) throws SQLException {
 
         System.out.println("Fetch all parties");
-        PreparedStatement stmt = db.getConnection().prepareStatement("select * from rawdistribution where election = ?");
+        PreparedStatement stmt = db.getConnection().prepareStatement(
+                "select * from rawdistribution where election = ?");
         stmt.setInt(1   ,year);
         Map<Party, Double> parties = new LinkedHashMap<Party, Double>();
         ResultSet rs =stmt.executeQuery();
@@ -308,7 +309,7 @@ public class DatabaseStatements {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 states.put(rs.getInt(1), State.fullCreate(rs.getInt(1), rs.getString(2), rs.getInt(3)));
-                System.out.println("Added state: "+ rs.getString(2));
+//                System.out.println("Added state: "+ rs.getString(2));
             }
 
             return states;

@@ -69,7 +69,6 @@ public class FirstVotesTotalView extends HorizontalPanel {
         pieNewData.addRows(firstVotesPerParty.size());
         int counter = 0;
         for(Map.Entry<Party, Integer> entry : firstVotesPerParty.entrySet()){
-            System.out.println(counter++);
             pieNewData.addRow(entry.getKey().getName(), entry.getValue());
         }
 

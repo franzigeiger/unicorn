@@ -40,64 +40,67 @@ public class ParlamentView extends VerticalPanel{
     public ParlamentView(SelectableElectionView parent){
         this.parent = parent;
         add(chartPanel);
+        if(parent.getElectionYear() == 2013){
+            add(new Label("Unfortunately, there are no results for 2013 available yet. This will be fixed soon."));
+        } else {
+            mainService.App.getInstance().getParlamentSeats(parent.getElectionYear(), new AsyncCallback<Map<Party, Integer>>() {
+                @Override
+                public void onFailure(Throwable throwable) {
 
-        mainService.App.getInstance().getParlamentSeats(parent.getElectionYear(), new AsyncCallback<Map<Party, Integer>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-            public void onSuccess(Map<Party, Integer> partyIntegerMap) {
-                distribution = partyIntegerMap;
-                if(percent != null){
-                    drawCharts();
                 }
 
-            }
-        });
+                public void onSuccess(Map<Party, Integer> partyIntegerMap) {
+                    distribution = partyIntegerMap;
+                    if (percent != null) {
+                        drawCharts();
+                    }
 
-        mainService.App.getInstance().getPartyPercent(parent.getElectionYear(), new AsyncCallback<Map<Party, Double>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
+                }
+            });
 
-            }
+            mainService.App.getInstance().getPartyPercent(parent.getElectionYear(), new AsyncCallback<Map<Party, Double>>() {
+                @Override
+                public void onFailure(Throwable throwable) {
 
-            @Override
-            public void onSuccess(Map<Party, Double> percentMap) {
-               percent=percentMap;
-               if(distribution!= null){
-                   drawCharts();
-               }
+                }
 
-            }
-        });
-        mainService.App.getInstance().getAdditionalMandatsPerParty(parent.getElectionYear(), new AsyncCallback<List<PartyStateInfos>>(){
+                @Override
+                public void onSuccess(Map<Party, Double> percentMap) {
+                    percent = percentMap;
+                    if (distribution != null) {
+                        drawCharts();
+                    }
 
-            @Override
-            public void onFailure(Throwable throwable) {
+                }
+            });
+            mainService.App.getInstance().getAdditionalMandatsPerParty(parent.getElectionYear(), new AsyncCallback<List<PartyStateInfos>>() {
 
-            }
+                @Override
+                public void onFailure(Throwable throwable) {
 
-            @Override
-            public void onSuccess(List<PartyStateInfos> partyStateInfos) {
-                additionalMandats = partyStateInfos;
-                createAdditionalMandatView();
-            }
-        });
+                }
 
-        mainService.App.getInstance().getParlamentMembers(parent.getElectionYear(), new AsyncCallback<Map<Candidate,Party>>(){
+                @Override
+                public void onSuccess(List<PartyStateInfos> partyStateInfos) {
+                    additionalMandats = partyStateInfos;
+                    createAdditionalMandatView();
+                }
+            });
 
-            @Override
-            public void onFailure(Throwable throwable) {
+            mainService.App.getInstance().getParlamentMembers(parent.getElectionYear(), new AsyncCallback<Map<Candidate, Party>>() {
 
-            }
+                @Override
+                public void onFailure(Throwable throwable) {
 
-            @Override
-            public void onSuccess(Map<Candidate,Party> partyStateInfos) {
-                members= partyStateInfos;
-                createPartyMemberTable();
-            }
-        });
+                }
 
+                @Override
+                public void onSuccess(Map<Candidate, Party> partyStateInfos) {
+                    members = partyStateInfos;
+                    createPartyMemberTable();
+                }
+            });
+        }
     }
 
     private void createPartyMemberTable() {
