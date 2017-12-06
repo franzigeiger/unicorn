@@ -6,6 +6,7 @@ import com.my.fluffy.unicorn.main.server.Controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,8 +29,7 @@ public class DatabaseStatements {
             e.printStackTrace();
         }
     }
-
-
+    
     public  Map<Integer,Party> getParties() throws SQLException {
             System.out.println("Fetch all parties");
             PreparedStatement stmt = db.getConnection().prepareStatement("select * from parties");
@@ -373,10 +373,8 @@ public class DatabaseStatements {
 
     private String getQuery(String name) {
         try {
-            return Files.readAllLines(
-                    new File(getClass().getClassLoader().getResource("sql/" + name).getFile())
-                            .toPath())
-                    .stream().collect(Collectors.joining("\n"));
+            Path path = new File(getClass().getClassLoader().getResource("sql/" + name).getFile()).toPath();
+            return Files.readAllLines(path).stream().collect(Collectors.joining("\n"));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
