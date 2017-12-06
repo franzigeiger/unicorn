@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.my.fluffy.unicorn.main.client.data.Candidate;
 import com.my.fluffy.unicorn.main.client.data.Party;
+import com.my.fluffy.unicorn.main.client.data.Top10Data;
 import com.my.fluffy.unicorn.main.client.mainService;
 
 import java.util.List;
@@ -70,19 +71,26 @@ public class Top10View extends HorizontalPanel {
 
             if(p.getName().equalsIgnoreCase(party) ) {
 
-                mainService.App.getInstance().getTopTen(p.getId(), parent.getElectionYear(), new AsyncCallback<List<Candidate>>() {
+                mainService.App.getInstance().getTopTen(p.getId(), parent.getElectionYear(), new AsyncCallback<List<Top10Data>>() {
                     @Override
                     public void onFailure(Throwable throwable) {
 
                     }
 
-                    public void onSuccess(List<Candidate> topTen) {
+                    public void onSuccess(List<Top10Data> topTen) {
                         if(topTen.size() == 0){
                             table.setText(0, 0, "No Candidates found!");
                         } else {
                             int i = 0;
-                            for (Candidate c : topTen) {
-                                table.setText(i, 0, c.getLastName() + ", " + c.getFirstName());
+                            for (Top10Data t: topTen) {
+                                table.setText(i, 0,
+                                        t.getCandidate().getLastName() + ", " + t.getCandidate().getFirstName());
+                                if(t.getIsWinner()){
+                                    table.setText(i, 1, "Winner");
+                                } else {
+                                    table.setText(i, 1, "Looser");
+                                }
+                                table.setText(i, 2, Integer.toString(t.getDifferenceInAbsoluteVotes()));
                                 i++;
                             }
                         }

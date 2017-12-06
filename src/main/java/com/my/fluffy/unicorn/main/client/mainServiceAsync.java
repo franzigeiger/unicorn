@@ -18,7 +18,7 @@ public interface mainServiceAsync {
     void getDistrict(int districtId, int year, AsyncCallback<District> async);
 
 //    void getDistrictWinner(int districtID, int year, AsyncCallback<Candidate> async);
-    void getDistrictWinner(District district, int year, AsyncCallback<Candidate> async);
+    void getDistrictWinner(int districtID, AsyncCallback<Candidate> async);
 
     void getAdditionalMandatsPerParty(int year, AsyncCallback<List<PartyStateInfos>> async);
 
@@ -26,7 +26,7 @@ public interface mainServiceAsync {
 
     void getParties(AsyncCallback<List<Party>> async);
 
-    void getTopTen(int parteiID, int year, AsyncCallback<List<Candidate>> async);
+    void getTopTen(int parteiID, int year, AsyncCallback<List<Top10Data>> async);
 
     void getPartyPercent(int year, AsyncCallback<Map<Party, Double>> async);
     void getAmountPerGender(AsyncCallback<Map<String, Integer>> async);
@@ -36,7 +36,7 @@ public interface mainServiceAsync {
     void getDistrictResults(int districtIdOld, int districtIdNew, AsyncCallback<List<DistrictResults>> async);
     void getDistrictMap(AsyncCallback<Map<Integer, District>> async);
 
-    void getWinningParties(int districtId, AsyncCallback<List<String>> async);
+    void getWinningParties(int year, AsyncCallback<Map<District,List<String>>> async);
 
     void updateAggregates(AsyncCallback<Integer> async);
 }

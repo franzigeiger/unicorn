@@ -23,7 +23,7 @@ public interface mainService extends RemoteService {
     District getDistrict(int districtId, int year);
 
 //    Candidate getDistrictWinner(int districtID, int year);
-    Candidate getDistrictWinner(District district, int year);
+    Candidate getDistrictWinner(int districtID);
 
     List<PartyStateInfos> getAdditionalMandatsPerParty(int year);
 
@@ -31,7 +31,7 @@ public interface mainService extends RemoteService {
 
     List<Party> getParties();
 
-    List<Candidate> getTopTen(int parteiID, int year);
+    List<Top10Data> getTopTen(int parteiID, int year);
 
     Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year);
     Map<Party, Integer> getFirstVotesTotal(int year);
@@ -40,7 +40,7 @@ public interface mainService extends RemoteService {
     List<DistrictResults> getDistrictResults(int districtIdOld, int districtIdNew);
     Map<Integer, District> getDistrictMap();
 
-    List<String> getWinningParties(int districtId);
+    Map<District,List<String>> getWinningParties(int year);
 
     int updateAggregates();
 

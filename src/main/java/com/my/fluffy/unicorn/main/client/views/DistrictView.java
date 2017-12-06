@@ -28,10 +28,10 @@ public class DistrictView extends VerticalPanel {
     List<DistrictResults> results;
     Candidate winner2017;
 
-    String winningPartyFirst13;
+/*    String winningPartyFirst13;
     String winningPartyFirst17;
     String winningPartySecond13;
-    String winningPartySecond17;
+    String winningPartySecond17;*/
 
     HorizontalPanel chartPanel = new HorizontalPanel();
     PieChart chartPartyFirst;
@@ -119,6 +119,7 @@ public class DistrictView extends VerticalPanel {
                 }
             });
 
+/*
             //get winning parties for 2017
             mainService.App.getInstance().getWinningParties(chosen2017.getId(), new AsyncCallback<List<String>>() {
                 @Override
@@ -146,9 +147,10 @@ public class DistrictView extends VerticalPanel {
                     winningPartySecond13 = strings.get(1);
                 }
             });
+*/
 
             // get direct winner 2017
-            mainService.App.getInstance().getDistrictWinner(chosen2017,2017,  new AsyncCallback<Candidate>() {
+            mainService.App.getInstance().getDistrictWinner(chosen2017.getId(),  new AsyncCallback<Candidate>() {
                 @Override
                 public void onFailure(Throwable throwable) {
 
@@ -158,11 +160,11 @@ public class DistrictView extends VerticalPanel {
                     winner2017 = winner;
                     table.setText(0, 0,
                             "Direct Winner: " + winner2017.getLastName() + ", " + winner2017.getFirstName());
-                    table.setText(1, 0,
+/*                    table.setText(1, 0,
                             "Winning Party (first): " + winningPartyFirst17
                                     + " (2013: " + winningPartyFirst13 + ")");
                     table.setText(2, 0,"Winning Party (second): " + winningPartySecond17
-                            + " (2013: " + winningPartySecond13 + ")");
+                            + " (2013: " + winningPartySecond13 + ")");*/
                     drawCharts();
                 }
             });

@@ -175,11 +175,11 @@ public class DatabaseStatements {
         return districts;
     }
 
-    public Candidate getDirectWinner(District district) throws SQLException {
+    public Candidate getDirectWinner(int districtId) throws SQLException {
         Logger.getLogger("").log(Level.INFO, "Get district winner");
         PreparedStatement stmt = db.getConnection().prepareStatement(
                 getQuery("get-direct-winner.sql"));
-        stmt.setInt(1, district.getId());
+        stmt.setInt(1, districtId);
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
             return null;
@@ -187,8 +187,8 @@ public class DatabaseStatements {
         return Controller.get().getCandidate(rs.getInt(1));
     }
 
-    public List<Candidate> getTopTen(Party party, int year) throws SQLException {
-        List<Candidate> retVal = new ArrayList<>(10);
+    public List<Top10Data> getTopTen(Party party, int year) throws SQLException {
+        List<Top10Data> retVal = new ArrayList<>(10);
         String query = getQuery("get-top10.sql");
         System.out.println(query);
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
@@ -198,7 +198,7 @@ public class DatabaseStatements {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                retVal.add(db.getQuery().getCandidateById(rs.getInt("winner")));
+                retVal.add(Top10Data.create(db.getQuery().getCandidateById(rs.getInt("winner")), true, 0));
             }
         }
 
@@ -351,24 +351,25 @@ public class DatabaseStatements {
         stmt.close();
     }
 
-    public List<String> getWinnigParties(int districtId) throws SQLException{
-        String query = getQuery("get-winnning-parties.sql");
+    public Map<District,List<String>> getWinnigParties(int year) throws SQLException{
+        String query = getQuery("get-winning-parties.sql");
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
-        stmt.setInt(1, districtId);
-        stmt.setInt(2, districtId);
-        stmt.setInt(3, districtId);
-        stmt.setInt(4, districtId);
-        List<String> winningParty = new ArrayList<>();
+        stmt.setInt(1, year);
+        stmt.setInt(2, year);
+
+        Map<District, List<String>> results = new HashMap<>();
 
         ResultSet rs =stmt.executeQuery();
         while(rs.next()) {
-            winningParty.add(Controller.get().getParty(rs.getInt(1)).getName());
+            List<String> winningParty = new ArrayList<>();
             winningParty.add(Controller.get().getParty(rs.getInt(2)).getName());
+            winningParty.add(Controller.get().getParty(rs.getInt(3)).getName());
+            results.put(Controller.get().getDistrict(rs.getInt(1)), winningParty);
         }
         stmt.close();
         rs.close();
 
-        return winningParty;
+        return results;
     }
 
     private String getQuery(String name) {

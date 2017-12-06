@@ -52,7 +52,7 @@ public class SelectableElectionView extends VerticalPanel {
         if(year == 2017){
             use2017.setValue(true);
         }
-        aggregated = new CheckBox("Re-aggregate Data: ");
+        aggregated = new CheckBox("Use aggregated Data: ");
         aggregated.setValue(useAggregated);
         aggregated.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override
