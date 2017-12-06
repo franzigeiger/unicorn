@@ -96,9 +96,9 @@ public class Controller {
         }
     }
 
-    public Candidate getDistrictWinner(District district) {
+    public Candidate getDistrictWinner(int districtId) {
         try {
-            Candidate winner = statements.getDirectWinner(district);
+            Candidate winner = statements.getDirectWinner(districtId);
             return winner;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,7 +119,7 @@ public class Controller {
         return new ArrayList<>(parties.values());
     }
 
-    public List<Candidate> getTopTen(int partyId, int year) {
+    public List<Top10Data> getTopTen(int partyId, int year) {
         try {
             return statements.getTopTen(getParty(partyId), year);
         } catch (SQLException e) {
@@ -164,9 +164,9 @@ public class Controller {
         }
     }
 
-    public List<String> getWinningParties(int districtId){
+    public Map<District,List<String>> getWinningParties(int year){
         try {
-            return statements.getWinnigParties(districtId);
+            return statements.getWinnigParties(year);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

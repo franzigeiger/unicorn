@@ -1,3 +1,9 @@
+DROP MATERIALIZED VIEW IF EXISTS election.differenceFirstSecondVotes CASCADE;
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS election.differenceFirstSecondVotes
+TABLESPACE pg_default
+  AS
+
 with pDiff as(
     select sa.party, sa.district, abs(dc.votes - sa.votes) as diff, dc.votes as first, sa.votes as second
     from election.direct_candidatures dc, election.secondvote_aggregates sa
@@ -11,13 +17,8 @@ maxPDiff as(
     where pd.district = d.id
     group by pd.party, d.year
     order by pd.party
-),
+)
 
-DROP MATERIALIZED VIEW IF EXISTS differenceFirstSecondVotes CASCADE;
-
-CREATE MATERIALIZED VIEW IF NOT EXISTS election.differenceFirstSecondVotes
-TABLESPACE pg_default
-  AS
     select pd.*, mpd.year
     from maxPDiff mpd join pDiff pd on (pd.party = mpd.party and pd.diff = mpd.maxDiff)
 WITH DATA;
