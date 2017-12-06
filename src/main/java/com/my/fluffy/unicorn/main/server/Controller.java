@@ -96,9 +96,9 @@ public class Controller {
         }
     }
 
-    public Candidate getDistrictWinner(District district) {
+    public Candidate getDistrictWinner(int districtId) {
         try {
-            Candidate winner = statements.getDirectWinner(district);
+            Candidate winner = statements.getDirectWinner(districtId);
             return winner;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -164,9 +164,9 @@ public class Controller {
         }
     }
 
-    public List<String> getWinningParties(int districtId){
+    public List<String> getWinningParties(int year){
         try {
-            return statements.getWinnigParties(districtId);
+            return statements.getWinnigParties(year);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

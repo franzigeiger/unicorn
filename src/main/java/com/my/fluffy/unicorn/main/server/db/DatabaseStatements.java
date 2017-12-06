@@ -193,7 +193,7 @@ public class DatabaseStatements {
         return districts;
     }
 
-    public Candidate getDirectWinner(District district) throws SQLException {
+    public Candidate getDirectWinner(int districtId) throws SQLException {
         Logger.getLogger("").log(Level.INFO, "Get district winner");
         PreparedStatement stmt = db.getConnection().prepareStatement(
                 "select c.id\n" +
@@ -201,7 +201,7 @@ public class DatabaseStatements {
                         "on dw.winner = dc.id\n" +
                         "join election.candidates c on dc.candidate = c.id\n" +
                         "where dw.district = ?;");
-        stmt.setInt(1, district.getId());
+        stmt.setInt(1, districtId);
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
             return null;
@@ -468,7 +468,7 @@ public class DatabaseStatements {
         stmt.close();
     }
 
-    public List<String> getWinnigParties(int districtId) throws SQLException{
+    public List<String> getWinnigParties(int year) throws SQLException{
         String query = "with firstWinner as(\n" +
                 "    select max(dc.votes) as winner\n" +
                 "    from election.direct_candidatures dc join election.districts d on d.id = dc.district\n" +
