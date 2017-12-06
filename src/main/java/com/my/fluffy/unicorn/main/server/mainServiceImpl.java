@@ -9,6 +9,7 @@ import com.my.fluffy.unicorn.main.server.db.DistributionCalculator;
 import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
+import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
@@ -124,7 +125,4 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
         return 0;
     }
 
-    @Override
-    public void startupRESTService() {
-    }
 }

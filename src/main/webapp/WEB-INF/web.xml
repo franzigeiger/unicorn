@@ -7,6 +7,12 @@
         <welcome-file>main.html</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>
+            com.my.fluffy.unicorn.main.server.RESTServiceCreator
+        </listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>mainService</servlet-name>
         <servlet-class>com.my.fluffy.unicorn.main.server.mainServiceImpl</servlet-class>

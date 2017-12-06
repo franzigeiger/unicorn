@@ -33,18 +33,6 @@ public class main implements EntryPoint {
 
         BaseView view= new BaseView(base);
 
-        mainService.App.getInstance().startupRESTService(new AsyncCallback<Void>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-
-            @Override
-            public void onSuccess(Void aVoid) {
-
-            }
-        });
-
 
         RootPanel.get().add(base);
     }
