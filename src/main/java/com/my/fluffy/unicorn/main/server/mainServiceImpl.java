@@ -6,7 +6,10 @@ import com.my.fluffy.unicorn.main.client.mainService;
 import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
 import com.my.fluffy.unicorn.main.server.db.DistributionCalculator;
+import com.sun.net.httpserver.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -120,5 +123,9 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     public int updateAggregates() {
         Controller.get().updateAggregates();
         return 0;
+    }
+
+    @Override
+    public void startupRESTService() {
     }
 }

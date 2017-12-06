@@ -44,6 +44,8 @@ public interface mainService extends RemoteService {
 
     int updateAggregates();
 
+    void startupRESTService();
+
     class App {
 
 

@@ -39,4 +39,6 @@ public interface mainServiceAsync {
     void getWinningParties(int districtId, AsyncCallback<List<String>> async);
 
     void updateAggregates(AsyncCallback<Integer> async);
+
+    void startupRESTService(AsyncCallback<Void> async);
 }
