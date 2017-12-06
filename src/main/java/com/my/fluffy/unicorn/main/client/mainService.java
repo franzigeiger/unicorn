@@ -31,7 +31,7 @@ public interface mainService extends RemoteService {
 
     List<Party> getParties();
 
-    List<Candidate> getTopTen(int parteiID, int year);
+    List<Top10Data> getTopTen(int parteiID, int year);
 
     Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year);
     Map<Party, Integer> getFirstVotesTotal(int year);

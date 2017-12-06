@@ -82,7 +82,7 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     }
 
     @Override
-    public List<Candidate> getTopTen(int parteiID, int year) {
+    public List<Top10Data> getTopTen(int parteiID, int year) {
         return Controller.get().getTopTen(parteiID, year);
     }
 

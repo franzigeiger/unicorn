@@ -119,7 +119,7 @@ public class Controller {
         return new ArrayList<>(parties.values());
     }
 
-    public List<Candidate> getTopTen(int partyId, int year) {
+    public List<Top10Data> getTopTen(int partyId, int year) {
         try {
             return statements.getTopTen(getParty(partyId), year);
         } catch (SQLException e) {

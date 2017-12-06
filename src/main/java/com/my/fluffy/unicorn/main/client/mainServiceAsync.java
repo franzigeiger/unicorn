@@ -26,7 +26,7 @@ public interface mainServiceAsync {
 
     void getParties(AsyncCallback<List<Party>> async);
 
-    void getTopTen(int parteiID, int year, AsyncCallback<List<Candidate>> async);
+    void getTopTen(int parteiID, int year, AsyncCallback<List<Top10Data>> async);
 
     void getPartyPercent(int year, AsyncCallback<Map<Party, Double>> async);
     void getAmountPerGender(AsyncCallback<Map<String, Integer>> async);

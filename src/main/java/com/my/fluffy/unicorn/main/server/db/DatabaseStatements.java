@@ -57,24 +57,7 @@ public class DatabaseStatements {
     }
 
     public Map<Candidate,Party> getParlamentMembers() throws SQLException {
-        String query = "with directCandidates as(\n" +
-                "select c.id , d.party from (directwinner w join direct_candidatures d on  w.winner = d.id) join candidates c on d.candidate=c.id where w.year =2017\n" +
-                "),\n" +
-                "\n" +
-                "directFreeCandidates as(\n" +
-                "select c.id, s.party, s.state, l.placement from (statelists s join list_candidatures l on s.id=l.statelist) join candidates c on c.id= l.candidate where s.election=2017 and \n" +
-                "    c.id not in(select id from directCandidates)\n" +
-                "),\n" +
-                "\n" +
-                "landlist as (\n" +
-                "select x.id, x.state, x.party \n" +
-                "    from (select ROW_NUMBER() over(partition by party, state order by placement) as r , t.* from directFreeCandidates t) x \n" +
-                "    where x.r <=  (select seatsfromlandlist from parlamentdistribution2017 p where p.party =x.party and p.state=x.state)\n" +
-                ")\n" +
-                "\n" +
-                "select * from  directCandidates\n" +
-                "union\n" +
-                "select id, party from landlist;";
+        String query = "select * from election.parliamentMembers";
 
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         //stmt.setInt(1   ,year);
@@ -226,8 +209,8 @@ public class DatabaseStatements {
         return Controller.get().getCandidate(rs.getInt(1));
     }
 
-    public List<Candidate> getTopTen(Party party, int year) throws SQLException {
-        List<Candidate> retVal = new ArrayList<>(10);
+    public List<Top10Data> getTopTen(Party party, int year) throws SQLException {
+        List<Top10Data> retVal = new ArrayList<>(10);
 
         String maxvotes_per_district = "SELECT district,year,MAX(votes) AS maxvotes FROM election.direct_candidatures AS dc JOIN election.districts AS d ON d.id = dc.district GROUP BY year,district";
         String winners_per_district = "SELECT dc.*,maxvotes,year FROM election.direct_candidatures AS dc JOIN maxvotes_per_district AS mv ON (mv.district = dc.district AND mv.maxvotes = dc.votes)";
@@ -252,7 +235,7 @@ public class DatabaseStatements {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                retVal.add(db.getQuery().getCandidateById(rs.getInt("winner")));
+                retVal.add(Top10Data.create(db.getQuery().getCandidateById(rs.getInt("winner")), true, 0));
             }
         }
         if (retVal.size() < 10) {
@@ -263,7 +246,7 @@ public class DatabaseStatements {
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next() && retVal.size() < 10) {
-                    retVal.add(db.getQuery().getCandidateById(rs.getInt("winner")));
+                    retVal.add(Top10Data.create(db.getQuery().getCandidateById(rs.getInt("winner")), true, 0));
                 }
             }
         }
