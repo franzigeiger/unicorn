@@ -198,7 +198,10 @@ public class DatabaseStatements {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                retVal.add(Top10Data.create(db.getQuery().getCandidateById(rs.getInt("winner")), true, 0));
+                boolean isWinner = party.getId() == rs.getInt("winnerparty");
+                Candidate c = db.getQuery().getCandidateById(rs.getInt(isWinner? "winner" : "second"));
+                int diff = rs.getInt("votediff");
+                retVal.add(Top10Data.create(c, isWinner, diff));
             }
         }
 
