@@ -26,10 +26,10 @@ public class serviceQ{
         mainServiceImpl.getDistrictWinner(districtIdNew);
     }
 
-    public void q4(int districtId) {
+    public void q4(int year) {
         // in DistrictView, winning parties are fetched for both 2013 and 2017 and displayed at once
         // here, we only get winning parties for one year, since this already satisfies Q2
-        mainServiceImpl.getWinningParties(districtId);
+        mainServiceImpl.getWinningParties(year);
     }
 
     public void q5(int year) {

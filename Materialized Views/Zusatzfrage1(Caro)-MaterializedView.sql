@@ -1,4 +1,4 @@
-DROP MATERIALIZED VIEW IF EXISTS differenceFirstSecondVotes CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS election.differenceFirstSecondVotes CASCADE;
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS election.differenceFirstSecondVotes
 TABLESPACE pg_default

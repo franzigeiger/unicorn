@@ -164,7 +164,7 @@ public class Controller {
         }
     }
 
-    public List<String> getWinningParties(int year){
+    public Map<District,List<String>> getWinningParties(int year){
         try {
             return statements.getWinnigParties(year);
         } catch (SQLException e) {

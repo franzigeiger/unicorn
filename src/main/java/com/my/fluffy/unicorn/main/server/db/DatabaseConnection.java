@@ -2,7 +2,9 @@ package com.my.fluffy.unicorn.main.server.db;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class DatabaseConnection implements AutoCloseable {
     private final Connection connection;

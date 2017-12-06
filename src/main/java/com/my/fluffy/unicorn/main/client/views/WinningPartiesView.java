@@ -29,7 +29,6 @@ public class WinningPartiesView extends HorizontalPanel {
 
             public void onSuccess(List<District> d) {
                 districts = d;
-                showWinningParties();
             }
         });
 
@@ -57,6 +56,8 @@ public class WinningPartiesView extends HorizontalPanel {
             table.setText(i, 0, result.getKey().getName());
             table.setText(i, 1, result.getValue().get(0));
             table.setText(i, 2, result.getValue().get(1));
+            i++;
         }
+        add(table);
     }
 }
