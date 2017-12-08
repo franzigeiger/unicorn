@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 
 public class BatchInserterTest {
-    /*@Test
+    @Test
     public void testBatchInserter() throws SQLException, ClassNotFoundException {
         BatchInserter batchInserter = new BatchInserter(
                 DatabaseConnection.create(),
                 "complete.json");
 
         batchInserter.insertAll();
-    }*/
+    }
 }
