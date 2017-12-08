@@ -428,7 +428,7 @@ with directCandidates as(
       where x.r <=  (select seatsfromlandlist from parlamentdistribution2017 p where p.party =x.party and p.state=x.state))
 select * from  directCandidates
 union
-select id, party from landlist;);
+select id, party from landlist);
 
 create or replace view parliamentMembers2013 as (
 with directCandidates as(
@@ -447,4 +447,4 @@ with directCandidates as(
       where x.r <=  (select seatsfromlandlist from election.parlamentdistribution2013 p where p.party =x.party and p.state=x.state))
 select * from  directCandidates
 union
-select id, party from landlist;);
+select id, party from landlist);
