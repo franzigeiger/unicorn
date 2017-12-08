@@ -1,8 +1,8 @@
 package com.my.fluffy.unicorn.main.server.db;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import org.apache.commons.dbcp2.BasicDataSource;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 class ConnectionFactory {
@@ -14,31 +14,20 @@ class ConnectionFactory {
     private static final String username = "postgres";
     private static final String password = "root";
 
-    private Connection connection;
+    private static DataSource dataSource = null;
 
     static Connection create() throws SQLException, ClassNotFoundException {
-        return new ConnectionFactory().getConnection();
+        if (dataSource == null) createDataSource();
+        return dataSource.getConnection();
     }
 
-    private ConnectionFactory() throws ClassNotFoundException, SQLException {
-        loadDriver();
-        this.connection = open();
-    }
-
-    private static Connection open() throws SQLException, ClassNotFoundException {
-        return open(driver + host + database + "?currentSchema=" + schema, username, password);
-    }
-
-    @Contract(pure = true)
-    private Connection getConnection() {
-        return connection;
-    }
-
-    private static Connection open(@NotNull String url, @NotNull String user, @NotNull String password) throws SQLException {
-        return DriverManager.getConnection(url, user, password);
-    }
-
-    private static void loadDriver() throws ClassNotFoundException {
+    private static void createDataSource() throws ClassNotFoundException {
         Class.forName(driverClass);
+
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName(driverClass);
+        ds.setUsername(username);
+        ds.setPassword(password);
+        ds.setUrl(driver + host + database + "?currentSchema=" + schema);
     }
 }

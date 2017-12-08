@@ -17,12 +17,17 @@ public class DatabaseStatements {
 
     private DatabaseConnection db ;
 
+    @Deprecated
     public DatabaseStatements(){
         try {
             db = DatabaseConnection.create();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public DatabaseStatements(DatabaseConnection databaseConnection) {
+        this.db = databaseConnection;
     }
     
     public  Map<Integer,Party> getParties() throws SQLException {
