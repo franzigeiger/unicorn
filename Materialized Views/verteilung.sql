@@ -154,29 +154,22 @@ create or replace view parlamentDistribution2017(party,state,baseseats, seatswit
     /*
     Now I need another recursive table to calculate the divisor values per party.
     */
-      highPerParty (party, counter, divisor) as (
-      select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from baseDistribution p where p.party in(select party from baseDistribution where percent > 5.0 and election=2017)and election=2017
-      union
-      select distinct h.party , cast ((select p.count from baseDistribution p where p.party = h.party and p.election=2017) as decimal (14,3))/h.divisor, h.divisor +1
-      from highPerParty h where h.divisor < 210
-    ),
-      highest(party,  seats) as(
-        select party, seats from  partyoverview g
-        where additionalMandats = (select max(additionalmandats) from partyoverview gs )
+      secondVotesPerParty as(
+    select party, sum(count) from stateDistribution where party in(select party from baseDistribution where percent > 5.0 and election=2017) and stateDistribution.election=2017 group by party
     ),
 
-    endcounter as (select x.party, x.counter
-    from (select rank() over(partition by party order by counter desc) as r , t.* from highPerParty t) x
-    where x.r <= (select seats from highest) and x.party=(select party from highest)),
+    divisors(party, div) as(
+    select s.party, s.sum / ((select p.seats from partyOverview p where p.party = s.party) -0.5) from secondvotesPerParty s
+    ),
 
-    allSeats as (select x.party, x.counter
-    from highPerParty x
-    where x.counter >= (select min(counter) from endcounter)  order by counter),
+    divisor as(select min(div) from divisors),
 
+    allSeats(party, seats) as (select s.party, round( s.sum / (select min from divisor)
+    ) from secondVotesPerParty s),
 
     finalPartySteas(party, count, summary) as(
-      select party, count(*) ,
-        (select count(*) from allSeats)
+      select party, sum(seats) ,
+        (select sum(seats) from allSeats)
       from
         allSeats group by party),
 
@@ -336,29 +329,23 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
     /*
     Now I need another recursive table to calculate the divisor values per party.
     */
-      highPerParty (party, counter, divisor) as (
-      select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from baseDistribution p where p.party in(select party from baseDistribution where percent > 5.0 and election=2013)and election=2013
-      union
-      select distinct h.party , cast ((select p.count from baseDistribution p where p.party = h.party and p.election=2013) as decimal (14,3))/h.divisor, h.divisor +1
-      from highPerParty h where h.divisor < 210
-    ),
-      highest(party,  seats) as(
-        select party, seats from  partyoverview g
-        where additionalMandats = (select max(additionalmandats) from partyoverview gs )
+    secondVotesPerParty as(
+    select party, sum(count) from stateDistribution where party in(select party from baseDistribution where percent > 5.0 and election=2013)
+    and stateDistribution.election=2013 group by party
     ),
 
-    endcounter as (select x.party, x.counter
-    from (select rank() over(partition by party order by counter desc) as r , t.* from highPerParty t) x
-    where x.r <= (select seats from highest) and x.party=(select party from highest)),
+    divisors(party, div) as(
+    select s.party, s.sum / ((select p.seats from partyOverview p where p.party = s.party) -0.5) from secondvotesPerParty s
+    ),
 
-    allSeats as (select x.party, x.counter
-    from highPerParty x
-    where x.counter >= (select min(counter) from endcounter)  order by counter),
+    divisor as(select min(div) from divisors),
 
+    allSeats(party, seats) as (select s.party, floor( s.sum / (select min from divisor)
+    ) from secondVotesPerParty s),
 
     finalPartySteas(party, count, summary) as(
-      select party, count(*) ,
-        (select count(*) from allSeats)
+      select party, sum(seats) ,
+        (select sum(seats) from allSeats)
       from
         allSeats group by party),
 
@@ -407,6 +394,5 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
         (select party from baseDistribution where percent > 5.0 and election=2013)
   group by party, state
         )as r order by party, state );
-
         select * from parlamentDistribution2013;
 
