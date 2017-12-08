@@ -51,12 +51,21 @@ AS
 
 create or replace view parlamentDistribution2017(party,state,baseseats, seatswithdirect, seatsFromLandlist, seatsFromDistrict, FinalSeats) as (
   /*1. step:   Create the table with divided votes for party and states out of second votes */
-  with recursive  high (party, state, counter, divisor) as (
-    select p.party,p.state, (cast (p.count as decimal (16,4))) / 0.5 , 1.5 from rawDistributionstate p where p.party in(select party from rawdistribution where percent > 5.0 and election=2017) and p.election=2017
+
+  with recursive
+    stateDistribution as (
+    select * from rawDistributionstate
+    ),
+    baseDistribution as(
+    select * from rawDistribution
+    ),
+    high (party, state, counter, divisor) as (
+    select p.party,p.state, (cast (p.count as decimal (16,4))) / 0.5 , 1.5 from stateDistribution p where p.party in(select party from baseDistribution where percent > 5.0 and election=2017) and p.election=2017
     union
-    select distinct h.party ,h.state, cast ((select p.count from rawDistributionstate p where p.party = h.party and p.state=h.state and p.election=2017 ) as decimal (14,3))/h.divisor, h.divisor +1
+    select distinct h.party ,h.state, cast ((select p.count from stateDistribution p where p.party = h.party and p.state=h.state and p.election=2017 ) as decimal (14,3))/h.divisor, h.divisor +1
     from high h where h.divisor < 50
   ),
+
 
     /*Create a table with divided inhabitants for each state to evaluate the states safe seats*/
       highAllStates ( state, counter, divisor) as (
@@ -85,9 +94,13 @@ create or replace view parlamentDistribution2017(party,state,baseseats, seatswit
         Then its possible to select the items til the last is reached to get all reached seats.
         1.: Get last division value per state from high table
     */
+    directs as(
+    select * from directWinner
+    ),
+
       directWinnerPartyAggregate(party, state, directWinners) as (
         select  k.party, d.state, count(*)
-        from (directWinner w join direct_candidatures k on w.winner=k.id) join districts d on d.id=k.district
+        from (directs w join direct_candidatures k on w.winner=k.id) join districts d on d.id=k.district
         where w.year = 2017
         group by k.party, d.state
     ),
@@ -138,11 +151,13 @@ create or replace view parlamentDistribution2017(party,state,baseseats, seatswit
     /*Step 3: Calculate leveling seats
     Therefore I search for the party with highest additional mandats
     */
-
+    /*
+    Now I need another recursive table to calculate the divisor values per party.
+    */
       highPerParty (party, counter, divisor) as (
-      select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from rawDistribution p where p.party in(select party from rawdistribution where percent > 5.0 and election=2017)and election=2017
+      select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from baseDistribution p where p.party in(select party from baseDistribution where percent > 5.0 and election=2017)and election=2017
       union
-      select distinct h.party , cast ((select p.count from rawDistribution p where p.party = h.party and p.election=2017) as decimal (14,3))/h.divisor, h.divisor +1
+      select distinct h.party , cast ((select p.count from baseDistribution p where p.party = h.party and p.election=2017) as decimal (14,3))/h.divisor, h.divisor +1
       from highPerParty h where h.divisor < 210
     ),
       highest(party,  seats) as(
@@ -165,8 +180,6 @@ create or replace view parlamentDistribution2017(party,state,baseseats, seatswit
       from
         allSeats group by party),
 
-
-
       /*Step 4: Map the party seat size to state lists
     Therefore find the minimal value from recursive list of second votes
     which will be occupied by direct mandats*/
@@ -175,12 +188,10 @@ create or replace view parlamentDistribution2017(party,state,baseseats, seatswit
     from (select ROW_NUMBER() over(partition by party, state order by counter desc) as r , t.* from high t) x
     where x.r <=  (select a.directWinners from directWinnerPartyAggregate a where x.state=a.state and x.party=a.party)),
 
-
     /*Now divide the occupied list from main list to get the already free values for the rest of land lsit seats*/
       directfree(party, state, counter) as (
         select  h.party, h.state, h.counter from high h where not exists(select counter from directOccupied d where h.state=d.state and h.party=d.party and d.counter=h.counter)
     ),
-
 
     /*aggregate direct winners for party*/
       directWinners(party, seats) as(
@@ -197,12 +208,9 @@ create or replace view parlamentDistribution2017(party,state,baseseats, seatswit
     from (select ROW_NUMBER() over(partition by party order by counter desc) as r , t.* from directfree t) x
     where x.r <=   (select a.seats from seatsforlandlist a where x.party=a.party)),
 
-
     /*Aggregate the values to get the land list seats*/
       landseatsPerState(party, state, landseats) as (
         select party, state, count(*) from alllandseats group by party, state)
-
-
 
   /*This table conains per party and seats the gained direct seats and the gained state list seats*/
   select party, state,
@@ -214,26 +222,38 @@ create or replace view parlamentDistribution2017(party,state,baseseats, seatswit
     + (case when (select directwinners from directWinnerPartyAggregate w where w.party=r.party and w.state=r.state )  is null then 0 else (select directwinners from directWinnerPartyAggregate w where w.party=r.party and w.state=r.state )  end)
   from  (select party, state, count(*) from statelists
   where party in
-        (select party from rawdistribution where percent > 5.0 and election=2017)
+        (select party from baseDistribution where percent > 5.0 and election=2017)
   group by party, state
         )as r order by party, state );
+
+        select * from parlamentDistribution2017;
+
 
 
 
 create or replace view parlamentDistribution2013(party,state,baseseats, seatswithdirect, seatsFromLandlist, seatsFromDistrict, FinalSeats) as (
   /*1. step:   Create the table with divided votes for party and states out of second votes */
-  with recursive  high (party, state, counter, divisor) as (
-    select p.party,p.state, (cast (p.count as decimal (16,4))) / 0.5 , 1.5 from rawDistributionstate p where p.party in(select party from rawdistribution where percent > 5.0 and election=2013) and p.election=2013
+
+  with recursive
+    stateDistribution as (
+    select * from rawDistributionstate
+    ),
+    baseDistribution as(
+    select * from rawDistribution
+    ),
+    high (party, state, counter, divisor) as (
+    select p.party,p.state, (cast (p.count as decimal (16,4))) / 0.5 , 1.5 from stateDistribution p where p.party in(select party from baseDistribution where percent > 5.0 and election=2013) and p.election=2013
     union
-    select distinct h.party ,h.state, cast ((select p.count from rawDistributionstate p where p.party = h.party and p.state=h.state and p.election=2013 ) as decimal (14,3))/h.divisor, h.divisor +1
+    select distinct h.party ,h.state, cast ((select p.count from stateDistribution p where p.party = h.party and p.state=h.state and p.election=2013 ) as decimal (14,3))/h.divisor, h.divisor +1
     from high h where h.divisor < 50
   ),
 
+
     /*Create a table with divided inhabitants for each state to evaluate the states safe seats*/
       highAllStates ( state, counter, divisor) as (
-      select p.id, (cast (p.inhabitants as decimal (16,4))) / 0.5 , 1.5 from states p
+      select p.id, (cast (p.inhabitants2013 as decimal (16,4))) / 0.5 , 1.5 from states p
       union
-      select distinct h.state, cast ((select p.inhabitants from states p where p.id=h.state) as decimal (14,3))/h.divisor, h.divisor +1
+      select distinct h.state, cast ((select p.inhabitants2013 from states p where p.id=h.state) as decimal (14,3))/h.divisor, h.divisor +1
       from highallstates h where h.divisor < 250
     ),
 
@@ -256,9 +276,13 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
         Then its possible to select the items til the last is reached to get all reached seats.
         1.: Get last division value per state from high table
     */
+    directs as(
+    select * from directWinner
+    ),
+
       directWinnerPartyAggregate(party, state, directWinners) as (
         select  k.party, d.state, count(*)
-        from (directWinner w join direct_candidatures k on w.winner=k.id) join districts d on d.id=k.district
+        from (directs w join direct_candidatures k on w.winner=k.id) join districts d on d.id=k.district
         where w.year = 2013
         group by k.party, d.state
     ),
@@ -309,11 +333,13 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
     /*Step 3: Calculate leveling seats
     Therefore I search for the party with highest additional mandats
     */
-
+    /*
+    Now I need another recursive table to calculate the divisor values per party.
+    */
       highPerParty (party, counter, divisor) as (
-      select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from rawDistribution p where p.party in(select party from rawdistribution where percent > 5.0 and election=2013)and election=2013
+      select p.party, (cast (p.count as decimal (14,3))) / 0.5 , 1.5 from baseDistribution p where p.party in(select party from baseDistribution where percent > 5.0 and election=2013)and election=2013
       union
-      select distinct h.party , cast ((select p.count from rawDistribution p where p.party = h.party and p.election=2013) as decimal (14,3))/h.divisor, h.divisor +1
+      select distinct h.party , cast ((select p.count from baseDistribution p where p.party = h.party and p.election=2013) as decimal (14,3))/h.divisor, h.divisor +1
       from highPerParty h where h.divisor < 210
     ),
       highest(party,  seats) as(
@@ -336,8 +362,6 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
       from
         allSeats group by party),
 
-
-
       /*Step 4: Map the party seat size to state lists
     Therefore find the minimal value from recursive list of second votes
     which will be occupied by direct mandats*/
@@ -346,12 +370,10 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
     from (select ROW_NUMBER() over(partition by party, state order by counter desc) as r , t.* from high t) x
     where x.r <=  (select a.directWinners from directWinnerPartyAggregate a where x.state=a.state and x.party=a.party)),
 
-
     /*Now divide the occupied list from main list to get the already free values for the rest of land lsit seats*/
       directfree(party, state, counter) as (
         select  h.party, h.state, h.counter from high h where not exists(select counter from directOccupied d where h.state=d.state and h.party=d.party and d.counter=h.counter)
     ),
-
 
     /*aggregate direct winners for party*/
       directWinners(party, seats) as(
@@ -368,12 +390,9 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
     from (select ROW_NUMBER() over(partition by party order by counter desc) as r , t.* from directfree t) x
     where x.r <=   (select a.seats from seatsforlandlist a where x.party=a.party)),
 
-
     /*Aggregate the values to get the land list seats*/
       landseatsPerState(party, state, landseats) as (
         select party, state, count(*) from alllandseats group by party, state)
-
-
 
   /*This table conains per party and seats the gained direct seats and the gained state list seats*/
   select party, state,
@@ -385,8 +404,9 @@ create or replace view parlamentDistribution2013(party,state,baseseats, seatswit
     + (case when (select directwinners from directWinnerPartyAggregate w where w.party=r.party and w.state=r.state )  is null then 0 else (select directwinners from directWinnerPartyAggregate w where w.party=r.party and w.state=r.state )  end)
   from  (select party, state, count(*) from statelists
   where party in
-        (select party from rawdistribution where percent > 5.0 and election=2013)
+        (select party from baseDistribution where percent > 5.0 and election=2013)
   group by party, state
         )as r order by party, state );
 
+        select * from parlamentDistribution2013;
 

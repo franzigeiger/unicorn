@@ -14,7 +14,7 @@ class ConnectionFactory {
     private static final String username = "postgres";
     private static final String password = "root";
 
-    private static DataSource dataSource = null;
+    private static BasicDataSource dataSource = null;
 
     static Connection create() throws SQLException, ClassNotFoundException {
         if (dataSource == null) createDataSource();
@@ -24,10 +24,10 @@ class ConnectionFactory {
     private static void createDataSource() throws ClassNotFoundException {
         Class.forName(driverClass);
 
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName(driverClass);
-        ds.setUsername(username);
-        ds.setPassword(password);
-        ds.setUrl(driver + host + database + "?currentSchema=" + schema);
+        dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(driverClass);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setUrl(driver + host + database + "?currentSchema=" + schema);
     }
 }
