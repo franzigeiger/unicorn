@@ -53,8 +53,9 @@ public class DatabaseStatements {
         return new ArrayList<>();
     }
 
-    public Map<Candidate,Party> getParlamentMembers() throws SQLException {
-        String query = getQuery("get-parliament-members.sql");
+    public Map<Candidate,Party> getParlamentMembers(int year) throws SQLException {
+        
+        String query = getQuery("get-parliament-members-2017.sql");
 
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         Map<Candidate, Party> members = new LinkedHashMap<>();
@@ -214,9 +215,9 @@ public class DatabaseStatements {
         List<PartyStateInfos> infos = new ArrayList<>();
         PreparedStatement stmt = null;
         if(year == 2017) {
-             stmt = db.getConnection().prepareStatement(getQuery("get-additional-mandats.sql"));
+             stmt = db.getConnection().prepareStatement(getQuery("get-additional-mandats-2017.sql"));
         } else {
-            //todo 2013 statement
+            stmt = db.getConnection().prepareStatement(getQuery("get-additional-mandats-2013.sql"));
         }
         ResultSet rs =stmt.executeQuery();
         while(rs.next()) {

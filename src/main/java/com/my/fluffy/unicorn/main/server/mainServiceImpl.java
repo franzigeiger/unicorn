@@ -38,7 +38,7 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
         DatabaseStatements statements = new DatabaseStatements();
         try {
 
-            return statements.getParlamentMembers();
+            return statements.getParlamentMembers(year);
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
