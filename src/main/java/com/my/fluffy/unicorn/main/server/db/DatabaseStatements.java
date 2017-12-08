@@ -15,33 +15,34 @@ import java.util.logging.Logger;
  */
 public class DatabaseStatements {
 
-    private DatabaseConnection db;
+    private DatabaseConnection db ;
 
     @Deprecated
-    public DatabaseStatements() {
-        db = DatabaseConnection.create();
+    public DatabaseStatements(){
+            db = DatabaseConnection.create();
+
     }
 
     public DatabaseStatements(DatabaseConnection databaseConnection) {
         this.db = databaseConnection;
     }
 
-    public Map<Integer, Party> getParties() throws SQLException {
-        System.out.println("Fetch all parties");
-        PreparedStatement stmt = db.getConnection().prepareStatement("SELECT * FROM parties");
+    public  Map<Integer,Party> getParties() throws SQLException {
+            System.out.println("Fetch all parties");
+            PreparedStatement stmt = db.getConnection().prepareStatement("select * from parties");
 
-        Map<Integer, Party> parties = new HashMap<>();
-        ResultSet rs = stmt.executeQuery();
+            Map<Integer, Party> parties = new HashMap<>();
+            ResultSet rs =stmt.executeQuery();
 
-        while (rs.next()) {
-            int id = rs.getInt(1);
-            parties.put(id, Party.fullCreate(id, rs.getString(2)));
-        }
+            while(rs.next()) {
+                int id = rs.getInt(1);
+                parties.put(id, Party.fullCreate(id, rs.getString(2)));
+            }
 
-        stmt.close();
-        rs.close();
+            stmt.close();
+            rs.close();
 
-        return parties;
+            return parties;
     }
 
     public Map<Candidate,Party> getParlamentMembers(int year) throws SQLException {
@@ -55,8 +56,8 @@ public class DatabaseStatements {
 
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         Map<Candidate, Party> members = new LinkedHashMap<>();
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
+        ResultSet rs =stmt.executeQuery();
+        while(rs.next()) {
             Candidate candidate = Controller.get().getCandidate(rs.getInt(1));
             Party party = Controller.get().getParty(rs.getInt(2));
             members.put(candidate, party);
@@ -69,12 +70,12 @@ public class DatabaseStatements {
 
     public Map<Integer, District> getDistricts() throws SQLException {
         System.out.println("Fetch all districts");
-        PreparedStatement stmt = db.getConnection().prepareStatement("SELECT * FROM districts");
+        PreparedStatement stmt = db.getConnection().prepareStatement("select * from districts");
 
         Map<Integer, District> districts = new HashMap<>();
-        ResultSet rs = stmt.executeQuery();
+        ResultSet rs =stmt.executeQuery();
 
-        while (rs.next()) {
+        while(rs.next()) {
             int id = rs.getInt(1);
             districts.put(id, District.fullCreate(
                     id,
@@ -85,7 +86,7 @@ public class DatabaseStatements {
                     rs.getInt(6),
                     rs.getInt(7),
                     rs.getInt(8)
-            ));
+                ));
         }
 
         stmt.close();
@@ -94,22 +95,22 @@ public class DatabaseStatements {
         return districts;
     }
 
-    public Map<Party, Double> getPartyPercent(int year) throws SQLException {
+    public Map<Party,Double> getPartyPercent(int year) throws SQLException {
 
         System.out.println("Fetch all parties");
         PreparedStatement stmt = db.getConnection().prepareStatement(
-                "SELECT * FROM rawdistribution WHERE election = ?");
-        stmt.setInt(1, year);
+                "select * from rawdistribution where election = ?");
+        stmt.setInt(1   ,year);
         Map<Party, Double> parties = new LinkedHashMap<>();
-        ResultSet rs = stmt.executeQuery();
-        double others = 0;
-        while (rs.next()) {
+        ResultSet rs =stmt.executeQuery();
+        double others=0;
+        while(rs.next()) {
             double percent = rs.getDouble(4);
             Party party = Controller.get().getParty(rs.getInt(1));
             if (percent < 5.0) {
                 others += percent;
             } else {
-                parties.put(party, percent);
+                parties.put( party, percent);
             }
         }
 
@@ -128,11 +129,11 @@ public class DatabaseStatements {
         PreparedStatement stmt = db.getConnection().prepareStatement(
                 DatabaseConnection.getQuery("get-first-votes-per-party.sql"));
 
-        stmt.setInt(1, year);
+        stmt.setInt(1   ,year);
         Map<Party, Integer> firstVotesPerParty = new HashMap<>();
-        ResultSet rs = stmt.executeQuery();
+        ResultSet rs =stmt.executeQuery();
 
-        while (rs.next()) {
+        while(rs.next()) {
             Party party = Controller.get().getParty(rs.getInt(1));
             firstVotesPerParty.put(party, rs.getInt(2));
         }
@@ -149,12 +150,12 @@ public class DatabaseStatements {
 
     public List<District> getDistricts(int year) throws SQLException {
         Logger.getLogger("").log(Level.INFO, "Fetch all districts");
-        PreparedStatement stmt = db.getConnection().prepareStatement("SELECT * FROM election.districts WHERE year = ?;");
+        PreparedStatement stmt = db.getConnection().prepareStatement("select * from election.districts where year = ?;");
         stmt.setInt(1, year);
         ResultSet rs = stmt.executeQuery();
 
         List<District> districts = new ArrayList<>();
-        while (rs.next()) {
+        while(rs.next()) {
             districts.add(District.fullCreate(
                     rs.getInt(1),
                     rs.getInt(2),
