@@ -83,7 +83,11 @@ public class ParlamentView extends VerticalPanel{
                 @Override
                 public void onSuccess(List<PartyStateInfos> partyStateInfos) {
                     additionalMandats = partyStateInfos;
-                    createAdditionalMandatView();
+                    if(members != null){
+                        createAdditionalMandatView();
+                        createPartyMemberTable();
+                    }
+
                 }
             });
 
@@ -97,7 +101,10 @@ public class ParlamentView extends VerticalPanel{
                 @Override
                 public void onSuccess(Map<Candidate, Party> partyStateInfos) {
                     members = partyStateInfos;
-                    createPartyMemberTable();
+                    if(additionalMandats != null){
+                        createAdditionalMandatView();
+                        createPartyMemberTable();
+                    }
                 }
             });
         }
