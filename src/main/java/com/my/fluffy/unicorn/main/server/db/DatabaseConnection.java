@@ -19,9 +19,13 @@ public class DatabaseConnection implements AutoCloseable {
     }
 
     @NotNull
-    public static DatabaseConnection create() throws SQLException, ClassNotFoundException {
-        Connection c = ConnectionFactory.create();
-        return new DatabaseConnection(c);
+    public static DatabaseConnection create() {
+        try {
+            Connection c = ConnectionFactory.create();
+            return new DatabaseConnection(c);
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     static String getQuery(String name) {
@@ -44,6 +48,10 @@ public class DatabaseConnection implements AutoCloseable {
 
     public DatabaseQuery getQuery() {
         return new DatabaseQuery(this);
+    }
+
+    public DatabaseStatements getStatements() {
+        return new DatabaseStatements(this);
     }
 
     /**

@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/benchmark")
-public class serviceQ{
+public class serviceQ {
 
     com.my.fluffy.unicorn.main.server.mainServiceImpl mainServiceImpl = new mainServiceImpl();
     //URL:http://localhost:8081/rest/benchmark/q1/2017 oder http://localhost:8081/rest/benchmark/q1/2013

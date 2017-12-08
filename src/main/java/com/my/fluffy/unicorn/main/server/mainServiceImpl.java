@@ -3,7 +3,7 @@ package com.my.fluffy.unicorn.main.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.client.mainService;
-import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
+import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,9 +12,8 @@ import java.util.Map;
 public class mainServiceImpl extends RemoteServiceServlet implements mainService {
     @Override
     public Map<Party, Integer> getParlamentSeats(int year) {
-        DatabaseStatements statements = new DatabaseStatements();
-        try {
-            return statements.calculatePerParty();
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().calculatePerParty();
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
@@ -29,10 +28,8 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public Map<Candidate, Party> getParlamentMembers(int year) {
-        DatabaseStatements statements = new DatabaseStatements();
-        try {
-
-            return statements.getParlamentMembers();
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getParlamentMembers();
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,10 +54,8 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public List<PartyStateInfos> getAdditionalMandatsPerParty(int year) {
-        DatabaseStatements statements = new DatabaseStatements();
-        try {
-
-            return statements.getAdditionalMandats(year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getAdditionalMandats(year);
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();
