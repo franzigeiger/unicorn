@@ -17,7 +17,6 @@ public class serviceQ{
     @GET
     @Path("q1/{year}")
     public void q1(@PathParam("year")int year) {
-
         System.out.println("Statement 1 execution");
         mainServiceImpl.getParlamentSeats(year);
     }
@@ -62,11 +61,11 @@ public class serviceQ{
     public void q5(@PathParam("year")int year) {
         System.out.println("Statement 5 execution");
         mainServiceImpl.getAdditionalMandatsPerParty(year);
-
     }
+
     @GET
-    @Path("q6/{year}")
-    public void q6(@PathParam("year")int partyId, @PathParam("year")int year) {
+    @Path("q6/{partyId}/{year}")
+    public void q6(@PathParam("partyId")int partyId, @PathParam("year")int year) {
         System.out.println("Statement 6 execution");
         mainServiceImpl.getTopTen(partyId, year);
     }

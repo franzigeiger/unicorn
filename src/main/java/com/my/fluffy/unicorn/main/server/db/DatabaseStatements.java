@@ -3,17 +3,12 @@ package com.my.fluffy.unicorn.main.server.db;
 import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.server.Controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * This class is thought for our database statements
@@ -48,14 +43,8 @@ public class DatabaseStatements {
             return parties;
     }
 
-    public static List<Party> getStates(int year) throws SQLException {
-        System.out.println("Fetch all parties");
-        return new ArrayList<>();
-    }
-
-    public Map<Candidate,Party> getParlamentMembers(int year) throws SQLException {
-        
-        String query = getQuery("get-parliament-members-2017.sql");
+    public Map<Candidate,Party> getParlamentMembers() throws SQLException {
+        String query = DatabaseConnection.getQuery("get-parliament-members.sql");
 
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         Map<Candidate, Party> members = new LinkedHashMap<>();
@@ -68,9 +57,7 @@ public class DatabaseStatements {
 
         stmt.close();
         rs.close();
-
-    return members;
-
+        return members;
     }
 
     public Map<Integer, District> getDistricts() throws SQLException {
@@ -132,7 +119,7 @@ public class DatabaseStatements {
         System.out.println("Fetch First Votes perParty for " + year);
 
         PreparedStatement stmt = db.getConnection().prepareStatement(
-                getQuery("get-first-votes-per-party.sql"));
+                DatabaseConnection.getQuery("get-first-votes-per-party.sql"));
 
         stmt.setInt(1   ,year);
         Map<Party, Integer> firstVotesPerParty = new HashMap<>();
@@ -179,7 +166,7 @@ public class DatabaseStatements {
     public Candidate getDirectWinner(int districtId) throws SQLException {
         Logger.getLogger("").log(Level.INFO, "Get district winner");
         PreparedStatement stmt = db.getConnection().prepareStatement(
-                getQuery("get-direct-winner.sql"));
+                DatabaseConnection.getQuery("get-direct-winner.sql"));
         stmt.setInt(1, districtId);
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
@@ -190,7 +177,7 @@ public class DatabaseStatements {
 
     public List<Top10Data> getTopTen(Party party, int year) throws SQLException {
         List<Top10Data> retVal = new ArrayList<>(10);
-        String query = getQuery("get-top10.sql");
+        String query = DatabaseConnection.getQuery("get-top10.sql");
         System.out.println(query);
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setInt(1, party.getId());
@@ -215,7 +202,7 @@ public class DatabaseStatements {
         List<PartyStateInfos> infos = new ArrayList<>();
         PreparedStatement stmt = null;
         if(year == 2017) {
-             stmt = db.getConnection().prepareStatement(getQuery("get-additional-mandats-2017.sql"));
+             stmt = db.getConnection().prepareStatement(DatabaseConnection.getQuery("get-additional-mandats.sql"));
         } else {
             stmt = db.getConnection().prepareStatement(getQuery("get-additional-mandats-2013.sql"));
         }
@@ -281,7 +268,7 @@ public class DatabaseStatements {
         int year) throws SQLException {
             System.out.println("Fetch Differences for " + year);
             PreparedStatement stmt = db.getConnection().prepareStatement(
-                    getQuery("get-difference-first-second.sql"));
+                    DatabaseConnection.getQuery("get-difference-first-second.sql"));
             stmt.setInt(1   ,year);
             Map<Party, DifferenceFirstSecondVotes> differenceTotal = new HashMap<>();
             ResultSet rs =stmt.executeQuery();
@@ -304,7 +291,7 @@ public class DatabaseStatements {
         }
 
     public Map<String, Integer> getAmountPerGender() throws SQLException {
-        String query = getQuery("get-amount-per-gender.sql");
+        String query = DatabaseConnection.getQuery("get-amount-per-gender.sql");
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
 
         Map<String, Integer> amountPerGender = new HashMap<>();
@@ -319,7 +306,7 @@ public class DatabaseStatements {
     }
 
     public ArrayList<DistrictResults> getDistrictResults(int distOldId, int distNewId) throws SQLException {
-        String query = getQuery("get-district-results.sql");
+        String query = DatabaseConnection.getQuery("get-district-results.sql");
 
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
 
@@ -349,14 +336,11 @@ public class DatabaseStatements {
     }
 
     public void updateAggregates() throws SQLException {
-        String query = getQuery("re-aggregate.sql");
-        PreparedStatement stmt = db.getConnection().prepareStatement(query);
-        stmt.executeUpdate();
-        stmt.close();
+        db.updateAggregates();
     }
 
     public Map<District,List<String>> getWinnigParties(int year) throws SQLException{
-        String query = getQuery("get-winning-parties.sql");
+        String query = DatabaseConnection.getQuery("get-winning-parties.sql");
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         stmt.setInt(1, year);
         stmt.setInt(2, year);
@@ -376,13 +360,25 @@ public class DatabaseStatements {
         return results;
     }
 
-    private String getQuery(String name) {
-        try {
-            Path path = new File(getClass().getClassLoader().getResource("sql/" + name).getFile()).toPath();
-            return Files.readAllLines(path).stream().collect(Collectors.joining("\n"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    public Map<Party, Integer> calculatePerParty() throws SQLException {
+        System.out.println("Distribution between Parties");
+
+        Map<Party, Integer> dist = new HashMap<>();
+        PreparedStatement stmt = db.getConnection().prepareStatement("SELECT party, sum(finalseats) FROM parlamentdistribution2017 GROUP BY party");
+
+        ResultSet set = stmt.executeQuery();
+        Party party;
+        System.out.println("| Party \t | Values | ");
+        while (set.next()) {
+            party = Controller.get().getParty(set.getInt(1));
+            int base = set.getInt(2);
+            dist.put(party, base);
+            System.out.println("| " + party.getName() + "\t | " + base + "\t | ");
+
         }
+        stmt.close();
+        set.close();
+
+        return dist;
     }
 }

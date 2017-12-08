@@ -3,14 +3,8 @@ package com.my.fluffy.unicorn.main.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.client.mainService;
-import com.my.fluffy.unicorn.main.server.db.DatabaseConnection;
 import com.my.fluffy.unicorn.main.server.db.DatabaseStatements;
-import com.my.fluffy.unicorn.main.server.db.DistributionCalculator;
-import com.sun.net.httpserver.HttpServer;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
-import java.io.IOException;
-import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -18,19 +12,19 @@ import java.util.Map;
 public class mainServiceImpl extends RemoteServiceServlet implements mainService {
     @Override
     public Map<Party, Integer> getParlamentSeats(int year) {
+        DatabaseStatements statements = new DatabaseStatements();
         try {
-        DistributionCalculator calc = new DistributionCalculator(DatabaseConnection.create());
-            return calc.calculatePerParty();
-        } catch (Exception e) {
+            return statements.calculatePerParty();
+            //all other basic infos for 2017 and 2013!
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-
     }
 
     @Override
     public Map<Party, Double> getPartyPercent(int year) {
-       return Controller.get().getPartyPercent(year);
+        return Controller.get().getPartyPercent(year);
     }
 
     @Override
@@ -53,7 +47,7 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public District getDistrict(int districtId, int year) {
-        return Controller.get().getDistrict(districtId,year);
+        return Controller.get().getDistrict(districtId, year);
     }
 
     @Override
@@ -110,12 +104,12 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     }
 
     @Override
-    public Map<Integer, District> getDistrictMap(){
+    public Map<Integer, District> getDistrictMap() {
         return Controller.get().getDistrictMap();
     }
 
     @Override
-    public Map<District,List<String>> getWinningParties(int year) {
+    public Map<District, List<String>> getWinningParties(int year) {
         return Controller.get().getWinningParties(year);
     }
 
