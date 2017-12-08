@@ -2,9 +2,14 @@ package com.my.fluffy.unicorn.main.server.db;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 public class DatabaseConnection implements AutoCloseable {
     private final Connection connection;
@@ -17,6 +22,16 @@ public class DatabaseConnection implements AutoCloseable {
     public static DatabaseConnection create() throws SQLException, ClassNotFoundException {
         Connection c = ConnectionFactory.create();
         return new DatabaseConnection(c);
+    }
+
+    static String getQuery(String name) {
+        try {
+            Path path = new File(DatabaseConnection.class.getClassLoader().getResource("sql/" + name).getFile()).toPath();
+            return Files.readAllLines(path).stream().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     Connection getConnection() {
@@ -35,39 +50,8 @@ public class DatabaseConnection implements AutoCloseable {
      * WARNING: will take some time.
      */
     public void updateAggregates() throws SQLException {
-        String query = "DELETE FROM election.secondvote_aggregates";
-        PreparedStatement stmt = connection.prepareStatement(query);
-        stmt.executeUpdate();
-        stmt.close();
-
-        query = "INSERT INTO election.secondvote_aggregates(district,party,votes)" +
-                "SELECT b.district,s.party,COUNT(*) AS votes " +
-                "FROM election.ballots AS b, election.statelists AS s " +
-                "WHERE b.secondvote = s.id " +
-                "GROUP BY b.district,s.party";
-        stmt = connection.prepareStatement(query);
-        stmt.executeUpdate();
-        stmt.close();
-
-        query = "WITH aggregated_first AS (SELECT b.firstvote,COUNT(*) AS votes " +
-                "    FROM election.ballots AS b " +
-                "    GROUP BY b.firstvote " +
-                "    HAVING b.firstvote IS NOT NULL) " +
-                "UPDATE election.direct_candidatures " +
-                "    SET votes = (SELECT votes FROM aggregated_first WHERE firstvote = id) " +
-                "    WHERE EXISTS (SELECT * FROM aggregated_first WHERE firstvote = id)";
-        stmt = connection.prepareStatement(query);
-        stmt.executeUpdate();
-        stmt.close();
-
-        query = "WITH invalid_first AS (" +
-                "       SELECT district,COUNT(*) AS votes FROM election.ballots WHERE firstvote  IS NULL GROUP BY district)," +
-                "     invalid_second AS (" +
-                "       SELECT district,COUNT(*) AS votes FROM election.ballots WHERE secondvote IS NULL GROUP BY district)" +
-                "UPDATE election.districts" +
-                "   SET invalidfirstvotes =  (SELECT votes FROM invalid_first  WHERE district = id)," +
-                "       invalidsecondvotes = (SELECT votes FROM invalid_second WHERE district = id)";
-        stmt = connection.prepareStatement(query);
+        String query = DatabaseConnection.getQuery("re-aggregate.sql");
+        PreparedStatement stmt = getConnection().prepareStatement(query);
         stmt.executeUpdate();
         stmt.close();
     }
