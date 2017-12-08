@@ -40,9 +40,6 @@ public class ParlamentView extends VerticalPanel{
     public ParlamentView(SelectableElectionView parent){
         this.parent = parent;
         add(chartPanel);
-        if(parent.getElectionYear() == 2013){
-            add(new Label("Unfortunately, there are no results for 2013 available yet. This will be fixed soon."));
-        } else {
             mainService.App.getInstance().getParlamentSeats(parent.getElectionYear(), new AsyncCallback<Map<Party, Integer>>() {
                 @Override
                 public void onFailure(Throwable throwable) {
@@ -107,7 +104,7 @@ public class ParlamentView extends VerticalPanel{
                     }
                 }
             });
-        }
+
     }
 
     private void createPartyMemberTable() {
@@ -117,7 +114,12 @@ public class ParlamentView extends VerticalPanel{
         this.add(table);
 
         table.removeAllRows();
-        int i=0;
+        table.insertRow(0);
+        table.getRowFormatter().addStyleName(0,"FlexTable-Header");
+        table.setText(0,0,"Party");
+        table.setText(0,0,"Name");
+        table.setText(0,0,"Profession");
+        int i=1;
         for(Map.Entry<Candidate, Party> member : members.entrySet()){
             Candidate c = member.getKey();
             table.setText(i, 0, member.getValue().getName());

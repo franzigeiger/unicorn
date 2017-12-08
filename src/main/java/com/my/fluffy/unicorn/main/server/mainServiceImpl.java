@@ -14,7 +14,7 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     public Map<Party, Integer> getParlamentSeats(int year) {
         DatabaseStatements statements = new DatabaseStatements();
         try {
-            return statements.calculatePerParty();
+            return statements.calculatePerParty(year);
             //all other basic infos for 2017 and 2013!
         } catch (SQLException e) {
             e.printStackTrace();

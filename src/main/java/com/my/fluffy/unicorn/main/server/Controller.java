@@ -128,7 +128,6 @@ public class Controller {
         }
     }
     public State getState(int stateID) {
-        System.out.println(states + "Looking for id: " + stateID);
        return  states.get(stateID);
     }
 

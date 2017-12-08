@@ -43,8 +43,14 @@ public class DatabaseStatements {
             return parties;
     }
 
-    public Map<Candidate,Party> getParlamentMembers() throws SQLException {
-        String query = DatabaseConnection.getQuery("get-parliament-members.sql");
+    public Map<Candidate,Party> getParlamentMembers(int year) throws SQLException {
+        String query = null;
+        if(year == 2017){
+            query = DatabaseConnection.getQuery("get-parliament-members-2017.sql");
+        } else {
+            query = DatabaseConnection.getQuery("get-parliament-members-2013.sql");
+        }
+
 
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
         Map<Candidate, Party> members = new LinkedHashMap<>();
@@ -178,7 +184,7 @@ public class DatabaseStatements {
     public List<Top10Data> getTopTen(Party party, int year) throws SQLException {
         List<Top10Data> retVal = new ArrayList<>(10);
         String query = DatabaseConnection.getQuery("get-top10.sql");
-        System.out.println(query);
+
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setInt(1, party.getId());
             stmt.setInt(2, party.getId());
@@ -202,9 +208,9 @@ public class DatabaseStatements {
         List<PartyStateInfos> infos = new ArrayList<>();
         PreparedStatement stmt = null;
         if(year == 2017) {
-             stmt = db.getConnection().prepareStatement(DatabaseConnection.getQuery("get-additional-mandats.sql"));
+             stmt = db.getConnection().prepareStatement(DatabaseConnection.getQuery("get-additional-mandats-2017.sql"));
         } else {
-            stmt = db.getConnection().prepareStatement(getQuery("get-additional-mandats-2013.sql"));
+            stmt = db.getConnection().prepareStatement(DatabaseConnection.getQuery("get-additional-mandats-2013.sql"));
         }
         ResultSet rs =stmt.executeQuery();
         while(rs.next()) {
@@ -326,7 +332,6 @@ public class DatabaseStatements {
                             rs.getInt(4),
                             rs.getInt(5)
                     ));
-            System.out.println(districtResults.get(districtResults.size()-1));
 
         }
         stmt.close();
@@ -360,20 +365,29 @@ public class DatabaseStatements {
         return results;
     }
 
-    public Map<Party, Integer> calculatePerParty() throws SQLException {
+    public Map<Party, Integer> calculatePerParty(int year) throws SQLException {
         System.out.println("Distribution between Parties");
 
         Map<Party, Integer> dist = new HashMap<>();
-        PreparedStatement stmt = db.getConnection().prepareStatement("SELECT party, sum(finalseats) FROM parlamentdistribution2017 GROUP BY party");
+        PreparedStatement stmt = null;
+         if(year == 2017){
+            stmt = db.getConnection().prepareStatement("SELECT party, sum(finalseats) FROM election.parlamentdistribution2017 GROUP BY party");
+         } else {
+            stmt = db.getConnection().prepareStatement("SELECT party, sum(finalseats) FROM election.parlamentdistribution2013 GROUP BY party");
+         }
+
 
         ResultSet set = stmt.executeQuery();
         Party party;
-        System.out.println("| Party \t | Values | ");
+
+
+
         while (set.next()) {
             party = Controller.get().getParty(set.getInt(1));
             int base = set.getInt(2);
             dist.put(party, base);
-            System.out.println("| " + party.getName() + "\t | " + base + "\t | ");
+
+
 
         }
         stmt.close();
