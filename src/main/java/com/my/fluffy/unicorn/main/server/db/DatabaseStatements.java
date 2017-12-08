@@ -209,7 +209,7 @@ public class DatabaseStatements {
         if(year == 2017) {
              stmt = db.getConnection().prepareStatement(DatabaseConnection.getQuery("get-additional-mandats.sql"));
         } else {
-            //todo 2013 statement
+            stmt = db.getConnection().prepareStatement(getQuery("get-additional-mandats-2013.sql"));
         }
         ResultSet rs =stmt.executeQuery();
         while(rs.next()) {
