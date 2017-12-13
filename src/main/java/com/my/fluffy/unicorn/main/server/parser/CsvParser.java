@@ -20,35 +20,6 @@ public class CsvParser {
     }
 
     /**
-     * Adds parties that only ran for an office in 2013, but not in 2017
-     * as PartyJson to ArrayList jsonParser.allParties
-     */
-    /*public void addMissingParties(){
-        this.jsonParser.allParties.add(new PartyJson(44, "BIG"));
-        this.jsonParser.allParties.add(new PartyJson(45, "RENTNER"));
-        this.jsonParser.allParties.add(new PartyJson(46, "REP"));
-        this.jsonParser.allParties.add(new PartyJson(47, "Bündnis21/RRP"));
-        this.jsonParser.allParties.add(new PartyJson(48, "pro Deutschland"));
-        this.jsonParser.allParties.add(new PartyJson(49, "PSG"));
-        this.jsonParser.allParties.add(new PartyJson(50, "NEIN!"));
-        this.jsonParser.allParties.add(new PartyJson(51, "PBC"));
-        this.jsonParser.allParties.add(new PartyJson(52, "Nichtwähler"));
-        this.jsonParser.allParties.add(new PartyJson(53, "BGD"));
-    }*/
-
-    /**
-     * Adds party results for parties that only ran for office in 2013, but not in 2017
-     * as PartyResultJson to ArrayList jsonParser.allElectionDistrictJsons
-     * @param result13 path to csv-file containing results of elections of 2013 for all districts
-     */
-    /*public void addMissingPartyResults(String result13){
-        for(int i = 44; i <= 53; i++){
-            PartyJson party = jsonParser.getParty(i);
-            parseMissingPartyResults(result13, party, jsonParser.allElectionDistrictJsons);
-        }
-    }*/
-
-    /**
      * Reads party results for a party that only ran for office in 2013, but not in 2017, from csv
      * and adds them as PartyResultJson to corresponding district from ArrayList districts
      * @param results13 path to csv file containing results of election of 2013 for all districts

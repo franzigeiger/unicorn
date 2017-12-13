@@ -23,7 +23,12 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public Map<Party, Double> getPartyPercent(int year) {
-        return Controller.get().getPartyPercent(year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getPartyPercent(year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -39,17 +44,29 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public List<District> getAllDistricts(int year) {
-        return Controller.get().getDistricts(year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getQuery().getDistrictsPerYear(year);
+        }
     }
 
     @Override
     public District getDistrict(int districtId, int year) {
-        return Controller.get().getDistrict(districtId, year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getQuery().getDistrict(districtId, year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Candidate getDistrictWinner(int districtId) {
-        return Controller.get().getDistrictWinner(districtId);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getDirectWinner(districtId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -70,48 +87,90 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
 
     @Override
     public List<Party> getParties() {
-        return Controller.get().getParties();
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getQuery().getAllParties();
+        }
     }
 
     @Override
     public List<Top10Data> getTopTen(int parteiID, int year) {
-        return Controller.get().getTopTen(parteiID, year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            Party result;
+            try (DatabaseConnection conn1 = DatabaseConnection.create()) {
+                result = conn1.getQuery().getPartyById(parteiID);
+            }
+            return conn.getStatements().getTopTen(result, year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year) {
-        return Controller.get().getDifferenceFirstSecond(year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getDifferencesFirstSecondVotes(year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public Map<Party, Integer> getFirstVotesTotal(int year) {
-        return Controller.get().getFirstVotesPerParty(year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getFirstVotesPerParty(year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public Map<String, Integer> getAmountPerGender() {
-        return Controller.get().getAmountPerGender();
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getAmountPerGender();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public List<DistrictResults> getDistrictResults(int districtIdOld, int districtIdNew) {
-        return Controller.get().getDistrictResults(districtIdOld, districtIdNew);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getDistrictResults(districtIdOld, districtIdNew);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Map<Integer, District> getDistrictMap() {
-        return Controller.get().getDistrictMap();
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getQuery().getAllDistricts();
+        }
     }
 
     @Override
     public Map<District, List<String>> getWinningParties(int year) {
-        return Controller.get().getWinningParties(year);
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getWinnigParties(year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int updateAggregates() {
-        Controller.get().updateAggregates();
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            conn.updateAggregates();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         return 0;
     }
-
 }
