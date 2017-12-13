@@ -107,6 +107,18 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
     }
 
     @Override
+    public Map<Integer, BallotLine> getBallotLinesForDistrict(int districtId, int currentYear, int prevYear){
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getStatements().getBallotLinesForDistrict(districtId, currentYear, prevYear);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+    @Override
     public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year) {
         try (DatabaseConnection conn = DatabaseConnection.create()) {
             return conn.getStatements().getDifferencesFirstSecondVotes(year);
