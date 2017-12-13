@@ -6,9 +6,16 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class DatabaseQuery {
     private DatabaseConnection db;
+    private static DataCache dc = new DataCache();
 
     DatabaseQuery(DatabaseConnection connection) {
         this.db = connection;
@@ -32,19 +39,8 @@ public class DatabaseQuery {
         }
     }
 
-    public Candidate getCandidateById(int candidateId) throws SQLException {
-        String query = "SELECT * FROM election.candidates WHERE id=?;";
-        try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
-            stmt.setInt(1, candidateId);
-            ResultSet rs = stmt.executeQuery();
-            if (!rs.next()) {
-                return null;
-            } else {
-                return Candidate.fullCreate(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getString(6),
-                        rs.getString(7), rs.getString(8), rs.getInt(9));
-            }
-        }
+    public Candidate getCandidateById(int candidateId) {
+        return dc.getCandidateById(candidateId);
     }
 
     public Election getElection(Election e) throws SQLException {
@@ -60,6 +56,10 @@ public class DatabaseQuery {
         }
     }
 
+    public List<Party> getAllParties() {
+        return new ArrayList<>(dc.getParties().values());
+    }
+
     public Party getParty(Party party) throws SQLException {
         String query = "SELECT * FROM election.parties WHERE name=?;";
         try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
@@ -73,17 +73,8 @@ public class DatabaseQuery {
         }
     }
 
-    public Party getPartyByID(int id) throws SQLException {
-        String query = "SELECT * FROM election.parties WHERE id=?;";
-        try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (!rs.next()) {
-                return null;
-            } else {
-                return Party.fullCreate(rs.getInt(1), rs.getString(2));
-            }
-        }
+    public Party getPartyById(int id) {
+        return dc.getPartyById(id);
     }
 
 
@@ -100,17 +91,21 @@ public class DatabaseQuery {
         }
     }
 
-    public State getStateByID(int state) throws SQLException {
-        String query = "SELECT * FROM election.states WHERE id=?;";
-        try(PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
-            stmt.setInt(1, state);
-            ResultSet rs = stmt.executeQuery();
-            if (!rs.next()) {
-                return null;
-            } else {
-                return State.fullCreate(rs.getInt(1), rs.getString(2), rs.getInt(3));
-            }
-        }
+    public State getStateById(int state) {
+        return dc.getStateById(state);
+    }
+
+    public Map<Integer, District> getAllDistricts() {
+        return dc.getDistricts();
+    }
+
+    public List<District> getDistrictsPerYear(int year) {
+        return dc.getDistricts().values().stream().filter(d -> d.getElection().getYear() == year).collect(Collectors.toList());
+    }
+
+    public District getDistrict(int districtId, int year) throws SQLException {
+        Logger.getLogger("").log(Level.INFO, "Fetch a district");
+        return getDistrict(District.minCreate(districtId, Election.minCreate(year)));
     }
 
     public District getDistrict(District district) throws SQLException {
@@ -124,11 +119,15 @@ public class DatabaseQuery {
             if (!rs.next()) {
                 return null;
             } else {
-                State s = getStateByID(rs.getInt(4));
+                State s = getStateById(rs.getInt(4));
                 if (s == null) return null;
                 return District.fullCreate(rs.getInt(1), rs.getInt(2), e, s, rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
             }
         }
+    }
+
+    public District getDistrictById(int id) {
+        return dc.getDistrictById(id);
     }
 
     public StateList getStateList(StateList stateList) throws SQLException {
