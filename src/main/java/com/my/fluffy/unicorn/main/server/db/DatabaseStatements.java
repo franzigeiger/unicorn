@@ -144,6 +144,82 @@ public class DatabaseStatements {
         }
     }
 
+    public Map<Party, Integer> getStateListsWithRow(int prevYear, int state, int currentYear) throws SQLException {
+        String query = DatabaseConnection.getQuery("get-ordered-state-lists-for-ballot.sql");
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            Map<Party, Integer> stateListsWithRows = new HashMap<>();
+            stmt.setInt(1, prevYear);
+            stmt.setInt(2, state);
+            stmt.setInt(3, state);
+            stmt.setInt(4, currentYear);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                    stateListsWithRows.put(
+                            db.getQuery().getPartyById(rs.getInt(1)),
+                            rs.getInt(2));
+            }
+            return stateListsWithRows;
+        }
+    }
+
+    public Map<Party, Candidate> getDirectCandidatesForDistrict(int districtId) throws SQLException {
+        String query = DatabaseConnection.getQuery("get-direct-candidate-for-ballot.sql");
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            Map<Party, Candidate> directCandidates = new HashMap<>();
+            stmt.setInt(1, districtId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                directCandidates.put(
+                        db.getQuery().getPartyById(rs.getInt(2)),
+                        db.getQuery().getCandidateById(rs.getInt(1))
+                        );
+            }
+            return directCandidates;
+        }
+    }
+
+    public List<ListCandidature> getListCandidatures(int districtId, int year, int partyId) throws SQLException {
+        String query = DatabaseConnection.getQuery("get-list-candidate-for-ballot.sql");
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            List<ListCandidature> listCandidates = new ArrayList<>();
+            Party party = db.getQuery().getPartyById(partyId);
+            stmt.setInt(1, districtId);
+            stmt.setInt(2, year);
+            stmt.setInt(3, partyId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                listCandidates.add(
+                        ListCandidature.create(
+                                db.getQuery().getCandidateById(rs.getInt(2)),
+                                db.getQuery().getStateListById(rs.getInt(3)),
+                                rs.getInt(4)
+                        ));
+            }
+            return listCandidates;
+        }
+    }
+
+    public Map<Integer, BallotLine> getBallotLinesForDistrict(int districtId, int currentYear, int prevYear) throws SQLException {
+        District d = db.getQuery().getDistrictById(districtId);
+        State s = d.getState();
+        Map<Party, Integer> stateLists = getStateListsWithRow(prevYear, s.getId(), currentYear);
+        Map<Party, Candidate> directCandidates = getDirectCandidatesForDistrict(districtId);
+        Map<Integer, BallotLine> ballotLines = new HashMap<>();
+        for(Map.Entry<Party, Integer> stateList : stateLists.entrySet()){
+            Party party = stateList.getKey();
+            int placement = stateList.getValue();
+            List<ListCandidature> listCandidates = getListCandidatures(districtId, currentYear, party.getId());
+            BallotLine newLine = BallotLine.create(
+                    party,
+                    directCandidates.get(party),
+                    listCandidates,
+                    placement);
+            ballotLines.put(placement, newLine);
+        }
+
+        return ballotLines;
+    }
+
     public ArrayList<DistrictResults> getDistrictResults(int distOldId, int distNewId) throws SQLException {
         String query = DatabaseConnection.getQuery("get-district-results.sql");
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {

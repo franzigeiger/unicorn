@@ -12,6 +12,7 @@ class DataCache {
     private Map<Integer, State> states = new HashMap<>();
     private Map<Integer, Candidate> candidates = new HashMap<>();
     private Map<Integer, Election> elections = new HashMap<>();
+    private Map<Integer, StateList> stateLists = new HashMap<>();
 
     public Map<Integer, Party> getParties() {
         return withStatement("select * from parties", stmt -> {
@@ -52,6 +53,30 @@ class DataCache {
             districts.put(id, getDistrict(id));
         }
         return districts.get(id);
+    }
+
+    public Map<Integer, StateList> getStateLists() {
+        return withStatement("select * from statelists", stmt -> {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                Party p = getPartyById(rs.getInt(1));
+                Election e = getElection(rs.getInt(2));
+                State s = getStateById(rs.getInt(3));
+                stateLists.put(id,
+                        StateList.fullCreate(id, p, e, s));
+            }
+            stmt.close();
+            rs.close();
+            return stateLists;
+        });
+    }
+
+    StateList getStateListById(int id) {
+        if (!stateLists.containsKey(id)) {
+            stateLists.put(id, getStatelist(id));
+        }
+        return stateLists.get(id);
     }
 
     State getStateById(int id) {
@@ -141,6 +166,23 @@ class DataCache {
                 Election e = getElectionByYear(rs.getInt(3));
                 if (s == null || e == null) return null;
                 return District.fullCreate(rs.getInt(1), rs.getInt(2), e, s, rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+            }
+        });
+    }
+
+    private StateList getStatelist(int id) {
+        String query = "SELECT * FROM election.statelists WHERE id=?;";
+        return withStatement(query, stmt -> {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            } else {
+                Party p = getPartyById(rs.getInt(2));
+                State s = getStateById(rs.getInt(4));
+                Election e = getElectionByYear(rs.getInt(3));
+                if (s == null || e == null || p == null) return null;
+                return StateList.fullCreate(rs.getInt(1), p, e, s);
             }
         });
     }

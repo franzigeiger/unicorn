@@ -152,6 +152,10 @@ public class DatabaseQuery {
         }
     }
 
+    public StateList getStateListById(int id) {
+        return dc.getStateListById(id);
+    }
+
     public DirectCandidature getDirectCandidatures(DirectCandidature directCandidature) throws SQLException {
         District d = getDistrict(directCandidature.getDistrict());
         Party p = getParty(directCandidature.getParty());

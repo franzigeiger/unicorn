@@ -42,6 +42,8 @@ public interface mainService extends RemoteService {
 
     Map<District,List<String>> getWinningParties(int year);
 
+    Map<Integer, BallotLine> getBallotLinesForDistrict(int districtId, int currentYear, int prevYear);
+
     int updateAggregates();
 
     class App {
