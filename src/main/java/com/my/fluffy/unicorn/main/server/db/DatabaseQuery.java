@@ -197,4 +197,29 @@ public class DatabaseQuery {
             }
         }
     }
+
+    public boolean checkToken(String token) throws SQLException {
+        String query = "SELECT count(*) " +
+                "FROM election.tokens " +
+                "WHERE token = ?;";
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setString(1, token);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return false;
+            } else {
+                deleteToken(token);
+                return true;
+            }
+        }
+    }
+
+    public void deleteToken(String token) throws SQLException {
+        String query = "DELETE FROM election.tokens " +
+                "WHERE token = ?;";
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setString(1, token);
+            stmt.executeQuery();
+        }
+    }
 }

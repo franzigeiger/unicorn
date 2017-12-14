@@ -21,6 +21,18 @@ public class DatabaseInserter {
         this.db = connection;
     }
 
+    public void insertSingleBallot(Ballot b) throws SQLException {
+        String query = "INSERT INTO" +
+                "election.ballots(firstvote, secondvote, district)" +
+                "VALUES (?,?,?)";
+        PreparedStatement stmt = db.getConnection().prepareStatement(query);
+        stmt.setInt(1, b.getDirectCandidature().getId());
+        stmt.setInt(2, b.getStateList().getId());
+        stmt.setInt(3, b.getDistrict().getId());
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
     public void insertCandidate(Candidate candidate) throws SQLException {
         if (db.getQuery().getCandidate(candidate) != null) {
             if (reportDups.containsKey(Candidate.class)) {

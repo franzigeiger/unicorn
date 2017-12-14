@@ -44,6 +44,10 @@ public interface mainService extends RemoteService {
 
     Map<Integer, BallotLine> getBallotLinesForDistrict(int districtId, int currentYear, int prevYear);
 
+    boolean checkToken(String token);
+
+    boolean insertSingleBallot(Ballot b);
+
     int updateAggregates();
 
     class App {

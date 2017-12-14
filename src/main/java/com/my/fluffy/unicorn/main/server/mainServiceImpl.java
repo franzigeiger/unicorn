@@ -116,7 +116,26 @@ public class mainServiceImpl extends RemoteServiceServlet implements mainService
         }
     }
 
+    @Override
+    public boolean checkToken(String token) {
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            return conn.getQuery().checkToken(token);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
+    @Override
+    public boolean insertSingleBallot(Ballot b) {
+        try (DatabaseConnection conn = DatabaseConnection.create()) {
+            conn.getInserter().insertSingleBallot(b);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     @Override
     public Map<Party, DifferenceFirstSecondVotes> getDifferencesFirstSecondVotes(int year) {

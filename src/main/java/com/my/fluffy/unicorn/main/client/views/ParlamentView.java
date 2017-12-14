@@ -17,6 +17,7 @@ import com.googlecode.gwt.charts.client.options.AxisTitlesPosition;
 import com.googlecode.gwt.charts.client.options.Bar;
 import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
+import com.my.fluffy.unicorn.main.client.data.BallotLine;
 import com.my.fluffy.unicorn.main.client.data.Candidate;
 import com.my.fluffy.unicorn.main.client.data.PartyStateInfos;
 import com.my.fluffy.unicorn.main.client.mainService;

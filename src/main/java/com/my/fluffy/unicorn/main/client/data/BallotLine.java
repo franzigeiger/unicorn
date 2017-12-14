@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-public class BallotLine implements Serializable{
+public class BallotLine implements Serializable {
     private Party party;
     private Candidate directCandidate;
     private List<ListCandidature> listCandidates;
