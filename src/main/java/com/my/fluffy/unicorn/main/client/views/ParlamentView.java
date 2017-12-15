@@ -40,6 +40,7 @@ public class ParlamentView extends VerticalPanel{
 
     public ParlamentView(SelectableElectionView parent){
         this.parent = parent;
+        this.setSpacing(20);
         add(chartPanel);
             mainService.App.getInstance().getParlamentSeats(parent.getElectionYear(), new AsyncCallback<Map<Party, Integer>>() {
                 @Override
@@ -117,9 +118,9 @@ public class ParlamentView extends VerticalPanel{
         table.removeAllRows();
         table.insertRow(0);
         table.getRowFormatter().addStyleName(0,"FlexTable-Header");
-        table.setText(0,0,"Party");
-        table.setText(0,0,"Name");
-        table.setText(0,0,"Profession");
+        table.setHTML(0,0,"<h3>Party</h3>");
+        table.setHTML(0,1,"<h3>Name</h3>");
+        table.setHTML(0,2,"<h3>Profession</h3>");
         int i=1;
         for(Map.Entry<Candidate, Party> member : members.entrySet()){
             Candidate c = member.getKey();
@@ -149,10 +150,13 @@ public class ParlamentView extends VerticalPanel{
            }
        }
 
+        VerticalPanel filter = new VerticalPanel();
+        filter.setSpacing(8);
+       filter.add(new Label("Set Filter: "));
+       filter.add(party);
+       filter.add(table);
+       this.add(filter);
 
-       this.add(new Label("Set Filter: "));
-       this.add(party);
-       this.add(table);
 
         party.addChangeHandler(new ChangeHandler() {
             @Override
@@ -160,13 +164,19 @@ public class ParlamentView extends VerticalPanel{
                 drawMandatTable(table, party.getSelectedValue());
             }
         });
-
+        table.setStyleName("flextable");
        drawMandatTable(table, "None");
     }
 
     public void drawMandatTable(FlexTable table, String party){
         table.removeAllRows();
-        int i=0;
+        table.setCellSpacing(5);
+        table.insertRow(0);
+        table.getRowFormatter().addStyleName(0,"FlexTable-Header");
+        table.setHTML(0,0,"<h3>Party</h3>");
+        table.setHTML(0,1,"<h3>State</h3>");
+        table.setHTML(0,2,"<h3>Number of additional Mandats</h3>");
+        int i=1;
         for(PartyStateInfos infos : additionalMandats){
 
             if(party.equals("None")|| infos.getParty().getName().equalsIgnoreCase(party) )
@@ -192,15 +202,14 @@ public class ParlamentView extends VerticalPanel{
                     chart = new PieChart();
 
                     chartPanel.add(chart);
+                    //chartPanel.setSpacing(20);
                     draw();
-                    chart.setWidth("600px");
-                    chart.setHeight("600px");
+
                     // Create and attach the chart
                     chartPercent = new BarChart();
                     chartPanel.add(chartPercent);
                     drawPercent();
-                    chartPercent.setWidth("600px");
-                    chartPercent.setHeight("600px");
+
 
                 }
             });
@@ -222,8 +231,8 @@ public class ParlamentView extends VerticalPanel{
         // Set options
         PieChartOptions options = PieChartOptions.create();
 
-        options.setHeight(600);
-        options.setWidth(600);
+        options.setHeight(500);
+        options.setWidth(500);
 
         DataTable pieNewData = DataTable.create();
         pieNewData.addColumn(ColumnType.STRING, "Party");
@@ -263,13 +272,12 @@ public class ParlamentView extends VerticalPanel{
         BarChartOptions options = BarChartOptions.create();
         options.setFontName("Tahoma");
         options.setTitle("Percentage Distribution");
-        options.setHAxis(HAxis.create("Party"));
-        options.setVAxis(VAxis.create("Percent"));
+        options.setHAxis(HAxis.create("Percent"));
+        options.setVAxis(VAxis.create("Party"));
         Bar bar = Bar.create();
-        bar.setGroupWidth("100px");
         options.setBar(bar);
-        options.setHeight(600);
-        options.setWidth(550);
+        options.setHeight(500);
+        options.setWidth(500);
 
 
         // Draw the chart

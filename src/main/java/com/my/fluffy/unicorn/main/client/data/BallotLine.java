@@ -8,10 +8,15 @@ import java.util.List;
 public class BallotLine implements Serializable {
     private Party party;
     private Candidate directCandidate;
+    private DirectCandidature directCandidature;
     private List<ListCandidature> listCandidates;
     private int placement;
 
     public BallotLine() {
+    }
+
+    public DirectCandidature getDirectCandidature() {
+        return directCandidature;
     }
 
     public void setParty(Party p) { this.party = p; }

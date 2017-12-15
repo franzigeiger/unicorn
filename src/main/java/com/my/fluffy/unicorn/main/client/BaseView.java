@@ -21,7 +21,7 @@ public class BaseView {
 
         MenuBar menu = new MenuBar();
         menu.setAutoOpen(true);
-        menu.setWidth("1000px");
+        menu.setWidth("100%");
         menu.setAnimationEnabled(true);
 
         content.add(menu);
@@ -95,5 +95,17 @@ public class BaseView {
             }
         }));
 
+        menu.addItem(new MenuItem("New Election", new Command(){
+
+            @Override
+            public void execute() {
+                content.remove(parent);
+                contentPanel.clear();
+                contentPanel.add(new ElectionView(content));
+            }
+        }));
+
     }
+
+
 }

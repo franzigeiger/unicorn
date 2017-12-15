@@ -9,3 +9,10 @@ h1 {
 body, td, a, div, .p {
     font-family: arial, sans-serif
 }
+
+.flextable {
+    border: 1px solid #c5d7ef;
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 0;
+}
