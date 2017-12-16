@@ -112,6 +112,8 @@ public class ParlamentView extends VerticalPanel{
     private void createPartyMemberTable() {
         final FlexTable table = new FlexTable();
         table.addStyleName("FlexTable");
+        table.setCellPadding(0);
+        table.setCellSpacing(0);
 
         this.add(new HTML("<h3>Parlament Members: </h3>"));
         this.add(table);
@@ -171,6 +173,8 @@ public class ParlamentView extends VerticalPanel{
     public void drawMandatTable(FlexTable table, String party){
         table.removeAllRows();
         table.insertRow(0);
+        table.setCellPadding(0);
+        table.setCellSpacing(0);
         table.getRowFormatter().addStyleName(0,"FlexTable-Header");
         table.setHTML(0,0,"<h3>Party</h3>");
         table.setHTML(0,1,"<h3>State</h3>");
