@@ -1,3 +1,3 @@
-select dc.candidate, dc.party
+select dc.*
 from election.direct_candidatures dc
 where dc.district = ?
