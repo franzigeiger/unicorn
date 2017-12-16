@@ -18,6 +18,7 @@ public class SelectableElectionView extends VerticalPanel {
 
     public SelectableElectionView(int year, boolean useAggregated){
         this.year = year;
+        this.setSpacing(10);
         generateWidgets(useAggregated);
 
 

@@ -6,11 +6,16 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.HeadElement;
 import com.google.gwt.dom.client.LinkElement;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.query.client.Function;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import gwtfullscreen.Fullscreen;
+
+import static com.google.gwt.query.client.GQuery.$;
 
 
 /**
@@ -33,6 +38,13 @@ public class main implements EntryPoint {
 
         BaseView view= new BaseView(base);
 
+        $("#fullscreenLink").click(new Function() {
+            @Override
+            public boolean f(Event e) {
+                Fullscreen.requestFullscreen();
+                return true;
+            }
+        });
 
         RootPanel.get().add(base);
     }

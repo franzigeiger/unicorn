@@ -53,11 +53,7 @@
             <classifier>sources</classifier>
             <scope>test</scope>
         </dependency>
-        <dependency>
-                <groupId>com.github.gwtmaterialdesign</groupId>
-                <artifactId>gwt-material-themes</artifactId>
-                <version>2.0</version>
-        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.googlecode.gwt-charts/gwt-charts -->
         <dependency>
             <groupId>com.googlecode.gwt-charts</groupId>
@@ -96,6 +92,11 @@
             <version>20171018</version>
         </dependency>
         <dependency>
+            <groupId>com.github.wokier</groupId>
+            <artifactId>gwt-fullscreen</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
             <version>2.26</version>
@@ -110,6 +111,11 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.gwtquery</groupId>
+            <artifactId>gwtquery</artifactId>
+            <version>1.5-beta1</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -166,6 +172,16 @@
                     <groupId>com.google.gwt</groupId>
                     <artifactId>gwt-servlet</artifactId>
                     <version>${gwt.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.github.wokier</groupId>
+                    <artifactId>gwt-fullscreen</artifactId>
+                    <version>0.0.1</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.googlecode.gwtquery</groupId>
+                    <artifactId>gwtquery</artifactId>
+                    <version>1.5-beta1</version>
                 </dependency>
             </dependencies>
         </plugin>

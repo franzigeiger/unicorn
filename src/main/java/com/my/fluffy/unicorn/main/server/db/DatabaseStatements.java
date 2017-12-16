@@ -170,13 +170,13 @@ public class DatabaseStatements {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 directCandidates.put(
-                        db.getQuery().getPartyById(rs.getInt(0)),
+                        db.getQuery().getPartyById(rs.getInt(2)),
                         DirectCandidature.fullCreate(
-                                rs.getInt(1),
-                                db.getQuery().getDistrictById(rs.getInt(2)),
-                                db.getQuery().getCandidateById(3),
-                                db.getQuery().getPartyById(4),
-                                rs.getInt(5)
+                                rs.getInt(3),
+                                db.getQuery().getDistrictById(districtId),
+                                db.getQuery().getCandidateById(rs.getInt(1)),
+                                db.getQuery().getPartyById(rs.getInt(2)),
+                                0
                         ));
             }
             return directCandidates;
