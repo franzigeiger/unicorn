@@ -19,6 +19,7 @@ import gwtfullscreen.FullscreenChangeEventBindery;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.user.client.Event;
 import gwtfullscreen.Fullscreen;
+import org.intellij.lang.annotations.JdkConstants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,23 +53,34 @@ public class BallotView extends VerticalPanel  {
         this.add(select);
 
         TextBox tokenBox = new TextBox();
-
-        Button submit = new Button("Submit", new ClickHandler() {
+        this.add(tokenBox);
+        Button submit = new Button("<h3>Submit Votes</h3>", new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
                 mainService.App.getInstance().checkToken(tokenBox.getValue(), new AsyncCallback<Boolean>() {
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Window.alert("The token is not valid!");
+                        DialogBox box = new ConfirmDialog("Attention", "The token is not valid!" , "OK");
+                        box.center();
+                        box.show();
+
                     }
 
                     @Override
                     public void onSuccess(Boolean aBoolean) {
+                        if(!aBoolean.booleanValue()){
+                            DialogBox box = new ConfirmDialog("Attention", "The token is not valid!" , "OK");
+                            box.center();
+                            box.show();
+                            return;
+                        }
                         if (ballotData == null) {
                             mainService.App.getInstance().getBallotLinesForDistrict(district.getId(), 2017, 2017, new AsyncCallback<Map<Integer, BallotLine>>() {
                                 @Override
                                 public void onFailure(Throwable throwable) {
-                                    Window.alert("Couln't get your ballot from sytsem!");
+                                    DialogBox box = new ConfirmDialog("Attention", "Couln't get your ballot from sytsem!" , "OK");
+                                    box.center();
+                                    box.show();
                                 }
 
                                 @Override
@@ -85,6 +97,8 @@ public class BallotView extends VerticalPanel  {
                 });
             }
         });
+
+        this.add(submit);
     }
 
     private void createBallot(){
@@ -97,21 +111,32 @@ public class BallotView extends VerticalPanel  {
         ballotPanel.setSpacing(30);
         this.add(ballotPanel);
         VerticalPanel directPanel = new VerticalPanel();
-        directPanel.setSpacing(10);
+
         directPanel.add(new HTML("<h2>First Vote</h2>"));
+
         FlexTable direct = new FlexTable();
+
         direct.setHTML(0, 0, "<h3>Range</h3>");
         direct.setHTML(0, 1, "<h3>Candidate</h3>");
         direct.setHTML(0, 2, "<h3>Check</h3>");
+        direct.addStyleName("FlexTable");
+        direct.setCellSpacing(0);
+        direct.setCellPadding(0);
         directPanel.add(direct);
+        directPanel.setSpacing(0);
 
         VerticalPanel partyPanel = new VerticalPanel();
-        partyPanel.setSpacing(10);
+        partyPanel.setSpacing(0);
+
         partyPanel.add(new HTML("<h2>Second Vote</h2>"));
         FlexTable party = new FlexTable();
         party.setHTML(0, 0, "<h3>Check</h3>");
         party.setHTML(0, 1, "<h3>Party</h3>");
-        party.setHTML(0, 3, "<h3>Range</h3>");
+        party.setHTML(0, 2, "<h3>Range</h3>");
+        party.addStyleName("FlexTable");
+        party.setCellSpacing(0);
+        party.setCellPadding(0);
+
         partyPanel.add(party);
 
         ballotPanel.add(directPanel);
@@ -126,41 +151,65 @@ public class BallotView extends VerticalPanel  {
             pCheck.setValue(false);
 
             FlexTable directInfos = new FlexTable();
-            Candidate cand =line.getValue().getDirectCandidate();
-            if(cand!= null) {
+            directInfos.setStyleName("FlexTable-empty");
+            directInfos.setCellSpacing(0);
+            directInfos.setCellPadding(0);
+            DirectCandidature dCandidate= line.getValue().getDirectCandidate();
+            directInfos.getFlexCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+            directInfos.getFlexCellFormatter().setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+
+            if(dCandidate!= null) {
+                Candidate cand =dCandidate.getCandidate();
                 String name = cand.getTitle() + " " + cand.getFirstName() + " " + cand.getLastName();
                 directInfos.setHTML(0, 0, "<h4>" + name + "</h4>");
                 directInfos.setText(0, 1, cand.getProfession());
-                directInfos.setHTML(1, 0, "<h4>" + line.getValue().getParty().getName() + "</h4>");
+                directInfos.setHTML(1, 1, "<h4>" + line.getValue().getParty().getName() + "</h4>");
 
-                directCandidates.put(line.getValue().getDirectCandidature(), dCheck);
+                directCandidates.put(line.getValue().getDirectCandidate(), dCheck);
             }
 
             FlexTable partyInfos = new FlexTable();
+            partyInfos.setStyleName("FlexTable-empty");
+            partyInfos.setCellSpacing(0);
+            partyInfos.setCellPadding(0);
+            partyInfos.getFlexCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_RIGHT);
             List<ListCandidature> statelist= line.getValue().getListCandidates();
+
             if(statelist != null && statelist.size()>0 ) {
                 partyInfos.setHTML(0, 0, "<h3>" + line.getValue().getParty().getName() + "</h3>");
                 FlexTable stateList = new FlexTable();
+                stateList.setCellSpacing(0);
+
                 int j = 0;
-                for (ListCandidature candid : statelist)
-                    stateList.setText(0, j, candid.getCandidate().getFirstName() + " " + candid.getCandidate().getLastName());
+                for (ListCandidature candid : statelist){
+                    stateList.setText(j, 0, candid.getCandidate().getFirstName() + " " + candid.getCandidate().getLastName());
+                    j++;
+                }
+
 
                 partyInfos.setWidget(0, 1, stateList);
                 parties.put(statelist.get(0).getStateList(), pCheck);
             }
-            direct.setHTML(0, i, "<h4>" + line.getKey() + "</h4>");
-            direct.setWidget(1,i, directInfos);
-            direct.setWidget(2, i, dCheck);
+            direct.setHTML(i, 0, "<h4>" + line.getKey() + "</h4>");
+            direct.setWidget(i,1, directInfos);
+            direct.setWidget(i, 2, dCheck);
 
-            party.setWidget(0, i, pCheck);
-            party.setWidget(1, i, partyInfos);
-            party.setHTML(2, i, "<h4>" + line.getKey() + "</h4>");
+            party.setWidget(i, 0, pCheck);
+            party.setWidget(i, 1, partyInfos);
+            party.setHTML(i, 2, "<h4>" + line.getKey() + "</h4>");
 
             i++;
 
         }
+        for(int j = 0; j< 3;j++){
+            for(int k =0 ; k < ballotData.size(); k++){
+                party.getFlexCellFormatter().setHeight(k, j,"100px");
+                direct.getFlexCellFormatter().setHeight(k, j,"100px");
+            }
+        }
 
-       ballotPanel.add(new Button("<h3>Submit Votes</h3>", new ClickHandler() {
+
+       this.add(new Button("<h3>Submit Votes</h3>", new ClickHandler() {
            @Override
            public void onClick(ClickEvent clickEvent) {
                submitVote();
@@ -180,13 +229,10 @@ public class BallotView extends VerticalPanel  {
        }
 
        if(onlyOne>1 ){
-           Window.alert("Please select only one candidate for your first vote!");
+           DialogBox box = new ConfirmDialog("Attention", "Please select only one candidate for your first vote!" , "OK");
+           box.center();
+           box.show();
            return;
-       }
-
-       if(cand == null){
-          boolean confirm= Window.confirm("Do you want to submit a ballot with empty first vote?");
-            if(!confirm)return;
        }
 
         StateList list = null;
@@ -199,34 +245,189 @@ public class BallotView extends VerticalPanel  {
         }
 
         if(onlyOne>1 ){
-            Window.alert("Please select only one party for your second vote!");
+           DialogBox box = new ConfirmDialog("Attention", "Please select only one second vote!" , "OK");
+            box.center();
+            box.show();
             return;
         }
 
-        if(list == null){
-            boolean confirm= Window.confirm("Do you want to submit a ballot with empty second vote?");
-            if(!confirm)return;
+        if(cand == null && list == null){
+            DialogBox box = new ConfirmDialog("Attention", "Please select at least one vote!" , "OK");
+            box.center();
+            box.show();
+            return;
         }
 
-        Ballot b= new Ballot(list, cand, district);
+        StateList finalList = list;
+        DirectCandidature finalCand = cand;
+        if(list == null || cand == null){
+            DialogBox box = new YesNoDialog("Attention" , "Do you want to submit a ballot with one empty vote?") {
+                @Override
+                public void sayYes() {
+                    Ballot b= new Ballot(finalList, finalCand, district);
 
-        mainService.App.getInstance().insertSingleBallot(b, new AsyncCallback<Boolean>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                Window.alert("A problem at ballot persisting happened! Please try again!");
-            }
+                    mainService.App.getInstance().insertSingleBallot(b, new AsyncCallback<Boolean>() {
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                           hide();
+                            DialogBox box = new ConfirmDialog("Attention", "A problem at ballot persisting happened! Please try again!" , "OK");
+                            box.center();
+                            box.show();
+                        }
 
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                Window.alert("Ballot was put to pallot box!");
-                renew();
-            }
-        });
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            hide();
+                            DialogBox box = new ConfirmDialog("OK", "Ballot was put to pallot box!" , "OK");
+                            box.center();
+                            box.show();
+                            renew();
+                        }
+                    });
+                }
+
+                @Override
+                public void sayNo() {
+                    hide();
+                }
+            };
+
+            box.center();
+            box.show();
+
+        } else {
+            DialogBox box = new YesNoDialog("Attention" , "Do you want to sumbit your ballot right now?") {
+                @Override
+                public void sayYes() {
+                    Ballot b= new Ballot(finalList, finalCand, district);
+
+                    mainService.App.getInstance().insertSingleBallot(b, new AsyncCallback<Boolean>() {
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            hide();
+                            DialogBox box = new ConfirmDialog("Attention", "A problem at ballot persisting happened! Please try again!" , "OK");
+                            box.center();
+                            box.show();
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            hide();
+                            DialogBox box = new ConfirmDialog("OK", "Ballot was put to pallot box!" , "OK");
+                            box.center();
+                            box.show();
+                            renew();
+                        }
+                    });
+                }
+
+                @Override
+                public void sayNo() {
+                    hide();
+                }
+            };
+
+            box.center();
+            box.show();
+        }
+
+
 
     }
 
     public void renew(){
         this.clear();
         initialize();
+    }
+
+    private class ConfirmDialog extends DialogBox {
+
+        public ConfirmDialog(String header, String text, String button) {
+            // Set the dialog box's caption.
+            setText(header);
+
+            // Enable animation.
+            setAnimationEnabled(true);
+
+            // Enable glass background.
+            setGlassEnabled(true);
+
+            // DialogBox is a SimplePanel, so you have to set its widget
+            // property to whatever you want its contents to be.
+            Button ok = new Button(button);
+            ok.addClickHandler(new ClickHandler() {
+                public void onClick(ClickEvent event) {
+                    hide();
+                }
+            });
+
+            Label label = new Label(text);
+
+            VerticalPanel panel = new VerticalPanel();
+            panel.setHeight("100");
+            panel.setWidth("300");
+            panel.setSpacing(10);
+            panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+            panel.add(label);
+            panel.add(ok);
+
+            setWidget(panel);
+        }
+    }
+
+    public void saveBallot(){
+
+    }
+
+    private abstract class YesNoDialog extends DialogBox {
+
+        public YesNoDialog(String header, String text) {
+            // Set the dialog box's caption.
+            setText(header);
+
+            // Enable animation.
+            setAnimationEnabled(true);
+
+            // Enable glass background.
+            setGlassEnabled(true);
+
+            // DialogBox is a SimplePanel, so you have to set its widget
+            // property to whatever you want its contents to be.
+            Button yes = new Button("Yes");
+            yes.addClickHandler(new ClickHandler() {
+                public void onClick(ClickEvent event) {
+                    sayYes();
+                    hide();
+                }
+            });
+
+            Button no = new Button("No");
+            no.addClickHandler(new ClickHandler() {
+                public void onClick(ClickEvent event) {
+                    sayNo();
+                    hide();
+                }
+            });
+
+            Label label = new Label(text);
+
+            VerticalPanel panel = new VerticalPanel();
+            panel.setHeight("100");
+            panel.setWidth("300");
+            panel.setSpacing(10);
+            panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+            panel.add(label);
+            HorizontalPanel buttonPanel = new HorizontalPanel();
+            buttonPanel.setSpacing(30);
+            buttonPanel.add(yes);
+            buttonPanel.add(no);
+            panel.add(buttonPanel);
+
+            setWidget(panel);
+        }
+
+        public abstract void sayYes();
+
+        public abstract void sayNo();
     }
 }

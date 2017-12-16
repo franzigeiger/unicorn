@@ -7,9 +7,28 @@ h1 {
 }
 
 body, td, a, div, .p {
-    font-family: arial, sans-serif
+    font-family: arial, sans-serifs
 }
 
-flextable {
-    border: 1px solid #c5d7ef;
+.FlexTable tr {
+     border: 1px solid #BBBBBB;
+     border-radius: 3px;
+     padding: 3px;
+ }
+.FlexTable td {
+    border: 1px solid #BBBBBB;
+    /* border-radius: 3px; */
+    padding: 5px;
+}
+.FlexTable {
+
+}
+
+.FlexTable-empty tr {
+}
+.FlexTable-empty td {
+    border: 0px;
+}
+.FlexTable-empty {
+
 }

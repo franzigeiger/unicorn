@@ -111,13 +111,13 @@ public class ParlamentView extends VerticalPanel{
 
     private void createPartyMemberTable() {
         final FlexTable table = new FlexTable();
+        table.addStyleName("FlexTable");
 
         this.add(new HTML("<h3>Parlament Members: </h3>"));
         this.add(table);
 
         table.removeAllRows();
         table.insertRow(0);
-        table.getRowFormatter().addStyleName(0,"FlexTable-Header");
         table.setHTML(0,0,"<h3>Party</h3>");
         table.setHTML(0,1,"<h3>Name</h3>");
         table.setHTML(0,2,"<h3>Profession</h3>");
@@ -134,7 +134,7 @@ public class ParlamentView extends VerticalPanel{
 
     private void createAdditionalMandatView() {
        final FlexTable table = new FlexTable();
-
+        table.addStyleName("FlexTable");
        this.add(new HTML("<h3>AdditionalMandats: </h3>"));
 
        ListBox party = new ListBox();
@@ -164,13 +164,12 @@ public class ParlamentView extends VerticalPanel{
                 drawMandatTable(table, party.getSelectedValue());
             }
         });
-        table.setStyleName("flextable");
+
        drawMandatTable(table, "None");
     }
 
     public void drawMandatTable(FlexTable table, String party){
         table.removeAllRows();
-        table.setCellSpacing(5);
         table.insertRow(0);
         table.getRowFormatter().addStyleName(0,"FlexTable-Header");
         table.setHTML(0,0,"<h3>Party</h3>");

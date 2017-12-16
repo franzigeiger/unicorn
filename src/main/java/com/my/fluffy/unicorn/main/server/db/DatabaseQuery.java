@@ -205,11 +205,15 @@ public class DatabaseQuery {
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setString(1, token);
             ResultSet rs = stmt.executeQuery();
-            if (!rs.next()) {
-                return false;
-            } else {
+            if (rs.next()) {
+                if(rs.getInt(1)==0){
+                    return false;
+                }
                 deleteToken(token);
                 return true;
+            } else {
+                return false;
+
             }
         }
     }
@@ -219,7 +223,7 @@ public class DatabaseQuery {
                 "WHERE token = ?;";
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setString(1, token);
-            stmt.executeQuery();
+            stmt.executeUpdate();
         }
     }
 }
