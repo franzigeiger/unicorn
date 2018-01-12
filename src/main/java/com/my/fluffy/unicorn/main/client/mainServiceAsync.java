@@ -40,5 +40,8 @@ public interface mainServiceAsync {
 
     void getBallotLinesForDistrict(int districtId, int currentYear, int prevYear, AsyncCallback<Map<Integer, BallotLine>> async);
 
+    void checkToken(String token, AsyncCallback<Boolean> async);
+    void insertSingleBallot(Ballot b, AsyncCallback<Boolean> async);
+
     void updateAggregates(AsyncCallback<Integer> async);
 }

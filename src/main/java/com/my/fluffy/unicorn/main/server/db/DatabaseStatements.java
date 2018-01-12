@@ -162,17 +162,22 @@ public class DatabaseStatements {
         }
     }
 
-    public Map<Party, Candidate> getDirectCandidatesForDistrict(int districtId) throws SQLException {
+    public Map<Party, DirectCandidature> getDirectCandidatesForDistrict(int districtId) throws SQLException {
         String query = DatabaseConnection.getQuery("get-direct-candidate-for-ballot.sql");
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
-            Map<Party, Candidate> directCandidates = new HashMap<>();
+            Map<Party, DirectCandidature> directCandidates = new HashMap<>();
             stmt.setInt(1, districtId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 directCandidates.put(
                         db.getQuery().getPartyById(rs.getInt(2)),
-                        db.getQuery().getCandidateById(rs.getInt(1))
-                        );
+                        DirectCandidature.fullCreate(
+                                rs.getInt(3),
+                                db.getQuery().getDistrictById(districtId),
+                                db.getQuery().getCandidateById(rs.getInt(1)),
+                                db.getQuery().getPartyById(rs.getInt(2)),
+                                0
+                        ));
             }
             return directCandidates;
         }
@@ -203,7 +208,7 @@ public class DatabaseStatements {
         District d = db.getQuery().getDistrictById(districtId);
         State s = d.getState();
         Map<Party, Integer> stateLists = getStateListsWithRow(prevYear, s.getId(), currentYear);
-        Map<Party, Candidate> directCandidates = getDirectCandidatesForDistrict(districtId);
+        Map<Party, DirectCandidature> directCandidates = getDirectCandidatesForDistrict(districtId);
         Map<Integer, BallotLine> ballotLines = new HashMap<>();
         for(Map.Entry<Party, Integer> stateList : stateLists.entrySet()){
             Party party = stateList.getKey();
@@ -269,4 +274,6 @@ public class DatabaseStatements {
             return dist;
         }
     }
+
+
 }
