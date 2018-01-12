@@ -124,7 +124,7 @@ public class DatabaseStatements {
                         rs.getInt(3),
                         rs.getInt(4),
                         db.getQuery().getDistrictById(rs.getInt(5)).getName(),
-                        rs.getInt(6)
+                        year
                 );
                 differenceTotal.put(db.getQuery().getPartyById(rs.getInt(1)), diff);
             }

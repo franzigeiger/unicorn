@@ -58,8 +58,8 @@ public class DifferencePerPartyView extends HorizontalPanel {
     public void draw(){
         DataTable dataTable = DataTable.create();
 
-        dataTable.addColumn(ColumnType.STRING, "Difference");
-        dataTable.addColumn(ColumnType.NUMBER, "Party");
+        dataTable.addColumn(ColumnType.STRING, "Party");
+        dataTable.addColumn(ColumnType.NUMBER, "Difference");
         int i = 0;
         for(Map.Entry<Party, DifferenceFirstSecondVotes> partyDiff : differenceTotal.entrySet()){
             String district = differenceTotal.get(partyDiff.getKey()).getDistrictName();
@@ -78,8 +78,8 @@ public class DifferencePerPartyView extends HorizontalPanel {
         BarChartOptions options = BarChartOptions.create();
         options.setFontName("Tahoma");
         options.setTitle("Percentage Distribution");
-        options.setHAxis(HAxis.create("Party"));
-        options.setVAxis(VAxis.create("Difference"));
+        options.setVAxis(VAxis.create("Party"));
+        options.setHAxis(HAxis.create("Difference"));
         Bar bar = Bar.create();
         bar.setGroupWidth("100px");
         options.setBar(bar);
