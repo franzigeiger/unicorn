@@ -1,0 +1,5 @@
+# Data columns: X Min 1stQuartile Median 3rdQuartile Max BoxWidth Titles
+1 5 7 10 15 24 0.3 Quick
+2 6 8 11 16 23 0.4 Fox
+3 5 7 11 17 22 0.5 Lazy
+4 6 9 10 18 21 0.3 Dog
