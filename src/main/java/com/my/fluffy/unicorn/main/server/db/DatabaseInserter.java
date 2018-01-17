@@ -22,12 +22,20 @@ public class DatabaseInserter {
     }
 
     public void insertSingleBallot(Ballot b) throws SQLException {
-        String query = "INSERT INTO" +
+        String query = "INSERT INTO " +
                 "election.ballots(firstvote, secondvote, district)" +
-                "VALUES (?,?,?)";
+                " VALUES (?,?,?)";
         PreparedStatement stmt = db.getConnection().prepareStatement(query);
-        stmt.setInt(1, b.getDirectCandidature().getId());
-        stmt.setInt(2, b.getStateList().getId());
+        if(b.getDirectCandidature() != null) {
+            stmt.setInt(1, b.getDirectCandidature().getId());
+        } else {
+            stmt.setNull(1, java.sql.Types.INTEGER);
+        }
+        if(b.getStateList() != null) {
+            stmt.setInt(2, b.getStateList().getId());
+        } else {
+            stmt.setNull(2, java.sql.Types.INTEGER);
+        }
         stmt.setInt(3, b.getDistrict().getId());
         stmt.executeUpdate();
         stmt.close();
