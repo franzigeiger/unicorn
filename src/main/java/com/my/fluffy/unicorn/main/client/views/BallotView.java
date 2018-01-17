@@ -62,7 +62,7 @@ public class BallotView extends VerticalPanel  {
 
         TextBox tokenBox = new TextBox();
         this.add(tokenBox);
-        Button submit = new Button("<h3>Submit Votes</h3>", new ClickHandler() {
+        Button submit = new Button("<h3>Submit Token</h3>", new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
                 mainService.App.getInstance().checkToken(tokenBox.getValue(), new AsyncCallback<Boolean>() {

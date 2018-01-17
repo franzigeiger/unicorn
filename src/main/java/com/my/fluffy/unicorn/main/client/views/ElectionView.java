@@ -40,7 +40,7 @@ public class ElectionView extends VerticalPanel{
            districtBox.addItem(district.getName());
        }
 
-    this.add(new HTML("<h3>Choose Distirct:</h3>"));
+    this.add(new HTML("<h3>Choose District:</h3>"));
        add(districtBox);
 
 
