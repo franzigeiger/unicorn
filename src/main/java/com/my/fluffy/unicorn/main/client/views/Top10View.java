@@ -13,7 +13,7 @@ import com.my.fluffy.unicorn.main.client.mainService;
 
 import java.util.List;
 
-public class Top10View extends HorizontalPanel {
+public class Top10View extends VerticalPanel {
 
 
    List<Party> parties;
@@ -21,6 +21,7 @@ public class Top10View extends HorizontalPanel {
 
     public Top10View(SelectableElectionView parent) {
         this.parent = parent;
+        this.setSpacing(20);
         if(parent.getElectionYear() == 2013) {
             this.add(new Label("Unfortunately, there is no corresponding data for 2013."));
         } else {
@@ -42,6 +43,9 @@ public class Top10View extends HorizontalPanel {
 
     private void createPerPartyView() {
         final FlexTable table = new FlexTable();
+        table.addStyleName("FlexTable");
+        table.setCellPadding(0);
+        table.setCellSpacing(0);
 
         this.add(new HTML("<h3>Choose Party: </h3>"));
 
@@ -67,6 +71,10 @@ public class Top10View extends HorizontalPanel {
 
     public void showTop10(FlexTable table, String party){
         table.removeAllRows();
+        table.insertRow(0);
+        table.setHTML(0,0,"<h3>Name</h3>");
+        table.setHTML(0,1,"<h3>Winner or Looser</h3>");
+        table.setHTML(0,2,"<h3>Differences</h3>");
         for(Party p: parties){
 
             if(p.getName().equalsIgnoreCase(party) ) {
@@ -79,9 +87,9 @@ public class Top10View extends HorizontalPanel {
 
                     public void onSuccess(List<Top10Data> topTen) {
                         if(topTen.size() == 0){
-                            table.setText(0, 0, "No Candidates found!");
+                            table.setText(1, 0, "No Candidates found!");
                         } else {
-                            int i = 0;
+                            int i = 1;
                             for (Top10Data t: topTen) {
                                 table.setText(i, 0,
                                         t.getCandidate().getLastName() + ", " + t.getCandidate().getFirstName());

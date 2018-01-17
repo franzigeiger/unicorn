@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.my.fluffy.unicorn.main.client.BaseView;
 import com.my.fluffy.unicorn.main.client.mainService;
 
 public class SelectableElectionView extends VerticalPanel {
@@ -15,10 +16,12 @@ public class SelectableElectionView extends VerticalPanel {
     CheckBox use2013;
     CheckBox use2017 ;
     CheckBox aggregated;
+    BaseView base;
 
-    public SelectableElectionView(int year, boolean useAggregated){
+    public SelectableElectionView(int year, boolean useAggregated, BaseView base){
         this.year = year;
         this.setSpacing(10);
+        this.base=base;
         generateWidgets(useAggregated);
 
 
@@ -32,9 +35,11 @@ public class SelectableElectionView extends VerticalPanel {
             @Override
             public void onValueChange(ValueChangeEvent<Boolean> valueChangeEvent) {
                 if(valueChangeEvent.getValue() == true){
-                    use2013.setValue(false);
+                    use2013.setValue(false, true);
                 } else {
                     use2013.setValue(true);
+                    base.reload();
+
                 }
             }
         });
@@ -43,9 +48,10 @@ public class SelectableElectionView extends VerticalPanel {
             @Override
             public void onValueChange(ValueChangeEvent<Boolean> valueChangeEvent) {
                 if(valueChangeEvent.getValue() == true){
-                    use2017.setValue(false);
+                    use2017.setValue(false, true);
                 } else {
                     use2017.setValue(true);
+                    base.reload();
                 }
             }
         });

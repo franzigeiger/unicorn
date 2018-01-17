@@ -24,8 +24,10 @@ import com.my.fluffy.unicorn.main.client.mainService;
 import com.my.fluffy.unicorn.main.client.data.Party;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ParlamentView extends VerticalPanel{
 
@@ -110,6 +112,17 @@ public class ParlamentView extends VerticalPanel{
     }
 
     private void createPartyMemberTable() {
+       List<Map.Entry<Candidate,Party>> list = members.entrySet().stream().sorted(new Comparator<Map.Entry<Candidate, Party>>() {
+            @Override
+            public int compare(Map.Entry<Candidate, Party> o1, Map.Entry<Candidate, Party> o2) {
+                int co =o1.getValue().getName().compareTo(o2.getValue().getName());
+                if(co == 0){
+                    return o1.getKey().getLastName().compareTo(o2.getKey().getLastName());
+                }
+
+                return co;
+            }
+        }).collect(Collectors.toList());
         final FlexTable table = new FlexTable();
         table.addStyleName("FlexTable");
         table.setCellPadding(0);
@@ -124,7 +137,7 @@ public class ParlamentView extends VerticalPanel{
         table.setHTML(0,1,"<h3>Name</h3>");
         table.setHTML(0,2,"<h3>Profession</h3>");
         int i=1;
-        for(Map.Entry<Candidate, Party> member : members.entrySet()){
+        for(Map.Entry<Candidate, Party> member : list){
             Candidate c = member.getKey();
             table.setText(i, 0, member.getValue().getName());
             table.setText(i, 1,c.getFirstName() + " " + c.getLastName() );

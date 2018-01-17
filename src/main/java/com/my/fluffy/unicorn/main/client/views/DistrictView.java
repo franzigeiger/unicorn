@@ -12,6 +12,9 @@ import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
 import com.my.fluffy.unicorn.main.client.data.*;
 import com.my.fluffy.unicorn.main.client.mainService;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,13 +31,14 @@ public class DistrictView extends VerticalPanel {
     List<DistrictResults> results;
     Candidate winner2017;
 
-    HorizontalPanel chartPanel = new HorizontalPanel();
+    VerticalPanel chartPanel = new VerticalPanel();
     PieChart chartPartyFirst;
     PieChart chartPartySecond;
     PieChart chartVoters;
 
     public DistrictView(SelectableElectionView parent) {
         this.parent = parent;
+        this.setSpacing(20);
 
         if(parent.getElectionYear()== 2013){
             this.add(new Label("Unfortunately, there is no corresponding data for this year."));
@@ -48,6 +52,10 @@ public class DistrictView extends VerticalPanel {
 
                 public void onSuccess(List<District> d) {
                     districts2013 = d;
+                    if(parent.getElectionYear()==2013){
+                        createDistrictOverview(districts2013);
+                    }
+
                 }
             });
 
@@ -59,13 +67,15 @@ public class DistrictView extends VerticalPanel {
 
                 public void onSuccess(List<District> d) {
                     districts2017 = d;
-                    createDistrictOverview();
+                    if(parent.getElectionYear()==2017){
+                        createDistrictOverview(districts2013);
+                    }
                 }
             });
         }
     }
 
-    private void createDistrictOverview(){
+    private void createDistrictOverview(List<District> districts){
         final FlexTable table = new FlexTable();
 
         this.add(new HTML("<h3>Choose District: </h3>"));
@@ -73,8 +83,17 @@ public class DistrictView extends VerticalPanel {
         ListBox listBox = new ListBox();
 
         listBox.addItem("None");
-        for(District district : districts2017){
+
+        Collections.sort(districts, new Comparator<District>() {
+            @Override
+            public int compare(final District object1, final District object2) {
+                return object1.getName().compareTo(object2.getName());
+            }
+        } );
+
+        for(District district : districts){
             listBox.addItem(district.getName());
+
         }
 
 
@@ -170,17 +189,20 @@ public class DistrictView extends VerticalPanel {
                     //set title and draw chart
                     PieChartOptions optionsVoters = PieChartOptions.create();
                     optionsVoters.setTitle("Voters");
+                    optionsVoters.setHeight(600);
+                    optionsVoters.setWidth(700);
                     chartVoters.draw(chartVoters.computeDiff(pieOldDataVoters, pieNewDataVoters),
                             optionsVoters);
 
-
+                     HorizontalPanel partyCharts = new HorizontalPanel();
+                     chartPanel.add(partyCharts);
                     //create and attach chart for first votes
                     chartPartyFirst = new PieChart();
-                    chartPanel.add(chartPartyFirst);
+                    partyCharts.add(chartPartyFirst);
 
                     //create and attach chart for second votes
                     chartPartySecond = new PieChart();
-                    chartPanel.add(chartPartySecond);
+                    partyCharts.add(chartPartySecond);
 
                     //data for first votes 2017
                     DataTable pieNewDataFirst = DataTable.create();
@@ -218,11 +240,15 @@ public class DistrictView extends VerticalPanel {
                     // set title of first votes pie chart and draw chart
                     PieChartOptions optionsFirst = PieChartOptions.create();
                     optionsFirst.setTitle("First");
+                    optionsFirst.setHeight(600);
+                    optionsFirst.setWidth(700);
                     chartPartyFirst.draw(chartPartyFirst.computeDiff(pieOldDataFirst, pieNewDataFirst), optionsFirst);
 
                     // set title of second votes pie chart and draw chart
                     PieChartOptions optionsSecond = PieChartOptions.create();
                     optionsSecond.setTitle("Second");
+                    optionsSecond.setHeight(600);
+                    optionsSecond.setWidth(700);
                     //
                     chartPartySecond.draw(chartPartySecond.computeDiff(pieOldDataSecond, pieNewDataSecond),
                             optionsSecond);

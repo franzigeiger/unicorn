@@ -21,6 +21,7 @@ public class WinningPartiesView extends HorizontalPanel {
 
     public WinningPartiesView(SelectableElectionView parent) {
         this.parent = parent;
+        this.setSpacing(20);
         mainService.App.getInstance().getAllDistricts(parent.getElectionYear(), new AsyncCallback<List<District>>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -48,9 +49,14 @@ public class WinningPartiesView extends HorizontalPanel {
 
     private void showWinningParties() {
         final FlexTable table = new FlexTable();
-        table.setText(0, 0, "District");
-        table.setText(0, 1, "First");
-        table.setText(0, 2, "Second");
+        table.addStyleName("FlexTable");
+        table.setCellPadding(0);
+        table.setCellSpacing(0);
+        table.removeAllRows();
+        table.insertRow(0);
+        table.setHTML(0,0,"<h3>District</h3>");
+        table.setHTML(0,1,"<h3>First</h3>");
+        table.setHTML(0,2,"<h3>Second</h3>");
         int i = 1;
         for(Map.Entry<District, List<String>> result: winningParties.entrySet()){
             table.setText(i, 0, result.getKey().getName());

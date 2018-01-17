@@ -33,6 +33,7 @@ class DataCache {
     }
 
     public Map<Integer, District> getDistricts() {
+        districts.clear();
         return withStatement("select * from districts", stmt -> {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {

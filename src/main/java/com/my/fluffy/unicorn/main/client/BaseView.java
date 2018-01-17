@@ -8,6 +8,7 @@ public class BaseView {
 
     Panel content;
     VerticalPanel contentPanel ;
+    SelectableElectionView parent;
 
     public BaseView(Panel base){
         super();
@@ -25,8 +26,8 @@ public class BaseView {
         menu.setAnimationEnabled(true);
 
         content.add(menu);
-
-        SelectableElectionView parent = new SelectableElectionView(2017, true);
+        content.setWidth("100%");
+        parent = new SelectableElectionView(2017, true, this);
         content.add(parent);
         contentPanel= new VerticalPanel();
         content.add(contentPanel);
@@ -105,7 +106,42 @@ public class BaseView {
             }
         }));
 
+        contentPanel.add(new ParlamentView(parent));
+
     }
 
 
+    public void reload() {
+       Widget content = contentPanel.getWidget(0);
+
+       if(content instanceof ParlamentView ){
+           contentPanel.clear();
+           contentPanel.add(new ParlamentView(parent));
+       }
+
+        if(content instanceof DistrictView ){
+            contentPanel.clear();
+            contentPanel.add(new DistrictView(parent));
+        }
+
+        if(content instanceof WinningPartiesView ){
+            contentPanel.clear();
+            contentPanel.add(new WinningPartiesView(parent));
+        }
+
+        if(content instanceof FirstVotesTotalView ){
+            contentPanel.clear();
+            contentPanel.add(new FirstVotesTotalView(parent));
+        }
+
+        if(content instanceof WomenInParliamentView ){
+            contentPanel.clear();
+            contentPanel.add(new WomenInParliamentView(parent));
+        }
+
+        if(content instanceof ElectionView ){
+            contentPanel.clear();
+            contentPanel.add(new ElectionView(parent));
+        }
+    }
 }
