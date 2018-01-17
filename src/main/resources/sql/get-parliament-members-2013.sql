@@ -1,4 +1,3 @@
-
 with directCandidates as(
     select c.id , d.party
     from (election.directwinner w join election.direct_candidatures d on  w.winner = d.id) join election.candidates c on d.candidate=c.id

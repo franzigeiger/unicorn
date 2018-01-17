@@ -1,0 +1,66 @@
+\select@language {ngerman}
+\contentsline {chapter}{\numberline {1}Lastenheft}{4}{chapter.1}
+\contentsline {section}{\numberline {1.1}Benutzerschnittstellen}{4}{section.1.1}
+\contentsline {section}{\numberline {1.2}Funktionale Anforderungen}{4}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Ui-Anf-1}{4}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Ui-Anf-3}{4}{subsection.1.2.2}
+\contentsline {subsection}{\numberline {1.2.3}Ui-Anf-4}{4}{subsection.1.2.3}
+\contentsline {subsection}{\numberline {1.2.4}Ui-Anf-5}{5}{subsection.1.2.4}
+\contentsline {subsection}{\numberline {1.2.5}Backend-Anf-1}{5}{subsection.1.2.5}
+\contentsline {subsection}{\numberline {1.2.6}Backend-Anf-2}{5}{subsection.1.2.6}
+\contentsline {subsection}{\numberline {1.2.7}Backend-Anf-3}{5}{subsection.1.2.7}
+\contentsline {subsection}{\numberline {1.2.8}Backend-Anf-4}{5}{subsection.1.2.8}
+\contentsline {subsection}{\numberline {1.2.9}Backend-Anf-5}{5}{subsection.1.2.9}
+\contentsline {subsection}{\numberline {1.2.10}Backend-Anf-6}{5}{subsection.1.2.10}
+\contentsline {section}{\numberline {1.3}Nicht Funktionale Anforderungen}{5}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}QM-Sicherheit}{5}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}QM-Robustheit}{6}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {1.3.3}QM-Wiederherstellbarkeit}{6}{subsection.1.3.3}
+\contentsline {subsection}{\numberline {1.3.4}QM-Erlernbarkeit}{6}{subsection.1.3.4}
+\contentsline {subsection}{\numberline {1.3.5}QM-Einfachheit}{6}{subsection.1.3.5}
+\contentsline {subsection}{\numberline {1.3.6}RG-1}{6}{subsection.1.3.6}
+\contentsline {chapter}{\numberline {2}Pflichtenheft}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}Zielbestimmung}{7}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Musskriterien}{7}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Sollkriterien}{7}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Kannkriterien}{8}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}Abgrenzungskriterien}{8}{subsection.2.1.4}
+\contentsline {section}{\numberline {2.2}Einsatz}{8}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Anwendungsbereiche}{8}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Zielgruppen}{8}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}Umgebung}{8}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Software}{9}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Hardware}{9}{subsection.2.3.2}
+\contentsline {section}{\numberline {2.4}Funktionalit\IeC {\"a}t}{9}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Anzeige des Wahlergebnisses einer Bundestagswahl}{9}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Anzeige des Wahlergebnisses einer Bundestagswahl in einem Wahlkreis}{10}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}Abgabe einer Einzelstimme}{11}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.4}Nichtfunktionale Anforderungen}{12}{subsection.2.4.4}
+\contentsline {subsection}{\numberline {2.4.5}Sicherheit}{12}{subsection.2.4.5}
+\contentsline {subsubsection}{\nonumberline Datenschutz}{12}{section*.2}
+\contentsline {subsubsection}{\nonumberline Manipulationssicherheit}{13}{section*.3}
+\contentsline {subsection}{\numberline {2.4.6}Robustheit und Verf\IeC {\"u}gbarkeit}{13}{subsection.2.4.6}
+\contentsline {subsection}{\numberline {2.4.7}Korrektheit}{13}{subsection.2.4.7}
+\contentsline {subsection}{\numberline {2.4.8}Nutzbarkeit}{13}{subsection.2.4.8}
+\contentsline {subsection}{\numberline {2.4.9}Datengenerator}{13}{subsection.2.4.9}
+\contentsline {section}{\numberline {2.5}Daten}{13}{section.2.5}
+\contentsline {chapter}{\numberline {3}Dokumentation}{15}{chapter.3}
+\contentsline {section}{\numberline {3.1}Aufsetzen des Systems}{15}{section.3.1}
+\contentsline {section}{\numberline {3.2}Benutzeroberfl\IeC {\"a}che}{15}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Auswahl eines Wahljahres}{15}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Neuaggregierung der Stimmen}{15}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Parlament}{16}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}District}{16}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Top10}{16}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Difference First Second Votes}{16}{subsection.3.2.6}
+\contentsline {subsection}{\numberline {3.2.7}First Votes}{16}{subsection.3.2.7}
+\contentsline {subsection}{\numberline {3.2.8}Women in Parliament}{17}{subsection.3.2.8}
+\contentsline {section}{\numberline {3.3}Berechnung der Ergebnisse}{17}{section.3.3}
+\contentsline {section}{\numberline {3.4}Funktion zur Stimmenabgabe}{17}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Vorbereitung des Systems f\IeC {\"u}r die Stimmenabgabe}{17}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Wahl}{18}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Sicherheitskonzept}{18}{subsection.3.4.3}
+\contentsline {subsubsection}{\nonumberline Tokens}{18}{section*.4}
+\contentsline {subsubsection}{\nonumberline Absicherung des Systems}{18}{section*.5}
+\contentsline {subsubsection}{\nonumberline Absicherung des Wahlcomputers}{19}{section*.6}
+\contentsline {section}{\numberline {3.5}Auswertungen}{19}{section.3.5}
