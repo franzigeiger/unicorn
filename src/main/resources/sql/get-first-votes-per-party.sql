@@ -1,3 +1,4 @@
+/* This query computes the distribution of first votes for a specified year */
 with firstVotesPercentage as(
     select dc.party,sum(dc.votes) as votes,d.year
     from election.direct_candidatures dc join election.districts d on d.id = dc.district
