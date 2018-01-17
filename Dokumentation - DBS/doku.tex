@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{ae}
 \usepackage[bookmarks,bookmarksnumbered]{hyperref}
 \usepackage[toc,xindy,nonumberlist]{glossaries}
@@ -284,49 +285,83 @@ Die Benutzeroberfläche bietet einem Nutzer die Möglichkeit, sich über die Erg
 
 Das System kann die Ergebnisse der Bundestagswahlen von 2013 und 2017 anzeigen. Standardmäßig werden die Ergebnisse von 2017 angezeigt. Der Nutzer kann über Checkboxen auswählen, welche Ergebnisse angezeigt werden sollen. Dem System liegen allerdings nur Daten über die Kandidaten von 2017 vor. Deshalb können einige Ergebnisse, wie die prozentuale Anzahl von Frauen im Bundestag, für die Bundestagswahl von 2013 nicht angezeigt werden. In diesen Fällen wird stattdessen eine entsprechende Meldung gezeigt
 
-TODO: GRAFIK EINFÜGEN
 
 \subsection{Neuaggregierung der Stimmen}
 
 Um neu eingetragene Stimmen bei den angezeigten Wahlergebnissen zu berücksichtigen kann ein Nutzer die Neuaggregierung der Einzelstimmen über eine Checkbox auslösen. Nach Ende dieser Neuaggregierung werden alle bis zum Zeitpunkt dieser Aggregierung in das System eingetragene Stimmen für die Berechnung der Wahlergebnisse berücksichtigt.
 
-TODO: GRAFIK EINFÜGEN
 
 \subsection{Parlament}
 
 Unter 'Parlament' wird die Sitzverteilung im Bundestag angezeigt. Zudem sind dort die prozentuale Verteilung von Stimmen auf Parteien,  die Überhangmandate und die Mitglieder des Bundestags zu sehen. 
 
-TODO: GRAFIK EINFÜGEN
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/parliament_distribution.png}
+\caption {Parliament distribution}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/parliament_members.png}
+\caption {Parliament members}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/additional_mandats.png}
+\caption {Additional mandats}
+\end{figure}
 
 \subsection{District}
 
 Unter 'District' wird die Anzahl von Wählern und Nichtwählern und die Verteilung von Erst- und Zweitstimmen auf Parteien angezeigt. Diese Daten werden jeweils im Vergleich zu den Daten der vorherigen Bundestagswahl dargestellt. Da das System keine Daten zur Bundestagswahl von 2009 enthält, gibt es hier keine eigene Anzeige für die Bundestagswahl von 2013. Die Ergebnisse von 2013 werden bei den Daten von 2017 als Vergleich mit angezeigt.
 
-TODO: GRAFIK EINFÜGEN
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/district.png}
+\caption {District view}
+\end{figure}
 
 \subsection{Top10}
 
 TODO: TOP10-ANFRAGE HIER ERKLÄREN
 
-TODO: GRAFIK EINFÜGEN
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/top10.png}
+\caption {Top 10 view}
+\end{figure}
 
 \subsection{Difference First Second Votes}
 
 Unter 'Difference First Second Votes' wird für jede Partei einer Bundestagswahl angezeigt, in welchem Wahlkreis der Abstand zwischen ihrer Erst- und Zweitstimmen am größten war. Die Größe dieses Abstands wird als Balkendiagramm angezeigt. Wenn der Nutzer mit der Maus über eine dieser Balken fährt kann er sehen, in welchem Wahlkreis der Abstand zwischen den Erst- und Zweitstimmen der Partei am größten war und ob sie mehr Erst- oder mehr Zweitstimmen erhalten haben. Daran kann man sehen, ob ein bestimmter Erstkandidat besonders beliebt oder besonders unbeliebt war, oder ob der Erstkandidat wenig Einfluss auf die Anzahl der erhaltenen Erststimmen hatte. Zudem kann geprüft werden, ob an sehr kleine oder sehr große Parteien bevorzugt Erst- oder Zweitstimmen vergeben werden. 
 
-TODO: GRAFIK EINFÜGEN
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/diffrences_per_party.png}
+\caption {Differences per party}
+\end{figure}
 
 \subsection{First Votes}
 
 Unter 'First Votes' wird die Verteilung der Erststimmen auf Bundestagsebene angezeigt. Hier kann der Nutzer sehen, ob eine stärkere Gewichtung der Erststimmen das Ergebnis einer Bundestagswahl beeinflussen könnte.
 
-TODO: GRAFIK EINFÜGEN
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/first_votes.png}
+\caption {First votes view}
+\end{figure}
 
 \subsection{Women in Parliament}
 
 Unter 'Women in Parliament' wird die prozentuale Anzahl der Frauen und Männer im Bundestag angezeigt. Da das System keine entsprechenden Daten über die Kandidaten von 2013 enthält ist diese Anzeige nur für die Bundestagswahl von 2017 möglich
 
-TODO: GRAFIK EINFÜGEN
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/female_in_parliament.png}
+\caption {Women in parliament view}
+\end{figure}
 
 
 \section{Berechnung der Ergebnisse}
@@ -354,7 +389,25 @@ In einem Browser wird nun die Weboberfläche des Wahlsystems geöffnet.
 Auf der Website wird die Funktion "New Election" gewählt.
 Daraufhin wird eine Auswahlseite angezeigt, in der der Wahlkreis ausgewählt wird.\\
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/select_district.png}
+\caption {District selection view}
+\end{figure}
+
 Nach Auswahl eines Wahlkreises wird eine Eingabemaske gezeigt, in der ein Wähler später ein Wahltoken eingeben kann. Nach Eingabe eines gültigen Tokens wird der Stimmzettel angezeigt, auf dem der Wähler wählen kann. Die wählbaren Direktkandidaten und Landeslisten werden dabei in der gleichen Reihenfolge angezeigt, die sie auch auf einem konventionellen Stimmzettel haben würden. Dabei orientiert sich die Reihenfolge der Parteien an der Anzahl der Zweitstimmen, die sie bei der vorherigen Bundestagswahl in dem entsprechenden Bundesland des Wahlkreises erhalten haben. \\
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/token_input.png}
+\caption {Token input view}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/ballot.png}
+\caption {Ballot view}
+\end{figure}
 
 Aus Sicherheitsgründen muss die Website auf dem Wahlcomputer in den Vollbildmodus versetzt werden. Der Wähler darf keine Möglichkeit haben, diesen Vollbildmodus zu beenden. So kann sichergestellt werden, dass der Wähler ausschließlich die vorbereitete Eingabemaske benutzen kann.
 

@@ -49,18 +49,18 @@
 \contentsline {section}{\numberline {3.2}Benutzeroberfl\IeC {\"a}che}{15}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Auswahl eines Wahljahres}{15}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}Neuaggregierung der Stimmen}{15}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Parlament}{16}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}District}{16}{subsection.3.2.4}
-\contentsline {subsection}{\numberline {3.2.5}Top10}{16}{subsection.3.2.5}
-\contentsline {subsection}{\numberline {3.2.6}Difference First Second Votes}{16}{subsection.3.2.6}
-\contentsline {subsection}{\numberline {3.2.7}First Votes}{16}{subsection.3.2.7}
-\contentsline {subsection}{\numberline {3.2.8}Women in Parliament}{17}{subsection.3.2.8}
-\contentsline {section}{\numberline {3.3}Berechnung der Ergebnisse}{17}{section.3.3}
-\contentsline {section}{\numberline {3.4}Funktion zur Stimmenabgabe}{17}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Vorbereitung des Systems f\IeC {\"u}r die Stimmenabgabe}{17}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Wahl}{18}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}Sicherheitskonzept}{18}{subsection.3.4.3}
-\contentsline {subsubsection}{\nonumberline Tokens}{18}{section*.4}
-\contentsline {subsubsection}{\nonumberline Absicherung des Systems}{18}{section*.5}
-\contentsline {subsubsection}{\nonumberline Absicherung des Wahlcomputers}{19}{section*.6}
-\contentsline {section}{\numberline {3.5}Auswertungen}{19}{section.3.5}
+\contentsline {subsection}{\numberline {3.2.3}Parlament}{15}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}District}{18}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Top10}{19}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Difference First Second Votes}{20}{subsection.3.2.6}
+\contentsline {subsection}{\numberline {3.2.7}First Votes}{21}{subsection.3.2.7}
+\contentsline {subsection}{\numberline {3.2.8}Women in Parliament}{22}{subsection.3.2.8}
+\contentsline {section}{\numberline {3.3}Berechnung der Ergebnisse}{23}{section.3.3}
+\contentsline {section}{\numberline {3.4}Funktion zur Stimmenabgabe}{24}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Vorbereitung des Systems f\IeC {\"u}r die Stimmenabgabe}{24}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Wahl}{27}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Sicherheitskonzept}{27}{subsection.3.4.3}
+\contentsline {subsubsection}{\nonumberline Tokens}{27}{section*.4}
+\contentsline {subsubsection}{\nonumberline Absicherung des Systems}{27}{section*.5}
+\contentsline {subsubsection}{\nonumberline Absicherung des Wahlcomputers}{27}{section*.6}
+\contentsline {section}{\numberline {3.5}Auswertungen}{28}{section.3.5}

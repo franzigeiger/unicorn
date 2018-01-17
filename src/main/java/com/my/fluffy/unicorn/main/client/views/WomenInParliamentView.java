@@ -77,7 +77,7 @@ public class WomenInParliamentView extends HorizontalPanel {
             }
         }
 
-        options.setTitle("First votes per party");
+        options.setTitle("Women in parlament");
 
         // Draw the chart
         chart.draw(pieNewData, options);
