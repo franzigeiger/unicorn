@@ -46,3 +46,4 @@ target/
 
 # tex files
 *.synctex.gz
+*.aux
