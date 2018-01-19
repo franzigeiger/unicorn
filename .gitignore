@@ -47,3 +47,5 @@ target/
 # tex files
 *.synctex.gz
 *.aux
+*.toc
+
