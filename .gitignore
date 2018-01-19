@@ -43,3 +43,6 @@ hs_err_pid*
 
 # maven
 target/
+
+# tex files
+*.synctex.gz
