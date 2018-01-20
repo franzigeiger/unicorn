@@ -1,8 +1,0 @@
-(indexentry :tkey (("Betreiber" "\\glossentry{betreiber}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 
-(indexentry :tkey (("System" "\\glossentry{system}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 
-(indexentry :tkey (("Systemumgebung" "\\glossentry{systemumgebung}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 
-(indexentry :tkey (("Stimme" "\\glossentry{stimme}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 
-(indexentry :tkey (("Einzelstimme" "\\glossentry{einzelstimme}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 
-(indexentry :tkey (("akkumulierte Stimmen" "\\glossentry{akku-stimme}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 
-(indexentry :tkey (("Sicherheitscode" "\\glossentry{sicherheitscode}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 
-(indexentry :tkey (("Uptime" "\\glossentry{uptime}") ) :locref "{}{28}" :attr "pageglsnumberformat" ) 

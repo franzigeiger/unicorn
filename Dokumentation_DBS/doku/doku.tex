@@ -275,7 +275,55 @@ Im folgenden wird das entwickelte Wahlinformationssystem und die zusätzliche Fu
 
 \section{Aufsetzen des Systems}
 
-TODO: SETUP HIER ERKLÄREN \\
+Abhängig von den Sicherheitsanforderungen sind beim Aufsetzen zusätzlich gesonderte Anforderungen zu beachten.
+Deshalb darf das Aufsetzen eines Produktivsystems grundsätzlich nur von geschulten Technikern durchgeführt werden.
+Für Test- oder Entwicklungssetups soll die folgende Anleitung jedoch genügen.
+
+\subsection{Datenbank}
+
+Als Datenbank muss ein PostgreSQL-Server, Version 10.1 verwendet werden. 
+Andere Datenbank-Server können funktionieren, erhalten aber keinen Support.
+Um die Datenbank zu befüllen, muss wie folgt vorgegangen werden:
+\begin{enumerate}
+	\item Einrichten des Nutzers \texttt{postgres} mit dem Passwort \texttt{root} mit Login-Rechten.
+	\item Erstellen der Datenbank \texttt{unicorn}.
+	\item Einspielen der Datei \texttt{election.sql}, beispielsweise mit \texttt{psql postgres unicorn < election.sql}. Die Datei beinhaltet das Datenbankschema.
+	\item Ausführen der Testklasse \texttt{BatchInserterTest}. Dadurch wird die Datenbank mit den Wahldaten befüllt.
+	\item Einspielen der folgenden Dateien:\begin{itemize}
+		\item \texttt{aggregation.sql} (initiales Aggregieren der Stimmen)
+		\item \texttt{insertInhabitantsIntoStates.sql} (Anreicherung der Daten um die Einwohnerzahlen der Bundesländer)
+		\item \texttt{verteilung.sql} (Erstellen einiger Views zum Berechnen der Sitzverteilung)
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Server}
+
+Für Entwicklungszwecke genügt der Server von IntelliJ.
+Um diesen zu verwenden muss das Projekt in IntelliJ importiert werden, IntelliJ kann mit GWT als Framework von Haus aus umgehen.
+
+\subsection{Client}
+
+Der Client benötigt lediglich einen aktuellen Browser und kann die Anwendung sofort benutzen.
+
+\subsection{Vorbereiten einer Wahl}
+
+Zur Vorbereitung müssen Tokens erzeugt werden.
+Diese werden mit Hilfe des Java-Projekts \texttt{token-gen}, welches im Projektordner liegt, generiert.
+Die Main-Klasse muss mit den Argumenten \texttt{<n> <l1> <l2>} aufgerufen werden, wobei \texttt{n} durch die Anzahl der Wahlberechtigten und \texttt{l2} durch die benötigte Länge des Tokens zu ersetzen ist.
+\texttt{l1} ist ein Parameter, mit dem die RAM-Auslastung kontrolliert werden kann
+\footnote{
+	Technischer Hintergrund:
+	Die Tokens werden beim Generieren auf Duplikate geprüft.
+	Da bei vielen Wahlberechtigten und wenig RAM nicht alle Tokens gleichzeitig im RAM vorgehalten werden können, wird die Generierung auf verschiedene Token-Präfixe verteilt.
+	Die Länge des verwendeten Präfixes ist durch diesen Parameter gegeben.
+},
+der Parameter muss zwischen (jeweils einschließlich) \texttt{0} und \texttt{n} liegen.
+Ein höherer Parameter bedeutet hierbei eine geringere RAM-Last.
+Allerdings kompromittiert ein hoher Parameter die Sicherheit der Tokens.
+Dabei kann für gegebene Parameter der Sicherheitsverlust wie folgt berechnet werden:
+Mit $k = \mathrm{floor}(\frac{n}{36^{l1}})$ verringert sich die Sicherheit um $100\cdot k$\%.
+Wenn ein Computer mit ausreichend RAM zur Verfügung steht, empfiehlt es sich also, $l1 = 0$ zu wählen.
+
 TODO: Korrigiertes UML-DIAGRAMM HIER EINFÜGEN
 
 \section{Benutzeroberfläche}
@@ -444,9 +492,23 @@ Zur weiteren Absicherung gegen Brute-Force-Attacken wird der öffentliche Zugrif
 Die Weboberfläche auf jedem Wahlcomputer muss den Zugriff nach 10 konsekutiven Fehlversuchen für die Eingabe des Tokens sperren und kann nur durch einen Wahlhelfer, der den Vollbildmodus beenden und die Seite neu laden kann, wieder entsperrt werden.
 So wird zusätzlich das zufällige Ausprobieren von Zeichenketten verhindert.
 
-\section{Auswertungen}
+\section{Benchmarks}
 
-TODO: AUSWERTUNG HIER ERKLÄREN
+Die Performance sowie die Ressourcenauslastung des Systems wurde mit Apache JMeter\footnote{\url{https://jmeter.apache.org/}} getestet.
+Da das verwendete Framework, GWT, zwischen Frontend und Backend mit authentifizierten RPCs kommuniziert, haben wir separat ein REST-Interface programmiert.
+Die durchgeführten Berechnungen im Backend sind dabei die selben wie beim Aufruf einer Seite des Frontends.
+
+Die JMeter-Konfiguration, die dem Projekt beiliegt, sendet zufällige Anfragen an den Server.
+Dabei ist die Parallelität, also die Anzahl der simulierten User, sowie die Verzögerung zwischen zwei Anfragen eines Users frei konfigurierbar.
+
+Da uns zum Entwicklungszeitpunkt leider kein potenter Server zur Verfügung steht, können wir keine Hardwareempfehlungen für die Software geben.
+Jedoch konnten wir in den Benchmarks feststellen, dass die Performance des Backends bei zusätzlichen Nutzern linear skaliert, bis alle Ressourcen des Servers aufgebraucht sind.
+Dies bedeutet, dass sich die Anwendung mit entsprechenden Servern nahezu beliebig skalieren lässt.
+
+Aufgrund von zweifelhaften Kundeninteressen durften wir bedauerlicherweise kein Caching der Anfragen in die Anwendung einbauen.
+Ein solches lässt sich aber leicht hinzufügen und führt zu einer wesentlich höheren Skalierbarkeit, da die Anwendung zusätzliche, parallele Anfragen dann in vernachlässigbarer Zeit durchführen könnte.
+
+% TODO explain all queries
 
 \begin{figure}[h]
 \centering
