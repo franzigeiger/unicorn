@@ -133,72 +133,72 @@
     <build>
         <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
         <plugins>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>gwt-maven-plugin</artifactId>
-            <version>${gwt.version}</version>
-            <configuration>
-                <copyWebapp>true</copyWebapp>
-                <module>com.my.fluffy.unicorn.main.main</module>
-                <runTarget>main.html</runTarget>
-                <hostedWebapp>${webappDirectory}</hostedWebapp>
-                <webappDirectory>${webappDirectory}</webappDirectory>
-            </configuration>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>compile</goal>
-                        <goal>test</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <dependencies>
-                <dependency>
-                    <groupId>com.google.gwt</groupId>
-                    <artifactId>gwt-user</artifactId>
-                    <version>${gwt.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.googlecode.gwt-charts</groupId>
-                    <artifactId>gwt-charts</artifactId>
-                    <version>0.9.10</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.google.gwt</groupId>
-                    <artifactId>gwt-dev</artifactId>
-                    <version>${gwt.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.google.gwt</groupId>
-                    <artifactId>gwt-servlet</artifactId>
-                    <version>${gwt.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.github.wokier</groupId>
-                    <artifactId>gwt-fullscreen</artifactId>
-                    <version>0.0.1</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.googlecode.gwtquery</groupId>
-                    <artifactId>gwtquery</artifactId>
-                    <version>1.5-beta1</version>
-                </dependency>
-            </dependencies>
-        </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt.version}</version>
+                <configuration>
+                    <copyWebapp>true</copyWebapp>
+                    <module>com.my.fluffy.unicorn.main.main</module>
+                    <runTarget>main.html</runTarget>
+                    <hostedWebapp>${webappDirectory}</hostedWebapp>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.gwt</groupId>
+                        <artifactId>gwt-user</artifactId>
+                        <version>${gwt.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.googlecode.gwt-charts</groupId>
+                        <artifactId>gwt-charts</artifactId>
+                        <version>0.9.10</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.google.gwt</groupId>
+                        <artifactId>gwt-dev</artifactId>
+                        <version>${gwt.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.google.gwt</groupId>
+                        <artifactId>gwt-servlet</artifactId>
+                        <version>${gwt.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.wokier</groupId>
+                        <artifactId>gwt-fullscreen</artifactId>
+                        <version>0.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.googlecode.gwtquery</groupId>
+                        <artifactId>gwtquery</artifactId>
+                        <version>1.5-beta1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>3.2.0</version>
-            <executions>
-                <execution>
-                    <phase>compile</phase>
-                </execution>
-            </executions>
-            <configuration>
-                <webappDirectory>${webappDirectory}</webappDirectory>
-            </configuration>
-        </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -207,8 +207,26 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <id>tomcat-run</id>
+                        <goals>
+                            <goal>exec-war-only</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <path></path>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <sourceDirectory>src/main/java</sourceDirectory>
-</build>
+    </build>
 </project>
