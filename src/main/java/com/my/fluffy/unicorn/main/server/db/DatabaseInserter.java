@@ -1,6 +1,7 @@
 package com.my.fluffy.unicorn.main.server.db;
 
 import com.my.fluffy.unicorn.main.client.data.*;
+import org.postgresql.PGConnection;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
 
@@ -215,7 +216,7 @@ public class DatabaseInserter {
         writer.close();
 
         db.getConnection().prepareStatement("ALTER TABLE election.ballots DISABLE TRIGGER ALL;").execute();
-        CopyManager copyManager = new CopyManager((BaseConnection) db.getConnection());
+        CopyManager copyManager = db.getConnection().unwrap(PGConnection.class).getCopyAPI();
         copyManager.copyIn("COPY election.ballots FROM STDIN", new FileReader(f));
         db.getConnection().prepareStatement("ALTER TABLE election.ballots ENABLE TRIGGER ALL;").execute();
 
