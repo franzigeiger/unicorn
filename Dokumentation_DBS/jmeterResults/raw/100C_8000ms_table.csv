@@ -1,0 +1,631 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,Latency,IdleTime,Connect
+1516656510338,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-2,,true,,27,143,100,100,0,0,2
+1516656510622,18,Q3 - Wahlkreisübersicht,204,No Content,Users 1-6,,true,,27,143,100,100,0,0,1
+1516656510629,12,Q4 - Wahlkreissieger,204,No Content,Users 1-42,,true,,27,140,100,100,0,0,1
+1516656510682,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-28,,true,,27,143,100,100,0,0,1
+1516656510762,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-12,,true,,27,143,100,100,0,0,1
+1516656510766,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-86,,true,,27,143,100,100,0,0,0
+1516656510483,453,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-58,,true,,27,140,100,100,0,0,1
+1516656510545,430,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-22,,true,,27,140,100,100,0,0,0
+1516656510642,362,Q5 - Überhangmandate,204,No Content,Users 1-9,,true,,27,140,100,100,0,0,1
+1516656510701,310,Q5 - Überhangmandate,204,No Content,Users 1-39,,true,,27,140,100,100,0,0,0
+1516656511097,12,Q3 - Wahlkreisübersicht,204,No Content,Users 1-19,,true,,27,143,100,100,0,0,1
+1516656511128,10,Q4 - Wahlkreissieger,204,No Content,Users 1-77,,true,,27,140,100,100,0,0,0
+1516656510805,392,Q5 - Überhangmandate,204,No Content,Users 1-14,,true,,27,140,100,100,0,0,1
+1516656511191,16,Q3 - Wahlkreisübersicht,204,No Content,Users 1-21,,true,,27,143,100,100,0,0,1
+1516656510945,422,Q1 - Sitzverteilung,204,No Content,Users 1-36,,true,,27,140,100,100,0,0,1
+1516656511382,32,Q3 - Wahlkreisübersicht,204,No Content,Users 1-82,,true,,27,143,100,100,0,0,0
+1516656511023,478,Q1 - Sitzverteilung,204,No Content,Users 1-87,,true,,27,140,100,100,0,0,0
+1516656511178,521,Q1 - Sitzverteilung,204,No Content,Users 1-29,,true,,27,140,100,100,0,0,1
+1516656511543,166,Q3 - Wahlkreisübersicht,204,No Content,Users 1-1,,true,,27,143,100,100,0,0,1
+1516656511153,592,Q1 - Sitzverteilung,204,No Content,Users 1-34,,true,,27,140,100,100,0,0,0
+1516656511607,155,Q3 - Wahlkreisübersicht,204,No Content,Users 1-85,,true,,27,143,100,100,0,0,0
+1516656511251,552,Q1 - Sitzverteilung,204,No Content,Users 1-24,,true,,27,140,100,100,0,0,1
+1516656511176,629,Q1 - Sitzverteilung,204,No Content,Users 1-43,,true,,27,140,100,100,0,0,0
+1516656511640,170,Q3 - Wahlkreisübersicht,204,No Content,Users 1-23,,true,,27,143,100,100,0,0,1
+1516656511734,89,Q3 - Wahlkreisübersicht,204,No Content,Users 1-20,,true,,27,143,100,100,0,0,0
+1516656511837,21,Q4 - Wahlkreissieger,204,No Content,Users 1-32,,true,,27,140,100,100,0,0,0
+1516656511271,611,Q1 - Sitzverteilung,204,No Content,Users 1-83,,true,,27,140,100,100,0,0,0
+1516656511547,348,Q6 - Knappste Sieger,204,No Content,Users 1-62,,true,,27,142,100,100,0,0,0
+1516656511440,459,Q6 - Knappste Sieger,204,No Content,Users 1-65,,true,,27,142,100,100,0,0,0
+1516656511852,125,Q6 - Knappste Sieger,204,No Content,Users 1-41,,true,,27,142,100,100,0,0,0
+1516656511403,575,Q1 - Sitzverteilung,204,No Content,Users 1-30,,true,,27,140,100,100,0,0,1
+1516656511108,878,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-7,,true,,27,140,100,100,0,0,0
+1516656511880,177,Q6 - Knappste Sieger,204,No Content,Users 1-11,,true,,27,142,100,100,0,0,0
+1516656511992,134,Q6 - Knappste Sieger,204,No Content,Users 1-54,,true,,27,142,100,100,0,0,0
+1516656512140,20,Q3 - Wahlkreisübersicht,204,No Content,Users 1-47,,true,,27,143,100,100,0,0,1
+1516656511849,529,Q1 - Sitzverteilung,204,No Content,Users 1-38,,true,,27,140,100,100,0,0,0
+1516656512229,164,Q3 - Wahlkreisübersicht,204,No Content,Users 1-79,,true,,27,143,100,100,0,0,0
+1516656511709,717,Q5 - Überhangmandate,204,No Content,Users 1-80,,true,,27,140,100,100,0,0,0
+1516656511634,824,Q1 - Sitzverteilung,204,No Content,Users 1-61,,true,,27,140,100,100,0,0,0
+1516656512337,132,Q3 - Wahlkreisübersicht,204,No Content,Users 1-53,,true,,27,143,100,100,0,0,0
+1516656511857,618,Q5 - Überhangmandate,204,No Content,Users 1-40,,true,,27,140,100,100,0,0,0
+1516656512240,266,Q6 - Knappste Sieger,204,No Content,Users 1-10,,true,,27,142,100,100,0,0,0
+1516656511886,658,Q5 - Überhangmandate,204,No Content,Users 1-67,,true,,27,140,100,100,0,0,1
+1516656512474,78,Q3 - Wahlkreisübersicht,204,No Content,Users 1-90,,true,,27,143,100,100,0,0,0
+1516656512373,221,Q6 - Knappste Sieger,204,No Content,Users 1-52,,true,,27,142,100,100,0,0,1
+1516656512161,601,Q5 - Überhangmandate,204,No Content,Users 1-49,,true,,27,140,100,100,0,0,0
+1516656512129,666,Q1 - Sitzverteilung,204,No Content,Users 1-37,,true,,27,140,100,100,0,0,0
+1516656511866,932,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-68,,true,,27,140,100,100,0,0,1
+1516656512610,201,Q3 - Wahlkreisübersicht,204,No Content,Users 1-75,,true,,27,143,100,100,0,0,1
+1516656512617,207,Q3 - Wahlkreisübersicht,204,No Content,Users 1-72,,true,,27,143,100,100,0,0,0
+1516656512411,659,Q5 - Überhangmandate,204,No Content,Users 1-92,,true,,27,140,100,100,0,0,1
+1516656512305,799,Q1 - Sitzverteilung,204,No Content,Users 1-76,,true,,27,140,100,100,0,0,0
+1516656512687,426,Q3 - Wahlkreisübersicht,204,No Content,Users 1-25,,true,,27,143,100,100,0,0,0
+1516656512702,431,Q3 - Wahlkreisübersicht,204,No Content,Users 1-81,,true,,27,143,100,100,0,0,1
+1516656512421,770,Q1 - Sitzverteilung,204,No Content,Users 1-63,,true,,27,140,100,100,0,0,0
+1516656512526,721,Q1 - Sitzverteilung,204,No Content,Users 1-71,,true,,27,140,100,100,0,0,1
+1516656512727,541,Q6 - Knappste Sieger,204,No Content,Users 1-97,,true,,27,142,100,100,0,0,0
+1516656512587,808,Q5 - Überhangmandate,204,No Content,Users 1-48,,true,,27,140,100,100,0,0,0
+1516656512476,995,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-46,,true,,27,140,100,100,0,0,0
+1516656512923,563,Q3 - Wahlkreisübersicht,204,No Content,Users 1-100,,true,,27,143,100,100,0,0,5
+1516656512570,934,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-60,,true,,27,140,100,100,0,0,1
+1516656512647,983,Q1 - Sitzverteilung,204,No Content,Users 1-94,,true,,27,140,100,100,0,0,0
+1516656512799,919,Q5 - Überhangmandate,204,No Content,Users 1-78,,true,,27,140,100,100,0,0,1
+1516656513030,688,Q3 - Wahlkreisübersicht,204,No Content,Users 1-66,,true,,27,143,100,100,0,0,1
+1516656512650,1093,Q1 - Sitzverteilung,204,No Content,Users 1-91,,true,,27,140,100,100,0,0,1
+1516656513101,663,Q3 - Wahlkreisübersicht,204,No Content,Users 1-64,,true,,27,143,100,100,0,0,0
+1516656512986,794,Q6 - Knappste Sieger,204,No Content,Users 1-56,,true,,27,142,100,100,0,0,11
+1516656512844,1053,Q1 - Sitzverteilung,204,No Content,Users 1-59,,true,,27,140,100,100,0,0,5
+1516656512841,1209,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-3,,true,,27,140,100,100,0,0,0
+1516656512926,1214,Q1 - Sitzverteilung,204,No Content,Users 1-31,,true,,27,140,100,100,0,0,1
+1516656513430,719,Q3 - Wahlkreisübersicht,204,No Content,Users 1-44,,true,,27,143,100,100,0,0,0
+1516656513051,1098,Q1 - Sitzverteilung,204,No Content,Users 1-18,,true,,27,140,100,100,0,0,0
+1516656513010,1160,Q1 - Sitzverteilung,204,No Content,Users 1-84,,true,,27,140,100,100,0,0,1
+1516656513571,607,Q3 - Wahlkreisübersicht,204,No Content,Users 1-73,,true,,27,143,100,100,0,0,1
+1516656513669,516,Q3 - Wahlkreisübersicht,204,No Content,Users 1-99,,true,,27,143,100,100,0,0,1
+1516656513670,522,Q3 - Wahlkreisübersicht,204,No Content,Users 1-96,,true,,27,143,100,100,0,0,1
+1516656512961,1254,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-33,,true,,27,140,100,100,0,0,0
+1516656513552,675,Q6 - Knappste Sieger,204,No Content,Users 1-89,,true,,27,142,100,100,0,0,0
+1516656513269,966,Q6 - Knappste Sieger,204,No Content,Users 1-57,,true,,27,142,100,100,0,0,1
+1516656513785,457,Q3 - Wahlkreisübersicht,204,No Content,Users 1-17,,true,,27,143,100,100,0,0,0
+1516656513291,968,Q6 - Knappste Sieger,204,No Content,Users 1-5,,true,,27,142,100,100,0,0,1
+1516656513913,354,Q4 - Wahlkreissieger,204,No Content,Users 1-93,,true,,27,140,100,100,0,0,0
+1516656513741,540,Q6 - Knappste Sieger,204,No Content,Users 1-55,,true,,27,142,100,100,0,0,0
+1516656513937,383,Q6 - Knappste Sieger,204,No Content,Users 1-50,,true,,27,142,100,100,0,0,0
+1516656514074,263,Q3 - Wahlkreisübersicht,204,No Content,Users 1-26,,true,,27,143,100,100,0,0,0
+1516656514084,270,Q3 - Wahlkreisübersicht,204,No Content,Users 1-69,,true,,27,143,100,100,0,0,0
+1516656513945,432,Q6 - Knappste Sieger,204,No Content,Users 1-15,,true,,27,142,100,100,0,0,0
+1516656514168,240,Q4 - Wahlkreissieger,204,No Content,Users 1-27,,true,,27,140,100,100,0,0,0
+1516656514110,321,Q6 - Knappste Sieger,204,No Content,Users 1-51,,true,,27,142,100,100,0,0,1
+1516656513197,1308,Q1 - Sitzverteilung,204,No Content,Users 1-4,,true,,27,140,100,100,0,0,1
+1516656514246,267,Q3 - Wahlkreisübersicht,204,No Content,Users 1-70,,true,,27,143,100,100,0,0,1
+1516656514397,127,Q4 - Wahlkreissieger,204,No Content,Users 1-98,,true,,27,140,100,100,0,0,0
+1516656513130,1422,Q1 - Sitzverteilung,204,No Content,Users 1-45,,true,,27,140,100,100,0,0,0
+1516656514431,173,Q6 - Knappste Sieger,204,No Content,Users 1-95,,true,,27,142,100,100,0,0,1
+1516656513735,937,Q1 - Sitzverteilung,204,No Content,Users 1-13,,true,,27,140,100,100,0,0,1
+1516656513537,1196,Q1 - Sitzverteilung,204,No Content,Users 1-35,,true,,27,140,100,100,0,0,0
+1516656513929,821,Q1 - Sitzverteilung,204,No Content,Users 1-8,,true,,27,140,100,100,0,0,1
+1516656514065,745,Q1 - Sitzverteilung,204,No Content,Users 1-74,,true,,27,140,100,100,0,0,0
+1516656514223,651,Q1 - Sitzverteilung,204,No Content,Users 1-88,,true,,27,140,100,100,0,0,0
+1516656514244,744,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-16,,true,,27,140,100,100,0,0,0
+1516656518802,16,Q3 - Wahlkreisübersicht,204,No Content,Users 1-6,,true,,27,143,100,100,0,0,1
+1516656519466,19,Q4 - Wahlkreissieger,204,No Content,Users 1-14,,true,,27,140,100,100,0,0,1
+1516656519672,292,Q1 - Sitzverteilung,204,No Content,Users 1-9,,true,,27,140,100,100,0,0,1
+1516656520068,39,Q6 - Knappste Sieger,204,No Content,Users 1-82,,true,,27,142,100,100,0,0,1
+1516656520191,40,Q6 - Knappste Sieger,204,No Content,Users 1-86,,true,,27,142,100,100,0,0,1
+1516656520471,38,Q6 - Knappste Sieger,204,No Content,Users 1-2,,true,,27,142,100,100,0,0,0
+1516656520518,37,Q6 - Knappste Sieger,204,No Content,Users 1-39,,true,,27,142,100,100,0,0,1
+1516656520529,33,Q6 - Knappste Sieger,204,No Content,Users 1-28,,true,,27,142,100,100,0,0,0
+1516656520588,12,Q3 - Wahlkreisübersicht,204,No Content,Users 1-41,,true,,27,143,100,100,0,0,1
+1516656521141,27,Q3 - Wahlkreisübersicht,204,No Content,Users 1-65,,true,,27,143,100,100,0,0,0
+1516656520945,301,Q1 - Sitzverteilung,204,No Content,Users 1-1,,true,,27,140,100,100,0,0,1
+1516656521062,334,Q1 - Sitzverteilung,204,No Content,Users 1-42,,true,,27,140,100,100,0,0,1
+1516656521398,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-22,,true,,27,143,100,100,0,0,0
+1516656521087,343,Q1 - Sitzverteilung,204,No Content,Users 1-20,,true,,27,140,100,100,0,0,1
+1516656521143,340,Q1 - Sitzverteilung,204,No Content,Users 1-67,,true,,27,140,100,100,0,0,0
+1516656521171,331,Q1 - Sitzverteilung,204,No Content,Users 1-80,,true,,27,140,100,100,0,0,1
+1516656521512,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-62,,true,,27,143,100,100,0,0,1
+1516656521565,11,Q4 - Wahlkreissieger,204,No Content,Users 1-52,,true,,27,140,100,100,0,0,0
+1516656521595,35,Q6 - Knappste Sieger,204,No Content,Users 1-60,,true,,27,142,100,100,0,0,0
+1516656521701,10,Q3 - Wahlkreisübersicht,204,No Content,Users 1-76,,true,,27,143,100,100,0,0,1
+1516656521476,266,Q5 - Überhangmandate,204,No Content,Users 1-72,,true,,27,140,100,100,0,0,0
+1516656521749,13,Q4 - Wahlkreissieger,204,No Content,Users 1-12,,true,,27,140,100,100,0,0,1
+1516656521735,40,Q6 - Knappste Sieger,204,No Content,Users 1-97,,true,,27,142,100,100,0,0,1
+1516656521549,292,Q1 - Sitzverteilung,204,No Content,Users 1-19,,true,,27,140,100,100,0,0,1
+1516656521656,296,Q1 - Sitzverteilung,204,No Content,Users 1-32,,true,,27,140,100,100,0,0,0
+1516656521944,10,Q4 - Wahlkreissieger,204,No Content,Users 1-87,,true,,27,140,100,100,0,0,0
+1516656521942,18,Q4 - Wahlkreissieger,204,No Content,Users 1-23,,true,,27,140,100,100,0,0,1
+1516656521960,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-36,,true,,27,143,100,100,0,0,1
+1516656522018,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-75,,true,,27,143,100,100,0,0,1
+1516656522013,35,Q6 - Knappste Sieger,204,No Content,Users 1-11,,true,,27,142,100,100,0,0,0
+1516656522058,45,Q6 - Knappste Sieger,204,No Content,Users 1-77,,true,,27,142,100,100,0,0,0
+1516656522071,37,Q6 - Knappste Sieger,204,No Content,Users 1-68,,true,,27,142,100,100,0,0,1
+1516656521984,274,Q5 - Überhangmandate,204,No Content,Users 1-83,,true,,27,140,100,100,0,0,0
+1516656522332,14,Q4 - Wahlkreissieger,204,No Content,Users 1-30,,true,,27,140,100,100,0,0,1
+1516656522366,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-34,,true,,27,143,100,100,0,0,1
+1516656522397,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-58,,true,,27,143,100,100,0,0,0
+1516656522453,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-24,,true,,27,143,100,100,0,0,0
+1516656522488,10,Q4 - Wahlkreissieger,204,No Content,Users 1-94,,true,,27,140,100,100,0,0,0
+1516656522556,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-54,,true,,27,143,100,100,0,0,0
+1516656522562,33,Q6 - Knappste Sieger,204,No Content,Users 1-21,,true,,27,142,100,100,0,0,1
+1516656522363,428,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-33,,true,,27,140,100,100,0,0,0
+1516656522821,13,Q4 - Wahlkreissieger,204,No Content,Users 1-47,,true,,27,140,100,100,0,0,0
+1516656522742,99,Q6 - Knappste Sieger,204,No Content,Users 1-18,,true,,27,142,100,100,0,0,2
+1516656522833,51,Q6 - Knappste Sieger,204,No Content,Users 1-56,,true,,27,142,100,100,0,0,0
+1516656522608,540,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-63,,true,,27,140,100,100,0,0,0
+1516656523084,75,Q3 - Wahlkreisübersicht,204,No Content,Users 1-99,,true,,27,143,100,100,0,0,1
+1516656522695,500,Q1 - Sitzverteilung,204,No Content,Users 1-48,,true,,27,140,100,100,0,0,0
+1516656522955,272,Q6 - Knappste Sieger,204,No Content,Users 1-85,,true,,27,142,100,100,0,0,1
+1516656522762,620,Q5 - Überhangmandate,204,No Content,Users 1-43,,true,,27,140,100,100,0,0,1
+1516656522756,636,Q1 - Sitzverteilung,204,No Content,Users 1-59,,true,,27,140,100,100,0,0,1
+1516656522854,646,Q1 - Sitzverteilung,204,No Content,Users 1-29,,true,,27,140,100,100,0,0,1
+1516656522864,934,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-61,,true,,27,140,100,100,0,0,1
+1516656522923,915,Q1 - Sitzverteilung,204,No Content,Users 1-13,,true,,27,140,100,100,0,0,0
+1516656523406,502,Q6 - Knappste Sieger,204,No Content,Users 1-7,,true,,27,142,100,100,0,0,0
+1516656523477,447,Q3 - Wahlkreisübersicht,204,No Content,Users 1-71,,true,,27,143,100,100,0,0,1
+1516656523134,834,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-92,,true,,27,140,100,100,0,0,1
+1516656523287,711,Q1 - Sitzverteilung,204,No Content,Users 1-3,,true,,27,140,100,100,0,0,1
+1516656523178,822,Q1 - Sitzverteilung,204,No Content,Users 1-98,,true,,27,140,100,100,0,0,1
+1516656523628,409,Q6 - Knappste Sieger,204,No Content,Users 1-93,,true,,27,142,100,100,0,0,1
+1516656523647,400,Q4 - Wahlkreissieger,204,No Content,Users 1-91,,true,,27,140,100,100,0,0,0
+1516656523725,353,Q3 - Wahlkreisübersicht,204,No Content,Users 1-38,,true,,27,143,100,100,0,0,1
+1516656523473,628,Q6 - Knappste Sieger,204,No Content,Users 1-25,,true,,27,142,100,100,0,0,0
+1516656523495,611,Q6 - Knappste Sieger,204,No Content,Users 1-45,,true,,27,142,100,100,0,0,1
+1516656523773,337,Q3 - Wahlkreisübersicht,204,No Content,Users 1-90,,true,,27,143,100,100,0,0,0
+1516656523576,548,Q6 - Knappste Sieger,204,No Content,Users 1-31,,true,,27,142,100,100,0,0,0
+1516656523104,1154,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-37,,true,,27,140,100,100,0,0,1
+1516656523102,1313,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-79,,true,,27,140,100,100,0,0,1
+1516656523407,1050,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-49,,true,,27,140,100,100,0,0,0
+1516656523917,569,Q6 - Knappste Sieger,204,No Content,Users 1-8,,true,,27,142,100,100,0,0,1
+1516656523993,556,Q6 - Knappste Sieger,204,No Content,Users 1-84,,true,,27,142,100,100,0,0,0
+1516656524090,465,Q6 - Knappste Sieger,204,No Content,Users 1-46,,true,,27,142,100,100,0,0,0
+1516656524128,447,Q3 - Wahlkreisübersicht,204,No Content,Users 1-74,,true,,27,143,100,100,0,0,1
+1516656523844,768,Q5 - Überhangmandate,204,No Content,Users 1-96,,true,,27,140,100,100,0,0,1
+1516656524304,326,Q3 - Wahlkreisübersicht,204,No Content,Users 1-16,,true,,27,143,100,100,0,0,0
+1516656523431,1268,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-10,,true,,27,140,100,100,0,0,0
+1516656524339,420,Q6 - Knappste Sieger,204,No Content,Users 1-69,,true,,27,142,100,100,0,0,0
+1516656524376,392,Q3 - Wahlkreisübersicht,204,No Content,Users 1-5,,true,,27,143,100,100,0,0,0
+1516656523761,1010,Q1 - Sitzverteilung,204,No Content,Users 1-40,,true,,27,140,100,100,0,0,0
+1516656524349,485,Q6 - Knappste Sieger,204,No Content,Users 1-70,,true,,27,142,100,100,0,0,1
+1516656523909,941,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-66,,true,,27,140,100,100,0,0,0
+1516656523883,975,Q1 - Sitzverteilung,204,No Content,Users 1-81,,true,,27,140,100,100,0,0,1
+1516656524758,117,Q3 - Wahlkreisübersicht,204,No Content,Users 1-64,,true,,27,143,100,100,0,0,1
+1516656524415,492,Q6 - Knappste Sieger,204,No Content,Users 1-57,,true,,27,142,100,100,0,0,1
+1516656524126,850,Q1 - Sitzverteilung,204,No Content,Users 1-51,,true,,27,140,100,100,0,0,0
+1516656524121,863,Q5 - Überhangmandate,204,No Content,Users 1-53,,true,,27,140,100,100,0,0,0
+1516656525030,71,Q6 - Knappste Sieger,204,No Content,Users 1-26,,true,,27,142,100,100,0,0,1
+1516656524294,835,Q1 - Sitzverteilung,204,No Content,Users 1-55,,true,,27,140,100,100,0,0,0
+1516656525127,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-100,,true,,27,143,100,100,0,0,0
+1516656524399,803,Q5 - Überhangmandate,204,No Content,Users 1-78,,true,,27,140,100,100,0,0,1
+1516656524698,509,Q5 - Überhangmandate,204,No Content,Users 1-27,,true,,27,140,100,100,0,0,0
+1516656524752,489,Q1 - Sitzverteilung,204,No Content,Users 1-17,,true,,27,140,100,100,0,0,0
+1516656525470,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-89,,true,,27,143,100,100,0,0,0
+1516656525708,10,Q3 - Wahlkreisübersicht,204,No Content,Users 1-73,,true,,27,143,100,100,0,0,2
+1516656525756,39,Q6 - Knappste Sieger,204,No Content,Users 1-44,,true,,27,142,100,100,0,0,1
+1516656525391,423,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-15,,true,,27,140,100,100,0,0,1
+1516656525539,288,Q1 - Sitzverteilung,204,No Content,Users 1-4,,true,,27,140,100,100,0,0,0
+1516656526228,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-50,,true,,27,143,100,100,0,0,0
+1516656526016,422,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-95,,true,,27,140,100,100,0,0,1
+1516656526526,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-35,,true,,27,143,100,100,0,0,0
+1516656526816,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-88,,true,,27,143,100,100,0,0,1
+1516656529433,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-2,,true,,27,143,100,100,0,0,0
+1516656529212,272,Q5 - Überhangmandate,204,No Content,Users 1-86,,true,,27,140,100,100,0,0,0
+1516656529661,14,Q3 - Wahlkreisübersicht,204,No Content,Users 1-14,,true,,27,143,100,100,0,0,1
+1516656529673,282,Q1 - Sitzverteilung,204,No Content,Users 1-6,,true,,27,140,100,100,0,0,0
+1516656529971,289,Q1 - Sitzverteilung,204,No Content,Users 1-67,,true,,27,140,100,100,0,0,0
+1516656530235,33,Q6 - Knappste Sieger,204,No Content,Users 1-39,,true,,27,142,100,100,0,0,1
+1516656530282,293,Q1 - Sitzverteilung,204,No Content,Users 1-9,,true,,27,140,100,100,0,0,1
+1516656530621,33,Q6 - Knappste Sieger,204,No Content,Users 1-82,,true,,27,142,100,100,0,0,0
+1516656530631,34,Q6 - Knappste Sieger,204,No Content,Users 1-34,,true,,27,142,100,100,0,0,0
+1516656530663,33,Q6 - Knappste Sieger,204,No Content,Users 1-19,,true,,27,142,100,100,0,0,0
+1516656530426,418,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-36,,true,,27,140,100,100,0,0,0
+1516656531096,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-97,,true,,27,143,100,100,0,0,1
+1516656531208,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-41,,true,,27,143,100,100,0,0,1
+1516656531048,298,Q1 - Sitzverteilung,204,No Content,Users 1-75,,true,,27,140,100,100,0,0,0
+1516656531424,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-11,,true,,27,143,100,100,0,0,0
+1516656531169,299,Q1 - Sitzverteilung,204,No Content,Users 1-68,,true,,27,140,100,100,0,0,0
+1516656531669,10,Q4 - Wahlkreissieger,204,No Content,Users 1-21,,true,,27,140,100,100,0,0,0
+1516656531638,341,Q1 - Sitzverteilung,204,No Content,Users 1-52,,true,,27,140,100,100,0,0,0
+1516656531950,53,Q4 - Wahlkreissieger,204,No Content,Users 1-72,,true,,27,140,100,100,0,0,0
+1516656531975,34,Q3 - Wahlkreisübersicht,204,No Content,Users 1-47,,true,,27,143,100,100,0,0,1
+1516656531836,447,Q1 - Sitzverteilung,204,No Content,Users 1-1,,true,,27,140,100,100,0,0,0
+1516656531567,779,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-77,,true,,27,140,100,100,0,0,1
+1516656531783,565,Q1 - Sitzverteilung,204,No Content,Users 1-23,,true,,27,140,100,100,0,0,0
+1516656531878,559,Q1 - Sitzverteilung,204,No Content,Users 1-20,,true,,27,140,100,100,0,0,0
+1516656532165,295,Q3 - Wahlkreisübersicht,204,No Content,Users 1-62,,true,,27,143,100,100,0,0,0
+1516656532027,483,Q6 - Knappste Sieger,204,No Content,Users 1-85,,true,,27,142,100,100,0,0,1
+1516656531977,549,Q5 - Überhangmandate,204,No Content,Users 1-32,,true,,27,140,100,100,0,0,1
+1516656531724,803,Q1 - Sitzverteilung,204,No Content,Users 1-76,,true,,27,140,100,100,0,0,1
+1516656531718,820,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-22,,true,,27,140,100,100,0,0,1
+1516656531928,651,Q1 - Sitzverteilung,204,No Content,Users 1-54,,true,,27,140,100,100,0,0,1
+1516656532577,75,Q6 - Knappste Sieger,204,No Content,Users 1-25,,true,,27,142,100,100,0,0,0
+1516656532601,83,Q6 - Knappste Sieger,204,No Content,Users 1-33,,true,,27,142,100,100,0,0,0
+1516656531986,735,Q1 - Sitzverteilung,204,No Content,Users 1-59,,true,,27,140,100,100,0,0,1
+1516656532731,21,Q3 - Wahlkreisübersicht,204,No Content,Users 1-10,,true,,27,143,100,100,0,0,0
+1516656532126,715,Q1 - Sitzverteilung,204,No Content,Users 1-90,,true,,27,140,100,100,0,0,0
+1516656532758,159,Q6 - Knappste Sieger,204,No Content,Users 1-65,,true,,27,142,100,100,0,0,1
+1516656532491,463,Q5 - Überhangmandate,204,No Content,Users 1-48,,true,,27,140,100,100,0,0,1
+1516656532658,497,Q1 - Sitzverteilung,204,No Content,Users 1-12,,true,,27,140,100,100,0,0,0
+1516656532539,647,Q1 - Sitzverteilung,204,No Content,Users 1-28,,true,,27,140,100,100,0,0,1
+1516656532561,667,Q5 - Überhangmandate,204,No Content,Users 1-80,,true,,27,140,100,100,0,0,0
+1516656532644,623,Q5 - Überhangmandate,204,No Content,Users 1-98,,true,,27,140,100,100,0,0,1
+1516656532664,621,Q1 - Sitzverteilung,204,No Content,Users 1-38,,true,,27,140,100,100,0,0,1
+1516656532933,364,Q6 - Knappste Sieger,204,No Content,Users 1-70,,true,,27,142,100,100,0,0,0
+1516656532946,356,Q6 - Knappste Sieger,204,No Content,Users 1-58,,true,,27,142,100,100,0,0,0
+1516656533311,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-96,,true,,27,143,100,100,0,0,0
+1516656532959,373,Q6 - Knappste Sieger,204,No Content,Users 1-45,,true,,27,142,100,100,0,0,0
+1516656532791,557,Q1 - Sitzverteilung,204,No Content,Users 1-7,,true,,27,140,100,100,0,0,0
+1516656533039,314,Q6 - Knappste Sieger,204,No Content,Users 1-42,,true,,27,142,100,100,0,0,1
+1516656533085,320,Q6 - Knappste Sieger,204,No Content,Users 1-92,,true,,27,142,100,100,0,0,1
+1516656532844,637,Q1 - Sitzverteilung,204,No Content,Users 1-69,,true,,27,140,100,100,0,0,1
+1516656532965,606,Q1 - Sitzverteilung,204,No Content,Users 1-60,,true,,27,140,100,100,0,0,1
+1516656532947,707,Q5 - Überhangmandate,204,No Content,Users 1-99,,true,,27,140,100,100,0,0,1
+1516656533692,75,Q6 - Knappste Sieger,204,No Content,Users 1-17,,true,,27,142,100,100,0,0,0
+1516656533520,339,Q5 - Überhangmandate,204,No Content,Users 1-63,,true,,27,140,100,100,0,0,1
+1516656533373,488,Q5 - Überhangmandate,204,No Content,Users 1-8,,true,,27,140,100,100,0,0,0
+1516656533938,10,Q4 - Wahlkreissieger,204,No Content,Users 1-24,,true,,27,140,100,100,0,0,0
+1516656533611,401,Q1 - Sitzverteilung,204,No Content,Users 1-13,,true,,27,140,100,100,0,0,1
+1516656533457,594,Q1 - Sitzverteilung,204,No Content,Users 1-87,,true,,27,140,100,100,0,0,0
+1516656533488,578,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-29,,true,,27,140,100,100,0,0,0
+1516656534072,33,Q6 - Knappste Sieger,204,No Content,Users 1-94,,true,,27,142,100,100,0,0,1
+1516656533819,342,Q1 - Sitzverteilung,204,No Content,Users 1-30,,true,,27,140,100,100,0,0,0
+1516656533706,460,Q1 - Sitzverteilung,204,No Content,Users 1-83,,true,,27,140,100,100,0,0,1
+1516656534392,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-56,,true,,27,143,100,100,0,0,0
+1516656534450,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-26,,true,,27,143,100,100,0,0,0
+1516656534470,36,Q6 - Knappste Sieger,204,No Content,Users 1-18,,true,,27,142,100,100,0,0,1
+1516656534552,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-37,,true,,27,143,100,100,0,0,0
+1516656534268,300,Q1 - Sitzverteilung,204,No Content,Users 1-55,,true,,27,140,100,100,0,0,1
+1516656534346,271,Q5 - Überhangmandate,204,No Content,Users 1-31,,true,,27,140,100,100,0,0,0
+1516656534617,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-78,,true,,27,143,100,100,0,0,1
+1516656534650,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-71,,true,,27,143,100,100,0,0,0
+1516656534676,41,Q6 - Knappste Sieger,204,No Content,Users 1-44,,true,,27,142,100,100,0,0,0
+1516656534383,358,Q1 - Sitzverteilung,204,No Content,Users 1-64,,true,,27,140,100,100,0,0,0
+1516656534506,309,Q1 - Sitzverteilung,204,No Content,Users 1-46,,true,,27,140,100,100,0,0,0
+1516656534861,35,Q6 - Knappste Sieger,204,No Content,Users 1-3,,true,,27,142,100,100,0,0,1
+1516656534929,34,Q6 - Knappste Sieger,204,No Content,Users 1-74,,true,,27,142,100,100,0,0,1
+1516656534700,295,Q1 - Sitzverteilung,204,No Content,Users 1-57,,true,,27,140,100,100,0,0,1
+1516656534759,296,Q1 - Sitzverteilung,204,No Content,Users 1-79,,true,,27,140,100,100,0,0,0
+1516656535027,33,Q6 - Knappste Sieger,204,No Content,Users 1-27,,true,,27,142,100,100,0,0,0
+1516656535045,292,Q1 - Sitzverteilung,204,No Content,Users 1-43,,true,,27,140,100,100,0,0,0
+1516656535107,290,Q1 - Sitzverteilung,204,No Content,Users 1-61,,true,,27,140,100,100,0,0,1
+1516656535490,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-91,,true,,27,143,100,100,0,0,1
+1516656535375,292,Q1 - Sitzverteilung,204,No Content,Users 1-93,,true,,27,140,100,100,0,0,0
+1516656535699,10,Q4 - Wahlkreissieger,204,No Content,Users 1-51,,true,,27,140,100,100,0,0,0
+1516656535789,18,Q4 - Wahlkreissieger,204,No Content,Users 1-81,,true,,27,140,100,100,0,0,8
+1516656535848,39,Q6 - Knappste Sieger,204,No Content,Users 1-40,,true,,27,142,100,100,0,0,1
+1516656535960,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-49,,true,,27,143,100,100,0,0,0
+1516656535679,300,Q1 - Sitzverteilung,204,No Content,Users 1-88,,true,,27,140,100,100,0,0,1
+1516656535933,67,Q6 - Knappste Sieger,204,No Content,Users 1-84,,true,,27,142,100,100,0,0,1
+1516656535992,12,Q4 - Wahlkreissieger,204,No Content,Users 1-15,,true,,27,140,100,100,0,0,1
+1516656535757,275,Q5 - Überhangmandate,204,No Content,Users 1-16,,true,,27,140,100,100,0,0,0
+1516656535752,296,Q1 - Sitzverteilung,204,No Content,Users 1-5,,true,,27,140,100,100,0,0,1
+1516656536144,16,Q4 - Wahlkreissieger,204,No Content,Users 1-4,,true,,27,140,100,100,0,0,1
+1516656536312,295,Q1 - Sitzverteilung,204,No Content,Users 1-66,,true,,27,140,100,100,0,0,0
+1516656536864,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-100,,true,,27,143,100,100,0,0,1
+1516656536886,37,Q6 - Knappste Sieger,204,No Content,Users 1-35,,true,,27,142,100,100,0,0,0
+1516656536945,12,Q3 - Wahlkreisübersicht,204,No Content,Users 1-53,,true,,27,143,100,100,0,0,0
+1516656537439,34,Q6 - Knappste Sieger,204,No Content,Users 1-89,,true,,27,142,100,100,0,0,1
+1516656537379,426,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-73,,true,,27,140,100,100,0,0,0
+1516656538368,34,Q6 - Knappste Sieger,204,No Content,Users 1-14,,true,,27,142,100,100,0,0,0
+1516656538162,294,Q1 - Sitzverteilung,204,No Content,Users 1-50,,true,,27,140,100,100,0,0,1
+1516656538237,289,Q1 - Sitzverteilung,204,No Content,Users 1-6,,true,,27,140,100,100,0,0,0
+1516656538418,290,Q1 - Sitzverteilung,204,No Content,Users 1-95,,true,,27,140,100,100,0,0,1
+1516656539007,14,Q3 - Wahlkreisübersicht,204,No Content,Users 1-67,,true,,27,143,100,100,0,0,0
+1516656539184,290,Q1 - Sitzverteilung,204,No Content,Users 1-9,,true,,27,140,100,100,0,0,0
+1516656540187,13,Q4 - Wahlkreissieger,204,No Content,Users 1-97,,true,,27,140,100,100,0,0,0
+1516656540556,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-1,,true,,27,143,100,100,0,0,2
+1516656540334,293,Q1 - Sitzverteilung,204,No Content,Users 1-21,,true,,27,140,100,100,0,0,1
+1516656540676,12,Q4 - Wahlkreissieger,204,No Content,Users 1-32,,true,,27,140,100,100,0,0,1
+1516656540811,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-10,,true,,27,143,100,100,0,0,0
+1516656540828,292,Q1 - Sitzverteilung,204,No Content,Users 1-75,,true,,27,140,100,100,0,0,0
+1516656541217,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-2,,true,,27,143,100,100,0,0,1
+1516656540842,417,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-23,,true,,27,140,100,100,0,0,0
+1516656541035,287,Q1 - Sitzverteilung,204,No Content,Users 1-85,,true,,27,140,100,100,0,0,0
+1516656541467,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-70,,true,,27,143,100,100,0,0,0
+1516656541178,422,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-86,,true,,27,140,100,100,0,0,1
+1516656541606,38,Q6 - Knappste Sieger,204,No Content,Users 1-34,,true,,27,142,100,100,0,0,1
+1516656541757,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-96,,true,,27,143,100,100,0,0,1
+1516656541622,308,Q1 - Sitzverteilung,204,No Content,Users 1-41,,true,,27,140,100,100,0,0,1
+1516656541535,431,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-65,,true,,27,140,100,100,0,0,0
+1516656541961,11,Q3 - Wahlkreisübersicht,204,No Content,Users 1-36,,true,,27,143,100,100,0,0,1
+1516656541573,446,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-82,,true,,27,140,100,100,0,0,7
+1516656541902,315,Q1 - Sitzverteilung,204,No Content,Users 1-80,,true,,27,140,100,100,0,0,2
+1516656542200,35,Q6 - Knappste Sieger,204,No Content,Users 1-76,,true,,27,142,100,100,0,0,1
+1516656542223,36,Q6 - Knappste Sieger,204,No Content,Users 1-7,,true,,27,142,100,100,0,0,0
+1516656542295,6,Q3 - Wahlkreisübersicht,204,No Content,Users 1-62,,true,,27,143,100,100,0,0,0
+1516656542265,45,Q6 - Knappste Sieger,204,No Content,Users 1-19,,true,,27,142,100,100,0,0,0
+1516656542271,43,Q6 - Knappste Sieger,204,No Content,Users 1-45,,true,,27,142,100,100,0,0,1
+1516656542383,12,Q4 - Wahlkreissieger,204,No Content,Users 1-8,,true,,27,140,100,100,0,0,0
+1516656542103,292,Q1 - Sitzverteilung,204,No Content,Users 1-11,,true,,27,140,100,100,0,0,0
+1516656542374,58,Q6 - Knappste Sieger,204,No Content,Users 1-72,,true,,27,142,100,100,0,0,3
+1516656542124,430,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-39,,true,,27,140,100,100,0,0,0
+1516656542569,11,Q3 - Wahlkreisübersicht,204,No Content,Users 1-68,,true,,27,143,100,100,0,0,0
+1516656542348,329,Q1 - Sitzverteilung,204,No Content,Users 1-83,,true,,27,140,100,100,0,0,1
+1516656542741,60,Q6 - Knappste Sieger,204,No Content,Users 1-59,,true,,27,142,100,100,0,0,0
+1516656542873,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-47,,true,,27,143,100,100,0,0,0
+1516656542945,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-87,,true,,27,143,100,100,0,0,0
+1516656542539,436,Q1 - Sitzverteilung,204,No Content,Users 1-28,,true,,27,140,100,100,0,0,1
+1516656542563,416,Q1 - Sitzverteilung,204,No Content,Users 1-25,,true,,27,140,100,100,0,0,0
+1516656542627,377,Q1 - Sitzverteilung,204,No Content,Users 1-54,,true,,27,140,100,100,0,0,0
+1516656542533,494,Q1 - Sitzverteilung,204,No Content,Users 1-69,,true,,27,140,100,100,0,0,0
+1516656542662,366,Q5 - Überhangmandate,204,No Content,Users 1-48,,true,,27,140,100,100,0,0,0
+1516656542953,298,Q1 - Sitzverteilung,204,No Content,Users 1-52,,true,,27,140,100,100,0,0,1
+1516656543367,107,Q6 - Knappste Sieger,204,No Content,Users 1-12,,true,,27,142,100,100,0,0,2
+1516656543171,306,Q1 - Sitzverteilung,204,No Content,Users 1-33,,true,,27,140,100,100,0,0,0
+1516656543171,470,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-90,,true,,27,140,100,100,0,0,0
+1516656543609,58,Q6 - Knappste Sieger,204,No Content,Users 1-42,,true,,27,142,100,100,0,0,0
+1516656543353,338,Q1 - Sitzverteilung,204,No Content,Users 1-20,,true,,27,140,100,100,0,0,1
+1516656543730,12,Q3 - Wahlkreisübersicht,204,No Content,Users 1-18,,true,,27,143,100,100,0,0,0
+1516656543333,410,Q1 - Sitzverteilung,204,No Content,Users 1-24,,true,,27,140,100,100,0,0,0
+1516656543819,10,Q4 - Wahlkreissieger,204,No Content,Users 1-38,,true,,27,140,100,100,0,0,0
+1516656543881,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-26,,true,,27,143,100,100,0,0,1
+1516656543951,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-60,,true,,27,143,100,100,0,0,0
+1516656543391,571,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-27,,true,,27,140,100,100,0,0,0
+1516656543567,408,Q1 - Sitzverteilung,204,No Content,Users 1-22,,true,,27,140,100,100,0,0,0
+1516656543643,466,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-79,,true,,27,140,100,100,0,0,0
+1516656543871,315,Q1 - Sitzverteilung,204,No Content,Users 1-77,,true,,27,140,100,100,0,0,2
+1516656544202,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-40,,true,,27,143,100,100,0,0,1
+1516656544385,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-71,,true,,27,143,100,100,0,0,1
+1516656544001,424,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-31,,true,,27,140,100,100,0,0,0
+1516656544479,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-98,,true,,27,143,100,100,0,0,0
+1516656544319,268,Q5 - Überhangmandate,204,No Content,Users 1-57,,true,,27,140,100,100,0,0,1
+1516656544640,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-5,,true,,27,143,100,100,0,0,0
+1516656544742,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-92,,true,,27,143,100,100,0,0,1
+1516656544820,6,Q3 - Wahlkreisübersicht,204,No Content,Users 1-51,,true,,27,143,100,100,0,0,0
+1516656544617,298,Q1 - Sitzverteilung,204,No Content,Users 1-64,,true,,27,140,100,100,0,0,1
+1516656544653,269,Q5 - Überhangmandate,204,No Content,Users 1-30,,true,,27,140,100,100,0,0,0
+1516656544746,317,Q1 - Sitzverteilung,204,No Content,Users 1-46,,true,,27,140,100,100,0,0,0
+1516656545124,10,Q4 - Wahlkreissieger,204,No Content,Users 1-63,,true,,27,140,100,100,0,0,1
+1516656545003,262,Q5 - Überhangmandate,204,No Content,Users 1-58,,true,,27,140,100,100,0,0,0
+1516656545143,270,Q5 - Überhangmandate,204,No Content,Users 1-93,,true,,27,140,100,100,0,0,1
+1516656545468,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-17,,true,,27,143,100,100,0,0,1
+1516656545469,11,Q3 - Wahlkreisübersicht,204,No Content,Users 1-78,,true,,27,143,100,100,0,0,0
+1516656545063,417,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-94,,true,,27,140,100,100,0,0,1
+1516656545659,15,Q3 - Wahlkreisübersicht,204,No Content,Users 1-44,,true,,27,143,100,100,0,0,1
+1516656545643,50,Q6 - Knappste Sieger,204,No Content,Users 1-99,,true,,27,142,100,100,0,0,1
+1516656545643,71,Q6 - Knappste Sieger,204,No Content,Users 1-43,,true,,27,142,100,100,0,0,16
+1516656545529,431,Q1 - Sitzverteilung,204,No Content,Users 1-61,,true,,27,140,100,100,0,0,0
+1516656545610,558,Q1 - Sitzverteilung,204,No Content,Users 1-91,,true,,27,140,100,100,0,0,0
+1516656546218,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-74,,true,,27,143,100,100,0,0,0
+1516656546047,181,Q6 - Knappste Sieger,204,No Content,Users 1-37,,true,,27,142,100,100,0,0,0
+1516656545782,452,Q1 - Sitzverteilung,204,No Content,Users 1-13,,true,,27,140,100,100,0,0,0
+1516656546226,10,Q3 - Wahlkreisübersicht,204,No Content,Users 1-55,,true,,27,143,100,100,0,0,0
+1516656545681,643,Q1 - Sitzverteilung,204,No Content,Users 1-66,,true,,27,140,100,100,0,0,1
+1516656545610,718,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-3,,true,,27,140,100,100,0,0,1
+1516656545658,693,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-29,,true,,27,140,100,100,0,0,0
+1516656545909,534,Q5 - Überhangmandate,204,No Content,Users 1-15,,true,,27,140,100,100,0,0,0
+1516656545709,748,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-56,,true,,27,140,100,100,0,0,0
+1516656546873,13,Q3 - Wahlkreisübersicht,204,No Content,Users 1-81,,true,,27,143,100,100,0,0,0
+1516656546887,276,Q5 - Überhangmandate,204,No Content,Users 1-88,,true,,27,140,100,100,0,0,0
+1516656546932,267,Q5 - Überhangmandate,204,No Content,Users 1-84,,true,,27,140,100,100,0,0,1
+1516656547207,9,Q4 - Wahlkreissieger,204,No Content,Users 1-73,,true,,27,140,100,100,0,0,0
+1516656547368,10,Q4 - Wahlkreissieger,204,No Content,Users 1-49,,true,,27,140,100,100,0,0,0
+1516656547076,303,Q1 - Sitzverteilung,204,No Content,Users 1-16,,true,,27,140,100,100,0,0,1
+1516656547245,420,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-35,,true,,27,140,100,100,0,0,1
+1516656547787,9,Q4 - Wahlkreissieger,204,No Content,Users 1-95,,true,,27,140,100,100,0,0,0
+1516656547539,287,Q1 - Sitzverteilung,204,No Content,Users 1-4,,true,,27,140,100,100,0,0,0
+1516656547820,9,Q4 - Wahlkreissieger,204,No Content,Users 1-100,,true,,27,140,100,100,0,0,0
+1516656548190,9,Q4 - Wahlkreissieger,204,No Content,Users 1-53,,true,,27,140,100,100,0,0,0
+1516656547980,295,Q1 - Sitzverteilung,204,No Content,Users 1-6,,true,,27,140,100,100,0,0,1
+1516656548015,416,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-14,,true,,27,140,100,100,0,0,0
+1516656548774,8,Q4 - Wahlkreissieger,204,No Content,Users 1-89,,true,,27,140,100,100,0,0,0
+1516656548506,293,Q1 - Sitzverteilung,204,No Content,Users 1-50,,true,,27,140,100,100,0,0,0
+1516656548848,39,Q6 - Knappste Sieger,204,No Content,Users 1-9,,true,,27,142,100,100,0,0,0
+1516656548902,434,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-67,,true,,27,140,100,100,0,0,0
+1516656549759,261,Q5 - Überhangmandate,204,No Content,Users 1-21,,true,,27,140,100,100,0,0,1
+1516656550016,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-32,,true,,27,143,100,100,0,0,1
+1516656549740,293,Q1 - Sitzverteilung,204,No Content,Users 1-2,,true,,27,140,100,100,0,0,1
+1516656550046,36,Q6 - Knappste Sieger,204,No Content,Users 1-82,,true,,27,142,100,100,0,0,0
+1516656550111,38,Q6 - Knappste Sieger,204,No Content,Users 1-85,,true,,27,142,100,100,0,0,0
+1516656550373,16,Q4 - Wahlkreissieger,204,No Content,Users 1-34,,true,,27,140,100,100,0,0,1
+1516656550388,294,Q1 - Sitzverteilung,204,No Content,Users 1-96,,true,,27,140,100,100,0,0,1
+1516656550475,292,Q1 - Sitzverteilung,204,No Content,Users 1-1,,true,,27,140,100,100,0,0,1
+1516656550535,289,Q1 - Sitzverteilung,204,No Content,Users 1-76,,true,,27,140,100,100,0,0,0
+1516656551064,12,Q3 - Wahlkreisübersicht,204,No Content,Users 1-7,,true,,27,143,100,100,0,0,0
+1516656551072,37,Q6 - Knappste Sieger,204,No Content,Users 1-87,,true,,27,142,100,100,0,0,1
+1516656551200,40,Q6 - Knappste Sieger,204,No Content,Users 1-70,,true,,27,142,100,100,0,0,1
+1516656551286,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-97,,true,,27,143,100,100,0,0,0
+1516656551312,33,Q6 - Knappste Sieger,204,No Content,Users 1-68,,true,,27,142,100,100,0,0,0
+1516656551495,6,Q3 - Wahlkreisübersicht,204,No Content,Users 1-86,,true,,27,143,100,100,0,0,0
+1516656551224,295,Q1 - Sitzverteilung,204,No Content,Users 1-69,,true,,27,140,100,100,0,0,1
+1516656551595,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-45,,true,,27,143,100,100,0,0,1
+1516656551590,36,Q6 - Knappste Sieger,204,No Content,Users 1-23,,true,,27,142,100,100,0,0,1
+1516656551629,11,Q4 - Wahlkreissieger,204,No Content,Users 1-75,,true,,27,140,100,100,0,0,0
+1516656551449,428,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-10,,true,,27,140,100,100,0,0,1
+1516656552065,6,Q3 - Wahlkreisübersicht,204,No Content,Users 1-11,,true,,27,143,100,100,0,0,0
+1516656551845,299,Q1 - Sitzverteilung,204,No Content,Users 1-72,,true,,27,140,100,100,0,0,1
+1516656551993,298,Q1 - Sitzverteilung,204,No Content,Users 1-22,,true,,27,140,100,100,0,0,0
+1516656552405,34,Q6 - Knappste Sieger,204,No Content,Users 1-80,,true,,27,142,100,100,0,0,0
+1516656552447,12,Q4 - Wahlkreissieger,204,No Content,Users 1-19,,true,,27,140,100,100,0,0,1
+1516656552445,45,Q6 - Knappste Sieger,204,No Content,Users 1-18,,true,,27,142,100,100,0,0,1
+1516656552456,36,Q6 - Knappste Sieger,204,No Content,Users 1-54,,true,,27,142,100,100,0,0,0
+1516656552544,60,Q6 - Knappste Sieger,204,No Content,Users 1-36,,true,,27,142,100,100,0,0,0
+1516656552366,301,Q1 - Sitzverteilung,204,No Content,Users 1-8,,true,,27,140,100,100,0,0,1
+1516656552516,338,Q1 - Sitzverteilung,204,No Content,Users 1-65,,true,,27,140,100,100,0,0,0
+1516656552861,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-27,,true,,27,143,100,100,0,0,1
+1516656552430,451,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-59,,true,,27,140,100,100,0,0,1
+1516656552531,350,Q1 - Sitzverteilung,204,No Content,Users 1-79,,true,,27,140,100,100,0,0,1
+1516656553018,34,Q6 - Knappste Sieger,204,No Content,Users 1-40,,true,,27,142,100,100,0,0,1
+1516656552832,305,Q1 - Sitzverteilung,204,No Content,Users 1-20,,true,,27,140,100,100,0,0,1
+1516656552921,303,Q1 - Sitzverteilung,204,No Content,Users 1-47,,true,,27,140,100,100,0,0,1
+1516656553310,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-42,,true,,27,143,100,100,0,0,1
+1516656553351,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-48,,true,,27,143,100,100,0,0,1
+1516656552915,483,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-90,,true,,27,140,100,100,0,0,0
+1516656553112,438,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-62,,true,,27,140,100,100,0,0,0
+1516656553304,309,Q1 - Sitzverteilung,204,No Content,Users 1-24,,true,,27,140,100,100,0,0,0
+1516656553521,307,Q1 - Sitzverteilung,204,No Content,Users 1-52,,true,,27,140,100,100,0,0,0
+1516656553887,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-26,,true,,27,143,100,100,0,0,1
+1516656553611,305,Q1 - Sitzverteilung,204,No Content,Users 1-41,,true,,27,140,100,100,0,0,1
+1516656553587,440,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-39,,true,,27,140,100,100,0,0,1
+1516656553996,53,Q6 - Knappste Sieger,204,No Content,Users 1-71,,true,,27,142,100,100,0,0,1
+1516656553750,324,Q5 - Überhangmandate,204,No Content,Users 1-38,,true,,27,140,100,100,0,0,0
+1516656553777,342,Q1 - Sitzverteilung,204,No Content,Users 1-94,,true,,27,140,100,100,0,0,1
+1516656554148,10,Q3 - Wahlkreisübersicht,204,No Content,Users 1-25,,true,,27,143,100,100,0,0,1
+1516656554007,309,Q1 - Sitzverteilung,204,No Content,Users 1-64,,true,,27,140,100,100,0,0,0
+1516656554327,33,Q6 - Knappste Sieger,204,No Content,Users 1-12,,true,,27,142,100,100,0,0,0
+1516656554063,318,Q1 - Sitzverteilung,204,No Content,Users 1-51,,true,,27,140,100,100,0,0,0
+1516656554508,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-46,,true,,27,143,100,100,0,0,0
+1516656554572,39,Q6 - Knappste Sieger,204,No Content,Users 1-83,,true,,27,142,100,100,0,0,1
+1516656554383,274,Q5 - Überhangmandate,204,No Content,Users 1-92,,true,,27,140,100,100,0,0,0
+1516656554440,301,Q1 - Sitzverteilung,204,No Content,Users 1-61,,true,,27,140,100,100,0,0,1
+1516656554464,309,Q1 - Sitzverteilung,204,No Content,Users 1-98,,true,,27,140,100,100,0,0,0
+1516656554639,293,Q1 - Sitzverteilung,204,No Content,Users 1-55,,true,,27,140,100,100,0,0,0
+1516656554957,33,Q6 - Knappste Sieger,204,No Content,Users 1-28,,true,,27,142,100,100,0,0,0
+1516656555052,34,Q6 - Knappste Sieger,204,No Content,Users 1-37,,true,,27,142,100,100,0,0,0
+1516656555147,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-43,,true,,27,143,100,100,0,0,0
+1516656554928,296,Q1 - Sitzverteilung,204,No Content,Users 1-93,,true,,27,140,100,100,0,0,0
+1516656555336,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-33,,true,,27,143,100,100,0,0,1
+1516656555056,299,Q1 - Sitzverteilung,204,No Content,Users 1-57,,true,,27,140,100,100,0,0,0
+1516656555423,6,Q3 - Wahlkreisübersicht,204,No Content,Users 1-99,,true,,27,143,100,100,0,0,0
+1516656555309,266,Q5 - Überhangmandate,204,No Content,Users 1-58,,true,,27,140,100,100,0,0,1
+1516656555423,289,Q1 - Sitzverteilung,204,No Content,Users 1-60,,true,,27,140,100,100,0,0,0
+1516656555500,291,Q1 - Sitzverteilung,204,No Content,Users 1-77,,true,,27,140,100,100,0,0,1
+1516656555966,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-66,,true,,27,143,100,100,0,0,0
+1516656555844,303,Q5 - Überhangmandate,204,No Content,Users 1-78,,true,,27,140,100,100,0,0,0
+1516656555844,307,Q1 - Sitzverteilung,204,No Content,Users 1-91,,true,,27,140,100,100,0,0,1
+1516656555904,308,Q1 - Sitzverteilung,204,No Content,Users 1-31,,true,,27,140,100,100,0,0,0
+1516656556211,10,Q4 - Wahlkreissieger,204,No Content,Users 1-74,,true,,27,140,100,100,0,0,0
+1516656556316,9,Q3 - Wahlkreisübersicht,204,No Content,Users 1-63,,true,,27,143,100,100,0,0,1
+1516656555896,435,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-44,,true,,27,140,100,100,0,0,0
+1516656556291,298,Q1 - Sitzverteilung,204,No Content,Users 1-3,,true,,27,140,100,100,0,0,0
+1516656556592,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-30,,true,,27,143,100,100,0,0,0
+1516656556625,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-29,,true,,27,143,100,100,0,0,1
+1516656556621,46,Q6 - Knappste Sieger,204,No Content,Users 1-6,,true,,27,142,100,100,0,0,1
+1516656556647,42,Q6 - Knappste Sieger,204,No Content,Users 1-35,,true,,27,142,100,100,0,0,1
+1516656556424,297,Q1 - Sitzverteilung,204,No Content,Users 1-73,,true,,27,140,100,100,0,0,0
+1516656556611,291,Q1 - Sitzverteilung,204,No Content,Users 1-5,,true,,27,140,100,100,0,0,1
+1516656556978,33,Q6 - Knappste Sieger,204,No Content,Users 1-84,,true,,27,142,100,100,0,0,0
+1516656557040,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-56,,true,,27,143,100,100,0,0,0
+1516656556873,289,Q1 - Sitzverteilung,204,No Content,Users 1-17,,true,,27,140,100,100,0,0,1
+1516656557270,13,Q4 - Wahlkreissieger,204,No Content,Users 1-95,,true,,27,140,100,100,0,0,1
+1516656557733,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-49,,true,,27,143,100,100,0,0,0
+1516656557473,291,Q1 - Sitzverteilung,204,No Content,Users 1-13,,true,,27,140,100,100,0,0,1
+1516656557995,274,Q5 - Überhangmandate,204,No Content,Users 1-89,,true,,27,140,100,100,0,0,0
+1516656558007,272,Q5 - Überhangmandate,204,No Content,Users 1-67,,true,,27,140,100,100,0,0,0
+1516656558264,40,Q6 - Knappste Sieger,204,No Content,Users 1-15,,true,,27,142,100,100,0,0,0
+1516656558294,39,Q6 - Knappste Sieger,204,No Content,Users 1-21,,true,,27,142,100,100,0,0,1
+1516656558068,268,Q5 - Überhangmandate,204,No Content,Users 1-81,,true,,27,140,100,100,0,0,0
+1516656558415,10,Q4 - Wahlkreissieger,204,No Content,Users 1-4,,true,,27,140,100,100,0,0,0
+1516656558209,318,Q1 - Sitzverteilung,204,No Content,Users 1-16,,true,,27,140,100,100,0,0,1
+1516656558785,294,Q1 - Sitzverteilung,204,No Content,Users 1-34,,true,,27,140,100,100,0,0,1
+1516656558898,272,Q5 - Überhangmandate,204,No Content,Users 1-50,,true,,27,140,100,100,0,0,0
+1516656559064,296,Q1 - Sitzverteilung,204,No Content,Users 1-88,,true,,27,140,100,100,0,0,0
+1516656559084,433,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-96,,true,,27,140,100,100,0,0,1
+1516656559340,276,Q5 - Überhangmandate,204,No Content,Users 1-9,,true,,27,140,100,100,0,0,0
+1516656559434,312,Q5 - Überhangmandate,204,No Content,Users 1-100,,true,,27,140,100,100,0,0,1
+1516656559456,342,Q1 - Sitzverteilung,204,No Content,Users 1-53,,true,,27,140,100,100,0,0,1
+1516656559581,424,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-82,,true,,27,140,100,100,0,0,0
+1516656560205,10,Q4 - Wahlkreissieger,204,No Content,Users 1-7,,true,,27,140,100,100,0,0,1
+1516656560012,290,Q1 - Sitzverteilung,204,No Content,Users 1-86,,true,,27,140,100,100,0,0,0
+1516656560339,13,Q4 - Wahlkreissieger,204,No Content,Users 1-69,,true,,27,140,100,100,0,0,1
+1516656560416,38,Q6 - Knappste Sieger,204,No Content,Users 1-14,,true,,27,142,100,100,0,0,1
+1516656560605,300,Q1 - Sitzverteilung,204,No Content,Users 1-2,,true,,27,140,100,100,0,0,1
+1516656560850,265,Q5 - Überhangmandate,204,No Content,Users 1-32,,true,,27,140,100,100,0,0,0
+1516656560801,422,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-11,,true,,27,140,100,100,0,0,0
+1516656561075,286,Q1 - Sitzverteilung,204,No Content,Users 1-54,,true,,27,140,100,100,0,0,1
+1516656561477,8,Q3 - Wahlkreisübersicht,204,No Content,Users 1-40,,true,,27,143,100,100,0,0,1
+1516656561669,39,Q6 - Knappste Sieger,204,No Content,Users 1-19,,true,,27,142,100,100,0,0,1
+1516656561677,59,Q6 - Knappste Sieger,204,No Content,Users 1-1,,true,,27,142,100,100,0,0,0
+1516656561344,436,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-75,,true,,27,140,100,100,0,0,0
+1516656561784,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-90,,true,,27,143,100,100,0,0,0
+1516656561780,16,Q3 - Wahlkreisübersicht,204,No Content,Users 1-97,,true,,27,143,100,100,0,0,0
+1516656561618,297,Q1 - Sitzverteilung,204,No Content,Users 1-65,,true,,27,140,100,100,0,0,0
+1516656561904,36,Q6 - Knappste Sieger,204,No Content,Users 1-45,,true,,27,142,100,100,0,0,1
+1516656561973,10,Q4 - Wahlkreissieger,204,No Content,Users 1-87,,true,,27,140,100,100,0,0,0
+1516656561660,369,Q1 - Sitzverteilung,204,No Content,Users 1-72,,true,,27,140,100,100,0,0,0
+1516656561744,330,Q5 - Überhangmandate,204,No Content,Users 1-23,,true,,27,140,100,100,0,0,0
+1516656561685,402,Q1 - Sitzverteilung,204,No Content,Users 1-85,,true,,27,140,100,100,0,0,0
+1516656562223,7,Q3 - Wahlkreisübersicht,204,No Content,Users 1-41,,true,,27,143,100,100,0,0,0
+1516656562192,41,Q6 - Knappste Sieger,204,No Content,Users 1-79,,true,,27,142,100,100,0,0,0
+1516656562019,294,Q1 - Sitzverteilung,204,No Content,Users 1-22,,true,,27,140,100,100,0,0,1
+1516656562326,20,Q4 - Wahlkreissieger,204,No Content,Users 1-44,,true,,27,140,100,100,0,0,0
+1516656562325,60,Q3 - Wahlkreisübersicht,204,No Content,Users 1-96,,true,,27,143,99,99,0,0,1
+1516656562326,61,Q6 - Knappste Sieger,204,No Content,Users 1-17,,true,,27,142,98,98,0,0,0
+1516656562330,70,Q3 - Wahlkreisübersicht,204,No Content,Users 1-72,,true,,27,143,97,97,0,0,0
+1516656562326,78,Q3 - Wahlkreisübersicht,204,No Content,Users 1-25,,true,,27,143,96,96,0,0,0
+1516656562076,339,Q5 - Überhangmandate,204,No Content,Users 1-76,,true,,27,140,95,95,0,0,0
+1516656562328,109,Q3 - Wahlkreisübersicht,204,No Content,Users 1-65,,true,,27,143,94,94,0,0,0
+1516656562328,159,Q6 - Knappste Sieger,204,No Content,Users 1-40,,true,,27,142,93,93,0,0,0
+1516656562330,207,Q6 - Knappste Sieger,204,No Content,Users 1-1,,true,,27,142,92,92,0,0,0
+1516656562325,512,Q6 - Knappste Sieger,204,No Content,Users 1-60,,true,,27,142,91,91,0,0,1
+1516656562329,508,Q6 - Knappste Sieger,204,No Content,Users 1-87,,true,,27,142,90,90,0,0,0
+1516656562326,512,Q3 - Wahlkreisübersicht,204,No Content,Users 1-56,,true,,27,143,89,89,0,0,0
+1516656562326,512,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-86,,true,,27,140,88,88,0,0,0
+1516656562327,647,Q3 - Wahlkreisübersicht,204,No Content,Users 1-10,,true,,27,143,87,87,0,0,0
+1516656562325,652,Q5 - Überhangmandate,204,No Content,Users 1-94,,true,,27,140,86,86,0,0,1
+1516656562327,660,Q4 - Wahlkreissieger,204,No Content,Users 1-38,,true,,27,140,86,86,0,0,0
+1516656562326,667,Q1 - Sitzverteilung,204,No Content,Users 1-75,,true,,27,140,86,86,0,0,0
+1516656562327,668,Q3 - Wahlkreisübersicht,204,No Content,Users 1-21,,true,,27,143,86,86,0,0,0
+1516656562326,688,Q5 - Überhangmandate,204,No Content,Users 1-3,,true,,27,140,83,83,0,0,0
+1516656562327,687,Q4 - Wahlkreissieger,204,No Content,Users 1-91,,true,,27,140,82,82,0,0,1
+1516656562327,689,Q4 - Wahlkreissieger,204,No Content,Users 1-55,,true,,27,140,80,80,0,0,0
+1516656562327,696,Q3 - Wahlkreisübersicht,204,No Content,Users 1-7,,true,,27,143,80,80,0,0,0
+1516656562326,801,Q1 - Sitzverteilung,204,No Content,Users 1-84,,true,,27,140,78,78,0,0,0
+1516656562330,820,Q1 - Sitzverteilung,204,No Content,Users 1-11,,true,,27,140,77,77,0,0,0
+1516656562332,860,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-22,,true,,27,140,76,76,0,0,0
+1516656562327,880,Q6 - Knappste Sieger,204,No Content,Users 1-89,,true,,27,142,75,75,0,0,0
+1516656562327,883,Q6 - Knappste Sieger,204,No Content,Users 1-53,,true,,27,142,74,74,0,0,0
+1516656562330,893,Q1 - Sitzverteilung,204,No Content,Users 1-69,,true,,27,140,73,73,0,0,0
+1516656562328,919,Q6 - Knappste Sieger,204,No Content,Users 1-46,,true,,27,142,72,72,0,0,0
+1516656562329,934,Q3 - Wahlkreisübersicht,204,No Content,Users 1-42,,true,,27,143,71,71,0,0,0
+1516656562330,938,Q3 - Wahlkreisübersicht,204,No Content,Users 1-6,,true,,27,143,70,70,0,0,0
+1516656562328,948,Q6 - Knappste Sieger,204,No Content,Users 1-71,,true,,27,142,69,69,0,0,0
+1516656562330,963,Q3 - Wahlkreisübersicht,204,No Content,Users 1-70,,true,,27,143,68,68,0,0,0
+1516656562331,982,Q3 - Wahlkreisübersicht,204,No Content,Users 1-64,,true,,27,143,68,68,0,0,0
+1516656562330,1036,Q6 - Knappste Sieger,204,No Content,Users 1-100,,true,,27,142,66,66,0,0,0
+1516656562327,1176,Q1 - Sitzverteilung,204,No Content,Users 1-80,,true,,27,140,65,65,0,0,1
+1516656562326,1411,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-24,,true,,27,140,64,64,0,0,0
+1516656562328,1463,Q1 - Sitzverteilung,204,No Content,Users 1-48,,true,,27,140,63,63,0,0,0
+1516656562329,1491,Q5 - Überhangmandate,204,No Content,Users 1-95,,true,,27,140,62,62,0,0,0
+1516656562328,1512,Q3 - Wahlkreisübersicht,204,No Content,Users 1-5,,true,,27,143,61,61,0,0,1
+1516656562326,1524,Q3 - Wahlkreisübersicht,204,No Content,Users 1-78,,true,,27,143,60,60,0,0,1
+1516656562329,1560,Q1 - Sitzverteilung,204,No Content,Users 1-30,,true,,27,140,59,59,0,0,0
+1516656562327,1573,Q3 - Wahlkreisübersicht,204,No Content,Users 1-36,,true,,27,143,58,58,0,0,1
+1516656562331,1574,Q3 - Wahlkreisübersicht,204,No Content,Users 1-16,,true,,27,143,57,57,0,0,0
+1516656562329,1600,Q3 - Wahlkreisübersicht,204,No Content,Users 1-29,,true,,27,143,56,56,0,0,1
+1516656562331,1612,Q5 - Überhangmandate,204,No Content,Users 1-74,,true,,27,140,55,55,0,0,0
+1516656562331,1651,Q5 - Überhangmandate,204,No Content,Users 1-83,,true,,27,140,54,54,0,0,1
+1516656562387,1620,Q4 - Wahlkreissieger,204,No Content,Users 1-4,,true,,27,140,53,53,0,0,0
+1516656562388,1653,Q4 - Wahlkreissieger,204,No Content,Users 1-73,,true,,27,140,52,52,0,0,1
+1516656562385,1666,Q6 - Knappste Sieger,204,No Content,Users 1-68,,true,,27,142,51,51,0,0,1
+1516656562330,1830,Q1 - Sitzverteilung,204,No Content,Users 1-9,,true,,27,140,50,50,0,0,2
+1516656562329,1893,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-18,,true,,27,140,49,49,0,0,0
+1516656562387,1846,Q6 - Knappste Sieger,204,No Content,Users 1-26,,true,,27,142,48,48,0,0,0
+1516656562392,1852,Q3 - Wahlkreisübersicht,204,No Content,Users 1-99,,true,,27,143,47,47,0,0,0
+1516656562389,1914,Q6 - Knappste Sieger,204,No Content,Users 1-34,,true,,27,142,46,46,0,0,0
+1516656562389,1948,Q6 - Knappste Sieger,204,No Content,Users 1-52,,true,,27,142,45,45,0,0,1
+1516656562327,2015,Q1 - Sitzverteilung,204,No Content,Users 1-35,,true,,27,140,44,44,0,0,0
+1516656562387,1983,Q4 - Wahlkreissieger,204,No Content,Users 1-43,,true,,27,140,43,43,0,0,11
+1516656562325,2063,Q4 - Wahlkreissieger,204,No Content,Users 1-93,,true,,27,140,42,42,0,0,73
+1516656562387,2010,Q6 - Knappste Sieger,204,No Content,Users 1-14,,true,,27,142,41,41,0,0,0
+1516656562397,2034,Q6 - Knappste Sieger,204,No Content,Users 1-32,,true,,27,142,40,40,0,0,0
+1516656562386,2154,Q1 - Sitzverteilung,204,No Content,Users 1-85,,true,,27,140,39,39,0,0,0
+1516656562374,2173,Q3 - Wahlkreisübersicht,204,No Content,Users 1-45,,true,,27,143,38,38,0,0,0
+1516656562386,2168,Q3 - Wahlkreisübersicht,204,No Content,Users 1-77,,true,,27,143,37,37,0,0,13
+1516656562374,2197,Q3 - Wahlkreisübersicht,204,No Content,Users 1-79,,true,,27,143,36,36,0,0,0
+1516656562325,2268,Q3 - Wahlkreisübersicht,204,No Content,Users 1-15,,true,,27,143,35,35,0,0,74
+1516656562346,2263,Q3 - Wahlkreisübersicht,204,No Content,Users 1-51,,true,,27,143,34,34,0,0,1
+1516656562404,2227,Q3 - Wahlkreisübersicht,204,No Content,Users 1-23,,true,,27,143,33,33,0,0,0
+1516656562388,2247,Q5 - Überhangmandate,204,No Content,Users 1-63,,true,,27,140,32,32,0,0,0
+1516656562330,2330,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-13,,true,,27,140,31,31,0,0,2
+1516656562346,2373,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-8,,true,,27,140,30,30,0,0,0
+1516656562365,2361,Q3 - Wahlkreisübersicht,204,No Content,Users 1-31,,true,,27,143,29,29,0,0,40
+1516656562373,2362,Q6 - Knappste Sieger,204,No Content,Users 1-90,,true,,27,142,28,28,0,0,0
+1516656562365,2375,Q3 - Wahlkreisübersicht,204,No Content,Users 1-2,,true,,27,143,27,27,0,0,0
+1516656562364,2399,Q4 - Wahlkreissieger,204,No Content,Users 1-19,,true,,27,140,26,26,0,0,0
+1516656562403,2361,Q3 - Wahlkreisübersicht,204,No Content,Users 1-33,,true,,27,143,25,25,0,0,1
+1516656562364,2418,Q4 - Wahlkreissieger,204,No Content,Users 1-81,,true,,27,140,24,24,0,0,44
+1516656562365,2459,Q6 - Knappste Sieger,204,No Content,Users 1-37,,true,,27,142,23,23,0,0,42
+1516656562364,2469,Q3 - Wahlkreisübersicht,204,No Content,Users 1-39,,true,,27,143,22,22,0,0,49
+1516656562364,2527,Q6 - Knappste Sieger,204,No Content,Users 1-12,,true,,27,142,21,21,0,0,43
+1516656562388,2575,Q5 - Überhangmandate,204,No Content,Users 1-49,,true,,27,140,20,20,0,0,11
+1516656562364,2606,Q6 - Knappste Sieger,204,No Content,Users 1-20,,true,,27,142,19,19,0,0,50
+1516656562389,2788,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-66,,true,,27,140,18,18,0,0,9
+1516656562365,2845,Q5 - Überhangmandate,204,No Content,Users 1-54,,true,,27,140,17,17,0,0,0
+1516656562373,2854,Q1 - Sitzverteilung,204,No Content,Users 1-97,,true,,27,140,16,16,0,0,0
+1516656562365,2890,Q4 - Wahlkreissieger,204,No Content,Users 1-58,,true,,27,140,15,15,0,0,51
+1516656562364,2936,Q6 - Knappste Sieger,204,No Content,Users 1-57,,true,,27,142,14,14,0,0,51
+1516656562364,2938,Q6 - Knappste Sieger,204,No Content,Users 1-82,,true,,27,142,13,13,0,0,51
+1516656562364,2965,Q3 - Wahlkreisübersicht,204,No Content,Users 1-41,,true,,27,143,12,12,0,0,0
+1516656562364,2973,Q3 - Wahlkreisübersicht,204,No Content,Users 1-88,,true,,27,143,11,11,0,0,50
+1516656562392,2999,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-62,,true,,27,140,10,10,0,0,6
+1516656562364,3027,Q6 - Knappste Sieger,204,No Content,Users 1-59,,true,,27,142,10,10,0,0,52
+1516656562365,3027,Q3 - Wahlkreisübersicht,204,No Content,Users 1-28,,true,,27,143,9,9,0,0,51
+1516656562391,3015,Q2 - Mitglieder des Bundestags,204,No Content,Users 1-47,,true,,27,140,7,7,0,0,0
+1516656562364,3128,Q6 - Knappste Sieger,204,No Content,Users 1-92,,true,,27,142,6,6,0,0,59
+1516656562364,3186,Q5 - Überhangmandate,204,No Content,Users 1-98,,true,,27,140,5,5,0,0,50
+1516656562364,3188,Q1 - Sitzverteilung,204,No Content,Users 1-27,,true,,27,140,4,4,0,0,50
+1516656562325,3300,Q5 - Überhangmandate,204,No Content,Users 1-50,,true,,27,140,3,3,0,0,91
+1516656562364,3285,Q1 - Sitzverteilung,204,No Content,Users 1-67,,true,,27,140,2,2,0,0,52
+1516656562364,3408,Q1 - Sitzverteilung,204,No Content,Users 1-61,,true,,27,140,1,1,0,0,49
