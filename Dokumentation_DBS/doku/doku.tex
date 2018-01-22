@@ -287,13 +287,13 @@ Um die Datenbank zu befüllen, muss wie folgt vorgegangen werden:
 \begin{enumerate}
 	\item Einrichten des Nutzers \texttt{postgres} mit dem Passwort \texttt{root} mit Login-Rechten.
 	\item Erstellen der Datenbank \texttt{unicorn}.
-	\item Einspielen der Datei \texttt{election.sql}, beispielsweise mit \texttt{psql postgres unicorn < election.sql}. Die Datei beinhaltet das Datenbankschema.
+	\item Einspielen der Datei \texttt{election.sql}, beispielsweise mit \texttt{psql unicorn postgres < election.sql}. Die Datei beinhaltet das Datenbankschema.
 	\item Ausführen der Testklasse \texttt{BatchInserterTest}. Dadurch wird die Datenbank mit den Wahldaten befüllt.
-	\item Einspielen der folgenden Dateien:\begin{itemize}
+	\item Einspielen der folgenden Dateien:\begin{enumerate}
 		\item \texttt{aggregation.sql} (initiales Aggregieren der Stimmen)
 		\item \texttt{insertInhabitantsIntoStates.sql} (Anreicherung der Daten um die Einwohnerzahlen der Bundesländer)
 		\item \texttt{verteilung.sql} (Erstellen einiger Views zum Berechnen der Sitzverteilung)
-	\end{itemize}
+	\end{enumerate}
 \end{enumerate}
 
 \subsection{Server}
