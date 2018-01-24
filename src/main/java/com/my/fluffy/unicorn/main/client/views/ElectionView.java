@@ -9,6 +9,8 @@ import com.my.fluffy.unicorn.main.client.data.District;
 import com.my.fluffy.unicorn.main.client.mainService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ElectionView extends VerticalPanel{
@@ -35,6 +37,13 @@ public class ElectionView extends VerticalPanel{
     }
 
     private void initializeDistrictSelection() {
+        Collections.sort(districts, new Comparator<District>() {
+            @Override
+            public int compare(final District object1, final District object2) {
+                return object1.getName().compareTo(object2.getName());
+            }
+        } );
+
         districtBox = new ListBox();
        for(District district : districts){
            districtBox.addItem(district.getName());
