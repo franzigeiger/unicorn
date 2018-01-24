@@ -175,7 +175,7 @@ Unter 'Women in Parliament' wird die prozentuale Anzahl der Frauen und Männer i
 
 \section{Berechnung der Ergebnisse}
 
-Als Grundlage für die Berechnung dienen die Stimmverteilungen auf Wahlkreisebene, die auf https://www.bundeswahlleiter.de/ einsehbar sind. Hierbei werden für 2013 die Ergebnisse verwendet, die bei den Wahlergebnissen von 2017 enthalten sind. Diese Ergebnisse wurden auf die neu verteilten Wahlkreise für die Bundestagswahl von 2017 umgerechnet. \\
+Als Grundlage für die Berechnung dienen die Stimmverteilungen auf Wahlkreisebene, die auf https://www.bundeswahlleiter.de/ einsehbar sind. Hierbei werden für 2013 die Ergebnisse verwendet, die bei den Wahlergebnissen von 2017 enthalten sind. Diese Ergebnisse wurden auf die neu verteilten Wahlkreise für die Bundestagswahl von 2017 umgerechnet.
 
 Die Berechnung der Ergebnisse der Bundestagswahlen, die von dem Wahlinformationssystem angezeigt werden, erfolgen ausschließlich über SQL-Anfragen. Eine kommentierte Version der verwendeten Anfragen ist dieser Dokumentation beigefügt. 
 
@@ -189,14 +189,14 @@ Dies ermöglicht es, ein Wahllokal auf digitale Wahl umzustellen, womit der Proz
 
 Zunächst müssen für eine Wahl Tokens erstellt werden.
 Dies geschieht mit einem Kommandozeilenprogramm im Vorfeld.
-Die Tokens werden daraufhin in der benötigten Menge für jedes Wahllokal gedruckt. \\
+Die Tokens werden daraufhin in der benötigten Menge für jedes Wahllokal gedruckt.
 
 Im Wahllokal werden nun ein oder mehrere Wahlcomputer aufgebaut.
-Diese müssen eine stabile Verbindung zum zentralen Backend-Server aufweisen. \\
+Diese müssen eine stabile Verbindung zum zentralen Backend-Server aufweisen.
 
 In einem Browser wird nun die Weboberfläche des Wahlsystems geöffnet.
 Auf der Website wird die Funktion 'New Election' gewählt.
-Daraufhin wird eine Auswahlseite angezeigt, in der der Wahlkreis ausgewählt wird.\\
+Daraufhin wird eine Auswahlseite angezeigt, in der der Wahlkreis ausgewählt wird.
 
 \begin{figure}[H]
 \centering
@@ -204,7 +204,7 @@ Daraufhin wird eine Auswahlseite angezeigt, in der der Wahlkreis ausgewählt wir
 \caption {District selection view}
 \end{figure}
 
-Nach Auswahl eines Wahlkreises wird eine Eingabemaske gezeigt, in der ein Wähler später ein Wahltoken eingeben kann. Nach Eingabe eines gültigen Tokens wird der Stimmzettel angezeigt, auf dem der Wähler wählen kann. Die wählbaren Direktkandidaten und Landeslisten werden dabei in der gleichen Reihenfolge angezeigt, die sie auch auf einem konventionellen Stimmzettel haben würden. Dabei orientiert sich die Reihenfolge der Parteien an der Anzahl der Zweitstimmen, die sie bei der vorherigen Bundestagswahl in dem entsprechenden Bundesland des Wahlkreises erhalten haben. \\
+Nach Auswahl eines Wahlkreises wird eine Eingabemaske gezeigt, in der ein Wähler später ein Wahltoken eingeben kann. Nach Eingabe eines gültigen Tokens wird der Stimmzettel angezeigt, auf dem der Wähler wählen kann. Die wählbaren Direktkandidaten und Landeslisten werden dabei in der gleichen Reihenfolge angezeigt, die sie auch auf einem konventionellen Stimmzettel haben würden. Dabei orientiert sich die Reihenfolge der Parteien an der Anzahl der Zweitstimmen, die sie bei der vorherigen Bundestagswahl in dem entsprechenden Bundesland des Wahlkreises erhalten haben.
 
 \begin{figure}[H]
 \centering
@@ -225,7 +225,7 @@ Aus Sicherheitsgründen muss die Website auf dem Wahlcomputer in den Vollbildmod
 Ein Wähler kommt in das Wahllokal mit seinem Personalausweis und seiner Wahlberechtigung.
 Die Wahlhelfer registrieren den Wähler konventionell.
 Nun darf der Wähler ein Zettel mit einem Wahltoken nehmen.
-Hierbei stellen die Wahlhelfer sicher, dass jeder Wähler genau ein Token nimmt. \\
+Hierbei stellen die Wahlhelfer sicher, dass jeder Wähler genau ein Token nimmt.
 
 Nun darf der Wähler zum Terminal gehen, sein Token in die Maske eintragen und seine Wahl abgeben. Dabei kann die Stimme manuell ungültig gemacht werden, indem etwa für die Erst- oder Zweitstimme eine leere Zeile oder gar keine Zeile ausgewählt wird.
 Anschließend bestätigt der Wähler seine Eingabe. Nachdem der Wähler seine Stimme so abgegeben hat wird wieder die initiale Eingabemaske angezeigt, sodass der nächste Wähler wählen kann.
@@ -235,7 +235,7 @@ Anschließend bestätigt der Wähler seine Eingabe. Nachdem der Wähler seine St
 \subsubsection{Tokens}
 
 Damit die Tokens gegen Brute-Force Attacken geschützt sind, müssen die Tokens eine bestimmte Entropie aufweisen.
-Hierbei gilt: Die Anzahl der \textit{möglichen} Tokens dividiert durch die Anzahl der \textit{benötigten} Tokens darf $2^{40}$ nicht unterschreiten. \\
+Hierbei gilt: Die Anzahl der \textit{möglichen} Tokens dividiert durch die Anzahl der \textit{benötigten} Tokens darf $2^{40}$ nicht unterschreiten.
 
 Hierzu genügt aktuell (ca. 50 Millionen Wähler) beispielsweise ein alphanumerisches, case-insensitives Token mit 16 Zeichen (der Rest-Puffer wäre hierbei ca. 140, das heißt dass wir die Anzahl der Wähler noch um Faktor 140 vergrößern könnten, bevor das Token zu kurz wird).
 Zusätzlich wird im System jeder Wahlversuch mit einem falschen Token geloggt, sodass Brute-Force Angriffe rückwirkend nachweisbar wären.
@@ -266,146 +266,149 @@ Ein zusätzliches Caching der Anfragen könnte leicht in die Anwendung eingebaut
 
 \chapter{Anhang: Ergebnisse der Auswertung}
 
-\begin{figure}[h]
+Die folgenden Benchmarks wurden auf einem Intel i5-4450 System mit 16 Gigabyte RAM unter Linux ausgeführt.
+Dabei lief jMeter zusammen mit der Anwendung sowie der Datenbank auf dem gleichen System.
+
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_1s/Q1}
 \caption {Q1 - Sitzverteilung (1s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_1s/Q2}
 \caption {Q2 - Mitglieder des Bundestags (1s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_1s/Q3}
 \caption {Q3 - Wahlkreisübersicht (1s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_1s/Q4}
 \caption {Q4 - Wahlkreissieger (1s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_1s/Q5}
 \caption {Q5 - Überhangmandate (1s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_1s/Q6}
 \caption {Q6 - Knappste Sieger (1s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_2s/Q1}
 \caption {Q1 - Sitzverteilung (2s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_2s/Q2}
 \caption {Q2 - Mitglieder des Bundestags (2s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_2s/Q3}
 \caption {Q3 - Wahlkreisübersicht (2s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_2s/Q4}
 \caption {Q4 - Wahlkreissieger (2s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_2s/Q5}
 \caption {Q5 - Überhangmandate (2s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_2s/Q6}
 \caption {Q6 - Knappste Sieger (2s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_4s/Q1}
 \caption {Q1 - Sitzverteilung (4s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_4s/Q2}
 \caption {Q2 - Mitglieder des Bundestags (4s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_4s/Q3}
 \caption {Q3 - Wahlkreisübersicht (4s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_4s/Q4}
 \caption {Q4 - Wahlkreissieger (4s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_4s/Q5}
 \caption {Q5 - Überhangmandate (4s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_4s/Q6}
 \caption {Q6 - Knappste Sieger (4s)}
 \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_8s/Q1}
 \caption {Q1 - Sitzverteilung (8s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_8s/Q2}
 \caption {Q2 - Mitglieder des Bundestags (8s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_8s/Q3}
 \caption {Q3 - Wahlkreisübersicht (8s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_8s/Q4}
 \caption {Q4 - Wahlkreissieger (8s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_8s/Q5}
 \caption {Q5 - Überhangmandate (8s)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/plots_8s/Q6}
 \caption {Q6 - Knappste Sieger (8s)}
@@ -459,15 +462,15 @@ Das System muss anhand der eingetragenen Stimmen nach dem aktuellen Wahlverfahre
 
 \subsection{Backend-Anf-4}
 
-Das System soll die Wahlbeteiligung für einen ausgewählten Wahlkreis anzeigen. \\
+Das System soll die Wahlbeteiligung für einen ausgewählten Wahlkreis anzeigen.
 
 \subsection{Backend-Anf-5}
 
-Das System muss die Wahldaten in einer Datenbank persistieren. \\
+Das System muss die Wahldaten in einer Datenbank persistieren.
 
 \subsection{Backend-Anf-6}
 
-Das System muss Überhangmandate in der Berechnung der Sitzverteilung im Bundestag mit einbeziehen und darstellen können. \\
+Das System muss Überhangmandate in der Berechnung der Sitzverteilung im Bundestag mit einbeziehen und darstellen können.
 
 \section{Nicht Funktionale Anforderungen}
 
@@ -562,7 +565,7 @@ Im folgenden werden einzelne Funktionen des Systems näher vorgestellt.
 \item a) Nutzer möchte sich die Ergebnisse einer vorherigen Bundestagswahl anzeigen lassen und wählt deshalb statt dem voreingestellten Jahr der letzten Bundestagswahl ein vorheriges 
 \end{enumerate}
 \item Oberfläche Beispiel: \\
-\includegraphics[width=\textwidth]{images/gesamt.png}
+\includegraphics[width=.9\textwidth]{images/gesamt.png}
 \end{itemize}
 
 \subsection{Anzeige des Wahlergebnisses einer Bundestagswahl in einem Wahlkreis}
@@ -576,7 +579,7 @@ Im folgenden werden einzelne Funktionen des Systems näher vorgestellt.
 \item System zeigt Wahlergebnis des Wahlkreises bestehend aus prozentualer und absoluter Verteilung von Stimmen auf Landeslisten und Direktkandidaten und die Anzahl der Wähler und Nichtwähler. Diese Daten werden im Vergleich zu den Daten der vorherigen Bundestagswahl dargestellt.
 \end{enumerate}
 \item Oberfläche Beispiel: \\
-\includegraphics[width=\textwidth]{images/wahlkreis.png}
+\includegraphics[width=.9\textwidth]{images/wahlkreis.png}
 \end{itemize}
 
 \subsection{Abgabe einer Einzelstimme}
@@ -604,7 +607,7 @@ Im folgenden werden einzelne Funktionen des Systems näher vorgestellt.
 \end{itemize}
 \end{itemize}
 \item Oberfläche Beispiel: \\
-i\includegraphics[width=\textwidth]{images/whlen.png}
+i\includegraphics[width=.9\textwidth]{images/whlen.png}
 \end{itemize}
  
 \subsection{Nichtfunktionale Anforderungen}
@@ -657,7 +660,7 @@ Um die Funktionalität des Systems nachzuweisen soll ein Datengenerator implemen
 \section{Daten}
 Die Daten, die das System langfristig speichern soll können dem abgebildeten Datenmodell entnommen werden.
 
-\includegraphics[width=\textwidth]{images/DBS_Schema.pdf}
+\noindent\includegraphics[width=\textwidth]{images/DBS_Schema.pdf}
 
 
 % Glossar
