@@ -1,9 +1,14 @@
 package com.my.fluffy.unicorn.main.server.db;
 
 import org.jetbrains.annotations.NotNull;
+import org.apache.commons.io.IOUtils;
 
+import javax.servlet.ServletContext;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -12,7 +17,11 @@ import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 public class DatabaseConnection implements AutoCloseable {
+
     private final Connection connection;
+
+    @javax.ws.rs.core.Context
+    static ServletContext context;
 
     private DatabaseConnection(Connection connection) {
         this.connection = connection;
@@ -30,11 +39,11 @@ public class DatabaseConnection implements AutoCloseable {
 
     static String getQuery(String name) {
         try {
-            Path path = new File(DatabaseConnection.class.getClassLoader().getResource("sql/" + name).getFile()).toPath();
-            return Files.readAllLines(path).stream().collect(Collectors.joining("\n"));
+            String result = IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("sql/" + name), StandardCharsets.UTF_8);
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+           throw new RuntimeException(e);
         }
     }
 
