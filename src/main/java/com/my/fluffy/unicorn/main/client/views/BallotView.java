@@ -292,7 +292,7 @@ public class BallotView extends VerticalPanel  {
                         @Override
                         public void onSuccess(Boolean aBoolean) {
                             hide();
-                            DialogBox box = new ConfirmDialog("OK", "Ballot was put to pallot box!" , "OK");
+                            DialogBox box = new ConfirmDialog("OK", "Ballot was put to ballot box!" , "OK");
                             box.center();
                             box.show();
                             renew();
