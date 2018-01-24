@@ -44,21 +44,6 @@ public class DistrictView extends VerticalPanel {
             this.add(new Label("Unfortunately, there is no corresponding data for this year."));
         } else {
 
-            mainService.App.getInstance().getAllDistricts(2013, new AsyncCallback<List<District>>() {
-                @Override
-                public void onFailure(Throwable throwable) {
-
-                }
-
-                public void onSuccess(List<District> d) {
-                    districts2013 = d;
-                    if(parent.getElectionYear()==2013){
-                        createDistrictOverview(districts2013);
-                    }
-
-                }
-            });
-
             mainService.App.getInstance().getAllDistricts(2017, new AsyncCallback<List<District>>() {
                 @Override
                 public void onFailure(Throwable throwable) {
@@ -67,9 +52,21 @@ public class DistrictView extends VerticalPanel {
 
                 public void onSuccess(List<District> d) {
                     districts2017 = d;
-                    if(parent.getElectionYear()==2017){
-                        createDistrictOverview(districts2013);
-                    }
+                    mainService.App.getInstance().getAllDistricts(2013, new AsyncCallback<List<District>>() {
+                        @Override
+                        public void onFailure(Throwable throwable) {
+
+                        }
+
+                        public void onSuccess(List<District> d) {
+                            districts2013 = d;
+                            if(parent.getElectionYear()== 2013){
+                                createDistrictOverview(districts2013);
+                            } else if(parent.getElectionYear()== 2017) {
+                                createDistrictOverview(districts2017);
+                            }
+                        }
+                    });
                 }
             });
         }
@@ -77,11 +74,8 @@ public class DistrictView extends VerticalPanel {
 
     private void createDistrictOverview(List<District> districts){
         final FlexTable table = new FlexTable();
-
         this.add(new HTML("<h3>Choose District: </h3>"));
-
         ListBox listBox = new ListBox();
-
         listBox.addItem("None");
 
         Collections.sort(districts, new Comparator<District>() {
@@ -90,14 +84,9 @@ public class DistrictView extends VerticalPanel {
                 return object1.getName().compareTo(object2.getName());
             }
         } );
-
         for(District district : districts){
             listBox.addItem(district.getName());
-
         }
-
-
-        this.add(new Label("Set Filter: "));
         this.add(listBox);
         this.add(table);
         this.add(chartPanel);
@@ -130,24 +119,22 @@ public class DistrictView extends VerticalPanel {
 
                 public void onSuccess(List<DistrictResults> districtResults) {
                     results = districtResults;
+                    // get direct winner 2017
+                    mainService.App.getInstance().getDistrictWinner(chosen2017.getId(),  new AsyncCallback<Candidate>() {
+                        @Override
+                        public void onFailure(Throwable throwable) {
+
+                        }
+
+                        public void onSuccess(Candidate winner) {
+                            winner2017 = winner;
+                            table.setText(0, 0,
+                                    "Direct Winner: " + winner2017.getLastName() + ", " + winner2017.getFirstName());
+                            drawCharts();
+                        }
+                    });
                 }
             });
-
-            // get direct winner 2017
-            mainService.App.getInstance().getDistrictWinner(chosen2017.getId(),  new AsyncCallback<Candidate>() {
-                @Override
-                public void onFailure(Throwable throwable) {
-
-                }
-
-                public void onSuccess(Candidate winner) {
-                    winner2017 = winner;
-                    table.setText(0, 0,
-                            "Direct Winner: " + winner2017.getLastName() + ", " + winner2017.getFirstName());
-                    drawCharts();
-                }
-            });
-
         }
     }
 
