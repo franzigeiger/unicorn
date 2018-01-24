@@ -98,4 +98,4 @@ for label in elapsed:
   ax1.set_axisbelow(True)
 
   # Write the PNG file
-  savefig(label + '.eps', format='eps')
+  savefig(label[:2] + '.eps', format='eps')
