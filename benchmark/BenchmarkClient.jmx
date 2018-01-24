@@ -23,7 +23,7 @@
         <longProp name="ThreadGroup.start_time">1512493715000</longProp>
         <longProp name="ThreadGroup.end_time">1512493715000</longProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.duration">120</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
@@ -552,12 +552,12 @@
           </elementProp>
           <elementProp name="TIME" elementType="Argument">
             <stringProp name="Argument.name">TIME</stringProp>
-            <stringProp name="Argument.value">1000</stringProp>
+            <stringProp name="Argument.value">8000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="RTIME" elementType="Argument">
             <stringProp name="Argument.name">RTIME</stringProp>
-            <stringProp name="Argument.value">500</stringProp>
+            <stringProp name="Argument.value">4000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>

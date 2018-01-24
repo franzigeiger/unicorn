@@ -83,6 +83,8 @@ Dabei kann für gegebene Parameter der Sicherheitsverlust wie folgt berechnet we
 Mit $k = \mathrm{floor}(\frac{n}{36^{l1}})$ verringert sich die Sicherheit um $100\cdot k$\%.
 Wenn ein Computer mit ausreichend RAM zur Verfügung steht, empfiehlt es sich also, $l1 = 0$ zu wählen.
 
+Das Generieren und Einfügen von 50 Millionen Tokens in die Datenbank dauert je nach Hardware ungefähr 5 bis 10 Minuten.
+
 \section{Benutzeroberfläche}
 
 Die Benutzeroberfläche bietet einem Nutzer die Möglichkeit, sich über die Ergebnisse einer Bundestagswahl zu informieren. Dabei werden die Daten in einem einfachen, verständlichen Format angezeigt
@@ -264,155 +266,7 @@ Dies bedeutet, dass sich die Anwendung mit entsprechenden Servern nahezu beliebi
 
 Ein zusätzliches Caching der Anfragen könnte leicht in die Anwendung eingebaut werden und würde zu einer wesehtlich höheren Skalierbarkeit führen, da die Anwendung zusätzliche, parallele Anfragen dann in vernachlässigbarer Zeit durchführen könnte.
 
-\chapter{Anhang: Ergebnisse der Auswertung}
-
-Die folgenden Benchmarks wurden auf einem Intel i5-4450 System mit 16 Gigabyte RAM unter Linux ausgeführt.
-Dabei lief jMeter zusammen mit der Anwendung sowie der Datenbank auf dem gleichen System.
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_1s/Q1}
-\caption {Q1 - Sitzverteilung (1s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_1s/Q2}
-\caption {Q2 - Mitglieder des Bundestags (1s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_1s/Q3}
-\caption {Q3 - Wahlkreisübersicht (1s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_1s/Q4}
-\caption {Q4 - Wahlkreissieger (1s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_1s/Q5}
-\caption {Q5 - Überhangmandate (1s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_1s/Q6}
-\caption {Q6 - Knappste Sieger (1s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_2s/Q1}
-\caption {Q1 - Sitzverteilung (2s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_2s/Q2}
-\caption {Q2 - Mitglieder des Bundestags (2s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_2s/Q3}
-\caption {Q3 - Wahlkreisübersicht (2s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_2s/Q4}
-\caption {Q4 - Wahlkreissieger (2s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_2s/Q5}
-\caption {Q5 - Überhangmandate (2s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_2s/Q6}
-\caption {Q6 - Knappste Sieger (2s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_4s/Q1}
-\caption {Q1 - Sitzverteilung (4s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_4s/Q2}
-\caption {Q2 - Mitglieder des Bundestags (4s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_4s/Q3}
-\caption {Q3 - Wahlkreisübersicht (4s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_4s/Q4}
-\caption {Q4 - Wahlkreissieger (4s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_4s/Q5}
-\caption {Q5 - Überhangmandate (4s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_4s/Q6}
-\caption {Q6 - Knappste Sieger (4s)}
-\end{figure}
-
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_8s/Q1}
-\caption {Q1 - Sitzverteilung (8s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_8s/Q2}
-\caption {Q2 - Mitglieder des Bundestags (8s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_8s/Q3}
-\caption {Q3 - Wahlkreisübersicht (8s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_8s/Q4}
-\caption {Q4 - Wahlkreissieger (8s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_8s/Q5}
-\caption {Q5 - Überhangmandate (8s)}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=0.9\textwidth]{images/plots_8s/Q6}
-\caption {Q6 - Knappste Sieger (8s)}
-\end{figure}
+Die Ergebnisse der Benchmarks befinden sich im Anhang~\ref{apx:bench}.
 
 
 \chapter{Lastenheft}
@@ -661,6 +515,172 @@ Um die Funktionalität des Systems nachzuweisen soll ein Datengenerator implemen
 Die Daten, die das System langfristig speichern soll können dem abgebildeten Datenmodell entnommen werden.
 
 \noindent\includegraphics[width=\textwidth]{images/DBS_Schema.pdf}
+
+
+
+
+\appendix
+\chapter{Benchmark-Ergebnisse}\label{apx:bench}
+
+\section{Methodik}
+
+Die folgenden Benchmarks wurden auf einem Intel i5-3570K (3,4 GHz) System mit 16 Gigabyte RAM unter Linux ausgeführt.
+Dabei lief jMeter zusammen mit der Anwendung sowie der Datenbank auf dem gleichen System.
+Von den zur Verfügung stehenden 16 Gigabyte wurden während der Tests -- inklusive Betriebssystem -- nur ca. 3 Gigabyte genutzt.
+
+Jeder durchgeführte Benchmark-Lauf hat 1 Minute lang mit mehreren simulierten Clients zufällig verteilte Anfragen für die Queries Q1 bis Q6 an den Server geschickt.
+Jeder simulierte Client hat nach jeder Anfrage eine variable Zeitspanne gewartet, bevor er die nächste Anfrage gestartet hat.
+Diese variable Zeitspanne ist zufällig gewählt aus einer Basiszeitspanne und dem 1.5-fachen dieser Basiszeitspanne.
+Es wurden Benchmark-Läufe mit jeder Kombination aus 4, 20, 100 und 500 simulierten Clients sowie einer Basiszeitspanne von 1, 2, 4 und 8 Sekunden durchgeführt.
+Jedes der folgenden Diagramme zeigt Boxplots, in welchen die Antwortzeiten für eine Query und eine Basiszeitspanne nach der Anzahl der simulierten Clients dargestellt sind.
+
+Die jMeter-Konfiguration für die Benchmarks findet sich im Repository, damit können die Benchmarks leicht auf einem beliebigen System durchgeführt werden.
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_1s/Q1}
+	\caption {Q1 - Sitzverteilung (1s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_1s/Q2}
+	\caption {Q2 - Mitglieder des Bundestags (1s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_1s/Q3}
+	\caption {Q3 - Wahlkreisübersicht (1s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_1s/Q4}
+	\caption {Q4 - Wahlkreissieger (1s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_1s/Q5}
+	\caption {Q5 - Überhangmandate (1s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_1s/Q6}
+	\caption {Q6 - Knappste Sieger (1s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_2s/Q1}
+	\caption {Q1 - Sitzverteilung (2s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_2s/Q2}
+	\caption {Q2 - Mitglieder des Bundestags (2s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_2s/Q3}
+	\caption {Q3 - Wahlkreisübersicht (2s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_2s/Q4}
+	\caption {Q4 - Wahlkreissieger (2s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_2s/Q5}
+	\caption {Q5 - Überhangmandate (2s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_2s/Q6}
+	\caption {Q6 - Knappste Sieger (2s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_4s/Q1}
+	\caption {Q1 - Sitzverteilung (4s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_4s/Q2}
+	\caption {Q2 - Mitglieder des Bundestags (4s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_4s/Q3}
+	\caption {Q3 - Wahlkreisübersicht (4s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_4s/Q4}
+	\caption {Q4 - Wahlkreissieger (4s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_4s/Q5}
+	\caption {Q5 - Überhangmandate (4s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_4s/Q6}
+	\caption {Q6 - Knappste Sieger (4s)}
+\end{figure}
+
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_8s/Q1}
+	\caption {Q1 - Sitzverteilung (8s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_8s/Q2}
+	\caption {Q2 - Mitglieder des Bundestags (8s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_8s/Q3}
+	\caption {Q3 - Wahlkreisübersicht (8s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_8s/Q4}
+	\caption {Q4 - Wahlkreissieger (8s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_8s/Q5}
+	\caption {Q5 - Überhangmandate (8s)}
+\end{figure}
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/plots_8s/Q6}
+	\caption {Q6 - Knappste Sieger (8s)}
+\end{figure}
+
 
 
 % Glossar
