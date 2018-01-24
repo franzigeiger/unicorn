@@ -52,8 +52,8 @@ public class DistrictView extends VerticalPanel {
 
                 public void onSuccess(List<District> d) {
                     districts2013 = d;
-                    if(parent.getElectionYear()==2013){
-                        createDistrictOverview(districts2013);
+                    if(districts2017 != null){
+                        createDistrictOverview(districts2017);
                     }
 
                 }
@@ -67,8 +67,8 @@ public class DistrictView extends VerticalPanel {
 
                 public void onSuccess(List<District> d) {
                     districts2017 = d;
-                    if(parent.getElectionYear()==2017){
-                        createDistrictOverview(districts2013);
+                    if(districts2013 != null){
+                        createDistrictOverview(districts2017);
                     }
                 }
             });
