@@ -1,6 +1,7 @@
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
+import org.postgresql.PGConnection;
 
 import java.io.*;
 import java.sql.Connection;
@@ -29,7 +30,7 @@ class TokenToDatabase {
         try (Connection conn = create()) {
             conn.prepareStatement("DROP TABLE IF EXISTS election.tokens;").execute();
             conn.prepareStatement("CREATE TABLE election.tokens (token text PRIMARY KEY);").execute();
-            CopyManager copyManager = new CopyManager(conn.unwrap(BaseConnection.class));
+            CopyManager copyManager = conn.unwrap(PGConnection.class).getCopyAPI();
             copyManager.copyIn("COPY election.tokens FROM STDIN", new FileReader(f));
         }
     }

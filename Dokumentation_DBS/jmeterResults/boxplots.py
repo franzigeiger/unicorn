@@ -25,10 +25,9 @@ for file in sys.argv[1:]:
   for row in csv.DictReader(open(file)):
     if (not row['label'] in elapsed):
       elapsed[row['label']] = {}
-    elif (not threads in elapsed[row['label']]):
+    if (not threads in elapsed[row['label']]):
       elapsed[row['label']][threads] = []
-    else:
-      elapsed[row['label']][threads].append(int(row['elapsed']))
+    elapsed[row['label']][threads].append(int(row['elapsed']))
 
 # Draw a separate figure for each label found in the results.
 for label in elapsed:
@@ -38,7 +37,6 @@ for label in elapsed:
   column = 1
   min_val = 1000
   for thread_count in sort(list(elapsed[label])):
-    #print(len(elapsed[label][thread_count]))
     for val in elapsed[label][thread_count]:
       if val < min_val:
         min_val = val
