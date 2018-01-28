@@ -1,11 +1,14 @@
+-- first delete the aggregates
 DELETE FROM election.secondvote_aggregates;
 
+-- aggregate the secondvotes
 INSERT INTO election.secondvote_aggregates(district,party,votes)
   SELECT b.district,s.party,COUNT(*) AS votes
   FROM election.ballots AS b, election.statelists AS s
   WHERE b.secondvote = s.id
   GROUP BY b.district,s.party;
 
+-- update the firstvote aggregates
 WITH aggregated_first AS (
     SELECT b.firstvote,COUNT(*) AS votes
     FROM election.ballots AS b
@@ -15,6 +18,7 @@ UPDATE election.direct_candidatures
 SET votes = (SELECT votes FROM aggregated_first WHERE firstvote = id)
 WHERE EXISTS (SELECT * FROM aggregated_first WHERE firstvote = id);
 
+-- update the invalid vote counts
 WITH invalid_first AS (
     SELECT district,COUNT(*) AS votes FROM election.ballots WHERE firstvote  IS NULL GROUP BY district),
     invalid_second AS (
